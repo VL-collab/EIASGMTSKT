@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kai Tak Green Transit EIA Review</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #0f172a;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+        }
+
+        .bar-chart-fill {
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0; /* Initial state for animation */
+        }
+
+        /* Language Toggle Classes */
+        .lang-en { display: none; }
+        .lang-zh { display: block; }
+        
+        /* Tab Transition */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Custom Gradients */
+        .grad-green { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .grad-blue { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden flex flex-col min-h-screen">
+
+    <nav class="fixed w-full z-50 glass-card border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full grad-green flex items-center justify-center text-white font-bold">KT</div>
+                    <span class="font-bold text-lg tracking-tight lang-zh">啟德智慧綠色集體運輸系統環評分析</span>
+                    <span class="font-bold text-lg tracking-tight lang-en">EIA Review for Smart and Green Mass Transit System in Kai Tak</span>
+                </div>
+                <div class="flex items-center">
+                    <button onclick="toggleLanguage()" class="px-4 py-2 rounded-full bg-slate-100 hover:bg-slate-200 text-sm font-semibold transition-colors border border-slate-300">
+                        <span>EN / 中文</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white/80 border-b border-slate-200 backdrop-blur-md overflow-x-auto hide-scrollbar">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-2 py-3">
+                <button onclick="switchTab('tab-overview')" id="btn-overview" class="tab-btn active whitespace-nowrap px-5 py-2 rounded-full text-sm font-bold bg-emerald-600 text-white shadow-md transition-all">
+                    <span class="lang-zh">📊 綜合點評</span><span class="lang-en">📊 Overview</span>
+                </button>
+                <button onclick="switchTab('tab-noise')" id="btn-noise" class="tab-btn whitespace-nowrap px-5 py-2 rounded-full text-sm font-bold bg-white text-slate-600 hover:bg-slate-50 border border-slate-200 transition-all">
+                    <span class="lang-zh">🔊 噪音剖析</span><span class="lang-en">🔊 Noise Analysis</span>
+                </button>
+                <button onclick="switchTab('tab-mitigation')" id="btn-mitigation" class="tab-btn whitespace-nowrap px-5 py-2 rounded-full text-sm font-bold bg-white text-slate-600 hover:bg-slate-50 border border-slate-200 transition-all">
+                    <span class="lang-zh">🛡️ 環評緩解措施</span><span class="lang-en">🛡️ Mitigation Measures</span>
+                </button>
+                <button onclick="switchTab('tab-risks')" id="btn-risks" class="tab-btn whitespace-nowrap px-5 py-2 rounded-full text-sm font-bold bg-white text-slate-600 hover:bg-slate-50 border border-slate-200 transition-all">
+                    <span class="lang-zh">⚠️ 隱藏危機</span><span class="lang-en">⚠️ Hidden Risks</span>
+                </button>
+                <button onclick="switchTab('tab-demands')" id="btn-demands" class="tab-btn whitespace-nowrap px-5 py-2 rounded-full text-sm font-bold bg-white text-slate-600 hover:bg-slate-50 border border-slate-200 transition-all">
+                    <span class="lang-zh">✊ 業主訴求</span><span class="lang-en">✊ Our Demands</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pt-36 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex-grow w-full">
+        
+        <!-- ================= TAB 1: OVERVIEW ================= -->
+        <div id="tab-overview" class="tab-content active">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="inline-block py-1 px-3 rounded-full bg-emerald-100 text-emerald-800 text-sm font-semibold mb-4 lang-zh">最新環評報告點評 (PP-671/2024)</span>
+                <span class="inline-block py-1 px-3 rounded-full bg-emerald-100 text-emerald-800 text-sm font-semibold mb-4 lang-en">Latest EIA Report Critique (PP-671/2024)</span>
+                
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 mb-6 lang-zh">
+                    啟德綠色捷運：<span class="text-emerald-600">雲巴 vs 智軌</span><br>你選寧靜還是景觀？
+                </h1>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 mb-6 lang-en">
+                    Kai Tak Transit: <span class="text-emerald-600">SkyShuttle vs ART</span><br>Quietness or Views?
+                </h1>
+                <p class="text-slate-600 leading-relaxed lang-zh">根據 2024 年最新環評報告，3.5 公里高架運輸系統將於 2027 動工。但兩大候選系統（雲巴與智軌）各帶有<strong>致命缺點</strong>。本站為您揭示環評背後的真相。</p>
+                <p class="text-slate-600 leading-relaxed lang-en">Based on the 2024 EIA report, the 3.5km smart and green mass transit system starts construction in 2027. Both contenders have <strong>fatal flaws</strong>. We reveal the hidden truth.</p>
+                
+                <div class="mt-6">
+                    <a href="https://www.epd.gov.hk/eia/en/alpha/aspd.php?id=915" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 hover:text-emerald-800 rounded-xl transition-colors font-semibold text-sm border border-emerald-200 shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                        <span class="lang-zh">查閱官方環評報告原文 (EPD 網站)</span>
+                        <span class="lang-en">View Official EIA Report (EPD Website)</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                <div class="glass-card rounded-2xl p-6 border-t-4 border-t-emerald-500">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 lang-zh">路線</h3>
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 lang-en">Route</h3>
+                    <div class="text-2xl font-bold text-slate-800 mb-2">3.5 km / 6 <span class="text-lg text-slate-500 lang-zh">站</span><span class="text-lg text-slate-500 lang-en">Stations</span></div>
+                    <p class="text-sm text-slate-600 lang-zh">沿承豐道空中花園上方行駛，降低視覺影響並免除跨越行人天橋。</p>
+                    <p class="text-sm text-slate-600 lang-en">Runs atop Sky Garden along Shing Fung Rd, avoiding footbridges.</p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 border-t-4 border-t-blue-500">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 lang-zh">服務人口</h3>
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 lang-en">Population Served</h3>
+                    <div class="text-2xl font-bold text-slate-800 mb-2">~50,000</div>
+                    <p class="text-sm text-slate-600 lang-zh">連接郵輪碼頭至港鐵啟德站，不依賴路面交通，達致準時可靠。</p>
+                    <p class="text-sm text-slate-600 lang-en">Connects Cruise Terminal to MTR, independent of road traffic.</p>
+                </div>
+                <div class="glass-card rounded-2xl p-6 border-t-4 border-t-indigo-500">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 lang-zh">預計時間表</h3>
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-2 lang-en">Timeline</h3>
+                    <div class="text-2xl font-bold text-slate-800 mb-2">2027 - 2031</div>
+                    <p class="text-sm text-slate-600 lang-zh">2027施工（平整、地基、高架橋），2031完成測試及通車。</p>
+                    <p class="text-sm text-slate-600 lang-en">Construction 2027 (foundation, viaduct), commissioning by 2031.</p>
+                </div>
+            </div>
+
+            <h2 class="text-2xl font-extrabold text-center mb-8 lang-zh">系統對決：各自的致命傷</h2>
+            <h2 class="text-2xl font-extrabold text-center mb-8 lang-en">System Showdown: Fatal Flaws</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- SkyShuttle -->
+                <div class="glass-card rounded-3xl p-8 relative overflow-hidden transition-transform hover:-translate-y-1">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-100 rounded-bl-full -z-10 opacity-50"></div>
+                    <h3 class="text-2xl font-bold text-slate-900 lang-zh">SkyShuttle (雲巴)</h3>
+                    <h3 class="text-2xl font-bold text-slate-900 lang-en">SkyShuttle</h3>
+                    <span class="inline-block mt-1 text-sm font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded lang-zh mb-4">專用導軌行駛系統</span>
+                    <span class="inline-block mt-1 text-sm font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded lang-en mb-4">Dedicated Guide Rail</span>
+                    
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-emerald-500 mr-2">✅</span>
+                            <span class="text-sm text-slate-700 lang-zh"><strong>極安靜：</strong>夜間預測僅35-40分貝，遠低於背景噪音，保障睡眠。</span>
+                            <span class="text-sm text-slate-700 lang-en"><strong>Extremely Quiet:</strong> 35-40dB at night, well below background noise.</span>
+                        </li>
+                        <li class="p-4 bg-red-50 border border-red-100 rounded-xl mt-4">
+                            <h4 class="font-bold text-red-700 text-sm mb-1 lang-zh">⚠️ 致命缺點：視覺壓迫與採光阻擋</h4>
+                            <h4 class="font-bold text-red-700 text-sm mb-1 lang-en">⚠️ Fatal Flaw: Visual Blockage</h4>
+                            <p class="text-sm text-slate-700 lang-zh">永久的灰色混凝土導軌與車站結構，對 <strong>The Henley 和 Henley Park (低層和Mansion)</strong> 低層造成嚴重視覺壓迫。</p>
+                            <p class="text-sm text-slate-700 lang-en">Permanent concrete structures block natural light and views for low-level units at <strong>The Henley and Henley Park (Lower-floor and Mansion)</strong>.</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- ART -->
+                <div class="glass-card rounded-3xl p-8 relative overflow-hidden transition-transform hover:-translate-y-1">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-100 rounded-bl-full -z-10 opacity-50"></div>
+                    <h3 class="text-2xl font-bold text-slate-900 lang-zh">ART (智軌)</h3>
+                    <h3 class="text-2xl font-bold text-slate-900 lang-en">ART (Autonomous Rail)</h3>
+                    <span class="inline-block mt-1 text-sm font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded lang-zh mb-4">虛擬軌道膠輪系統</span>
+                    <span class="inline-block mt-1 text-sm font-semibold text-blue-600 bg-blue-50 px-2 py-1 rounded lang-en mb-4">Virtual Track Rubber Tire</span>
+                    
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-blue-500 mr-2">✅</span>
+                            <span class="text-sm text-slate-700 lang-zh"><strong>結構輕盈：</strong>無笨重導軌，對鄰近住宅低層景觀影響有可能較小。</span>
+                            <span class="text-sm text-slate-700 lang-en"><strong>Lighter Structure:</strong> No heavy rails, maybe preserving more views.</span>
+                        </li>
+                        <li class="p-4 bg-orange-50 border border-orange-100 rounded-xl mt-4">
+                            <h4 class="font-bold text-orange-700 text-sm mb-1 lang-zh">⚠️ 致命缺點：低頻噪音隆隆聲</h4>
+                            <h4 class="font-bold text-orange-700 text-sm mb-1 lang-en">⚠️ Fatal Flaw: Low-Freq Rumble</h4>
+                            <p class="text-sm text-slate-700 lang-zh">膠輪摩擦噪音源強度達 <strong>71.6 dB</strong>（近兩倍聲能）。低頻穿透力極強，雖合法規但構成實質睡眠滋擾。</p>
+                            <p class="text-sm text-slate-700 lang-en">Source noise is <strong>71.6 dB</strong> (double acoustic energy). Penetrating low-frequency rumble causes sleep nuisance despite legal compliance.</p>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-noise" class="tab-content">
+            <div class="glass-card rounded-3xl p-8 mb-8">
+                <h3 class="text-2xl font-extrabold text-slate-900 mb-4 lang-zh">📊 營運噪音數據深度剖析 (夜間)</h3>
+                <h3 class="text-2xl font-extrabold text-slate-900 mb-4 lang-en">📊 Operational Noise Deep Dive (Night)</h3>
+                
+                <p class="text-slate-600 mb-8 lang-zh">雖然兩種系統均 100% 符合法定夜間噪音標準 (55 dB)，但 <strong>SkyShuttle 比 ART 安靜約 7 至 9 dB(A)</strong>。在聲學上，7.1 分貝差距代表了近乎「兩倍」的聲能。距離住宅極限 15 米的情況下，感受尤為明顯。</p>
+                <p class="text-slate-600 mb-8 lang-en">Though both comply with the 55dB night limit, <strong>SkyShuttle is 7-9 dB(A) quieter than ART</strong>. A 7.1dB gap means nearly double the acoustic energy, highly noticeable at a 15m extreme proximity.</p>
+
+                <div class="space-y-10">
+                    <!-- Location 1 -->
+                    <div>
+                        <h4 class="font-bold text-slate-800 mb-4 lang-zh">📍 接收點: The Henley (TH-02)</h4>
+                        <h4 class="font-bold text-slate-800 mb-4 lang-en">📍 Receiver: The Henley (TH-02)</h4>
+                        
+                        <div class="relative w-full bg-slate-100 rounded-lg p-5 border border-slate-200 overflow-hidden">
+                            <div class="absolute top-0 bottom-0 left-[78.5%] w-0.5 bg-red-400 z-10 border-r border-dashed border-red-600" title="Statutory Limit: 55 dB"></div>
+                            <div class="absolute top-1 left-[78.5%] text-xs font-bold text-red-600 -translate-x-1/2 lang-zh">法例上限 (55dB)</div>
+                            <div class="absolute top-1 left-[78.5%] text-xs font-bold text-red-600 -translate-x-1/2 lang-en">Limit (55dB)</div>
+
+                            <div class="mt-6 space-y-4 relative z-20">
+                                <div class="flex items-center">
+                                    <div class="w-24 text-sm font-semibold text-slate-700">SkyShuttle</div>
+                                    <div class="flex-1 ml-4 bg-slate-200 rounded-md h-7 overflow-hidden">
+                                        <div class="bg-emerald-500 h-full flex items-center px-3 text-xs text-white font-bold bar-chart-fill" data-width="57%">40 dB(A)</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-24 text-sm font-semibold text-slate-700">ART</div>
+                                    <div class="flex-1 ml-4 bg-slate-200 rounded-md h-7 overflow-hidden">
+                                        <div class="bg-orange-500 h-full flex items-center px-3 text-xs text-white font-bold bar-chart-fill" data-width="70%">49 dB(A)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Location 2 -->
+                    <div>
+                        <h4 class="font-bold text-slate-800 mb-4 lang-zh">📍 接收點: Henley Park (HP-01)</h4>
+                        <h4 class="font-bold text-slate-800 mb-4 lang-en">📍 Receiver: Henley Park (HP-01)</h4>
+                        
+                        <div class="relative w-full bg-slate-100 rounded-lg p-5 border border-slate-200 overflow-hidden">
+                            <div class="absolute top-0 bottom-0 left-[78.5%] w-0.5 bg-red-400 z-10 border-r border-dashed border-red-600" title="Statutory Limit: 55 dB"></div>
+                            
+                            <div class="mt-6 space-y-4 relative z-20">
+                                <div class="flex items-center">
+                                    <div class="w-24 text-sm font-semibold text-slate-700">SkyShuttle</div>
+                                    <div class="flex-1 ml-4 bg-slate-200 rounded-md h-7 overflow-hidden">
+                                        <div class="bg-emerald-500 h-full flex items-center px-3 text-xs text-white font-bold bar-chart-fill" data-width="54%">38 dB(A)</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-24 text-sm font-semibold text-slate-700">ART</div>
+                                    <div class="flex-1 ml-4 bg-slate-200 rounded-md h-7 overflow-hidden">
+                                        <div class="bg-orange-500 h-full flex items-center px-3 text-xs text-white font-bold bar-chart-fill" data-width="67%">47 dB(A)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-card rounded-xl p-5 border-l-4 border-blue-400">
+                    <h4 class="font-bold text-slate-800 mb-2 lang-zh">💨 通風無噪音</h4>
+                    <h4 class="font-bold text-slate-800 mb-2 lang-en">💨 No Ventilation Noise</h4>
+                    <p class="text-sm text-slate-600 lang-zh">車站自然通風，車廠空調直駁啟德區域供冷系統(DCS)，消除大型製冷機組散熱噪音。</p>
+                    <p class="text-sm text-slate-600 lang-en">Natural ventilation in stations. Depot uses District Cooling (DCS), eliminating chiller noise.</p>
+                </div>
+                <div class="glass-card rounded-xl p-5 border-l-4 border-amber-400">
+                    <h4 class="font-bold text-slate-800 mb-2 lang-zh">💡 光污染防範</h4>
+                    <h4 class="font-bold text-slate-800 mb-2 lang-en">💡 Anti-Light Pollution</h4>
+                    <p class="text-sm text-slate-600 lang-zh">裝飾照明燈具角度受嚴格限制，防止光線直射入 15 米外的住宅窗戶。</p>
+                    <p class="text-sm text-slate-600 lang-en">Lighting angles strictly controlled to prevent direct glare into windows 15m away.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= TAB: MITIGATION MEASURES ================= -->
+        <div id="tab-mitigation" class="tab-content">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-4 lang-zh">🛡️ 官方環評建議之緩解措施</h2>
+                <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-4 lang-en">🛡️ Official EIA Mitigation Measures</h2>
+                <p class="text-slate-600 leading-relaxed lang-zh">根據《Kai Tak Green Transit Environmental Impact Assessment Report》，政府及承建商將於施工及營運期間實施以下環境保護措施。然而，這些「標準措施」是否足以應付近在咫尺的民居，仍是一大疑問。</p>
+                <p class="text-slate-600 leading-relaxed lang-en">According to the EIA Report, the government will implement the following environmental protection measures during construction and operation. However, the adequacy of these "standard measures" for nearby residents remains questionable.</p>
+            </div>
+
+            <h3 class="text-xl font-bold text-slate-800 mb-6 border-b-2 border-slate-200 pb-2 lang-zh">🚧 施工階段 (2027-2031)</h3>
+            <h3 class="text-xl font-bold text-slate-800 mb-6 border-b-2 border-slate-200 pb-2 lang-en">🚧 Construction Phase (2027-2031)</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <!-- Construction Noise -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                    <div class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center mb-4 text-xl">🏗️</div>
+                    <h4 class="font-bold text-slate-900 mb-3 lang-zh">噪音控制</h4>
+                    <h4 class="font-bold text-slate-900 mb-3 lang-en">Noise Control</h4>
+                    <ul class="text-sm text-slate-600 space-y-2 list-disc pl-4">
+                        <li class="lang-zh">使用<strong>優質機動設備 (QPME)</strong> 及較寧靜施工法（如鑽孔樁代替撞擊式打樁）。</li>
+                        <li class="lang-en">Use of <strong>Quality Powered Mechanical Equipment (QPME)</strong> and quieter methods (e.g., bored piling).</li>
+                        <li class="lang-zh">設置<strong>臨時可移動隔音屏障</strong> (預計減音 5-10 dB)。</li>
+                        <li class="lang-en">Use of <strong>Movable Noise Barriers</strong> (expected 5-10 dB reduction).</li>
+                        <li class="lang-zh">為打樁機等設備覆蓋<strong>隔音布</strong> (預計減音 10 dB)。</li>
+                        <li class="lang-en">Installation of <strong>Noise Insulating Fabric</strong> (expected 10 dB reduction).</li>
+                    </ul>
+                    <div class="mt-4 p-3 bg-red-50 text-red-700 text-xs rounded-lg border border-red-100 lang-zh">
+                        <strong>業主質疑：</strong> 移動屏障只能阻擋低層噪音，對中高層單位毫無防護力！
+                    </div>
+                    <div class="mt-4 p-3 bg-red-50 text-red-700 text-xs rounded-lg border border-red-100 lang-en">
+                        <strong>Critique:</strong> Movable barriers only protect low floors, leaving mid/high floors completely exposed!
+                    </div>
+                </div>
+
+                <!-- Air Quality -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                    <div class="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center mb-4 text-xl">💨</div>
+                    <h4 class="font-bold text-slate-900 mb-3 lang-zh">塵埃與空氣質素</h4>
+                    <h4 class="font-bold text-slate-900 mb-3 lang-en">Dust & Air Quality</h4>
+                    <ul class="text-sm text-slate-600 space-y-2 list-disc pl-4">
+                        <li class="lang-zh">嚴格執行《空氣污染管制（建造工程塵埃）規例》。</li>
+                        <li class="lang-en">Strict compliance with Air Pollution Control Regulation.</li>
+                        <li class="lang-zh">工地需定期<strong>灑水除塵</strong>。</li>
+                        <li class="lang-en">Regular <strong>water spraying</strong> on site for dust suppression.</li>
+                        <li class="lang-zh">露天物料堆放區必須使用帆布完全覆蓋。</li>
+                        <li class="lang-en">Open stockpiles must be entirely covered by tarpaulin.</li>
+                    </ul>
+                </div>
+
+                <!-- Water Quality -->
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mb-4 text-xl">💧</div>
+                    <h4 class="font-bold text-slate-900 mb-3 lang-zh">水質與廢物管理</h4>
+                    <h4 class="font-bold text-slate-900 mb-3 lang-en">Water & Waste Management</h4>
+                    <ul class="text-sm text-slate-600 space-y-2 list-disc pl-4">
+                        <li class="lang-zh">設置<strong>隔沙/隔泥池及隔油池</strong>，淨化地盤徑流後才排入公共排水系統。</li>
+                        <li class="lang-en">Provision of <strong>sand/silt and oil/grease traps</strong> before discharging runoff into drainage.</li>
+                        <li class="lang-zh">聘用持牌化學廢物收集商處理污染水。</li>
+                        <li class="lang-en">Employ licensed chemical waste collectors.</li>
+                        <li class="lang-zh">實施廢物管理計劃 (WMP) 鼓勵現場分類。</li>
+                        <li class="lang-en">Implement Waste Management Plan (WMP) for on-site sorting.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="text-xl font-bold text-slate-800 mb-6 border-b-2 border-slate-200 pb-2 lang-zh">🚆 營運階段 (2031 起)</h3>
+            <h3 class="text-xl font-bold text-slate-800 mb-6 border-b-2 border-slate-200 pb-2 lang-en">🚆 Operation Phase (2031 onwards)</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Operation Noise -->
+                <div class="glass-card rounded-2xl p-6 border-t-4 border-t-emerald-500">
+                    <h4 class="font-bold text-slate-900 mb-3 lang-zh">系統與固定噪音源控制</h4>
+                    <h4 class="font-bold text-slate-900 mb-3 lang-en">System & Fixed Noise Control</h4>
+                    <ul class="text-sm text-slate-600 space-y-3">
+                        <li class="flex items-start">
+                            <span class="mr-2">🔹</span>
+                            <span class="lang-zh"><strong>車站廣播系統 (PA System)：</strong> 使用定向揚聲器，並嚴格設定最高音量上限，避免聲音直接射向現有及規劃中的住宅區。</span>
+                            <span class="lang-en"><strong>PA System:</strong> Use of directional loudspeakers and volume limits to avoid pointing directly at residential areas.</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2">🔹</span>
+                            <span class="lang-zh"><strong>車廠設計：</strong> 車廠將採用全封閉式建築結構，配備連續的混凝土裙樓頂蓋及隔音百葉窗，將維修噪音鎖於室內。</span>
+                            <span class="lang-en"><strong>Depot Design:</strong> The depot will be an enclosed building with a concrete podium cover and acoustic louvers to contain maintenance noise.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Visual Impact -->
+                <div class="glass-card rounded-2xl p-6 border-t-4 border-t-emerald-500">
+                    <h4 class="font-bold text-slate-900 mb-3 lang-zh">景觀及視覺影響緩解</h4>
+                    <h4 class="font-bold text-slate-900 mb-3 lang-en">Landscape & Visual Mitigation</h4>
+                    <ul class="text-sm text-slate-600 space-y-3">
+                        <li class="flex items-start">
+                            <span class="mr-2">🔹</span>
+                            <span class="lang-zh"><strong>美學設計：</strong> 車站及高架橋結構將採用現代化、輕盈及融入周邊環境的美學設計 (OM1)。</span>
+                            <span class="lang-en"><strong>Aesthetic Design:</strong> Stations and viaducts will adopt lightweight, modern designs to blend with the surroundings (OM1).</span>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="mr-2">🔹</span>
+                            <span class="lang-zh"><strong>綠化補償：</strong> 實施景觀處理 (OM2) 及補償性樹木種植 (OM3)，以彌補施工期間移除的植被，降低視覺壓迫感。</span>
+                            <span class="lang-en"><strong>Greening:</strong> Implementation of landscape treatments (OM2) and compensatory tree planting (OM3) to soften visual impacts.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-risks" class="tab-content">
+            <div class="glass-card rounded-3xl p-8 mb-8 border border-red-100">
+                <h3 class="text-2xl font-extrabold text-red-700 mb-6 lang-zh">⚠️ 環評報告的「選擇性失明」與施工危機</h3>
+                <h3 class="text-2xl font-extrabold text-red-700 mb-6 lang-en">⚠️ EIA's "Selective Blindness" & Construction Crises</h3>
+                
+                <div class="space-y-6">
+                    <div class="p-5 bg-white rounded-2xl shadow-sm border border-slate-100">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-2xl">🙈</span>
+                            <h4 class="font-bold text-lg text-slate-900 lang-zh">1. 刻意排除「累積環境衝擊」</h4>
+                            <h4 class="font-bold text-lg text-slate-900 lang-en">1. Exclusion of Cumulative Impacts</h4>
+                        </div>
+                        <p class="text-slate-600 text-sm mb-3 lang-zh">環評報告 2.7.3 條白紙黑字寫明，將以下近在咫尺的大型項目從累積噪音與粉塵評估中<strong>完全排除</strong>（理由是暫無施工時間表）：</p>
+                        <p class="text-slate-600 text-sm mb-3 lang-en">EIA Sec 2.7.3 explicitly <strong>excludes</strong> the following nearby mega-projects from cumulative noise/dust assessments (claiming 'no schedules'):</p>
+                        <ul class="list-disc pl-6 text-sm text-slate-700 space-y-1 font-semibold">
+                            <li class="lang-zh">啟德旅遊節點 (Tourism Node)</li>
+                            <li class="lang-en">Kai Tak Tourism Node</li>
+                            <li class="lang-zh">啟德都會公園 (Metro Park)</li>
+                            <li class="lang-en">Kai Tak Metro Park</li>
+                            <li class="lang-zh">官塘避風塘行人及單車天橋</li>
+                            <li class="lang-en">Kwun Tong Typhoon Shelter Footbridge</li>
+                        </ul>
+                        <p class="text-red-600 text-sm mt-3 font-medium lang-zh">這意味著在 2027-2031 年間，居民極可能面臨多個地盤同時動工的「疊加式風暴」，而環評並未作最壞情況模擬！</p>
+                        <p class="text-red-600 text-sm mt-3 font-medium lang-en">This means residents may face overlapping construction dust/noise storms between 2027-2031, unsimulated in this EIA!</p>
+                    </div>
+
+                    <div class="p-5 bg-white rounded-2xl shadow-sm border border-slate-100">
+                        <div class="flex items-center gap-3 mb-3">
+                            <span class="text-2xl">🚑</span>
+                            <h4 class="font-bold text-lg text-slate-900 lang-zh">2. 沐泰街生存危機與 EVA 黑洞</h4>
+                            <h4 class="font-bold text-lg text-slate-900 lang-en">2. Muk Tai St Crisis & EVA Hole</h4>
+                        </div>
+                        <p class="text-slate-600 text-sm mb-3 lang-zh">根據圖則 (Figure 2.1)，軌道與體育園站的施工範圍 (Works Area) 將<strong>直接封鎖並侵佔沐泰街的部分車路與人行道</strong>，而這是 Henley Park 和 The Henley 唯一的出入口。</p>
+                        <p class="text-slate-600 text-sm mb-3 lang-en">Per Figure 2.1, works areas will <strong>block parts of Muk Tai Street</strong>, the ONLY access for Henley Park and The Henley.</p>
+                        <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                            <p class="text-sm text-red-800 font-bold lang-zh">致命盲點：環評對「緊急通道 (EVA)」隻字未提。一旦發生火警，大型消防車在縮窄的沐泰街將面臨無法調頭甚至無法進出的絕境！</p>
+                            <p class="text-sm text-red-800 font-bold lang-en">Fatal Blindspot: No mention of Emergency Vehicular Access (EVA). Fire engines may be trapped or unable to enter the narrowed street!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="tab-demands" class="tab-content">
+            <div class="glass-card rounded-3xl p-8 mb-8 border border-emerald-100">
+                <div class="text-center mb-8">
+                    <span class="inline-block text-4xl mb-3">✊</span>
+                    <h3 class="text-3xl font-extrabold text-slate-900 lang-zh">業主大會自救：四大核心建議</h3>
+                    <h3 class="text-3xl font-extrabold text-slate-900 lang-en">Owners' Action: 4 Core Suggestion</h3>
+                    <p class="text-slate-500 mt-2 text-sm lang-zh">必須趕在 2027 年動工前的黃金窗口，向路政署和環保署提出實質抗訴。</p>
+                    <p class="text-slate-500 mt-2 text-sm lang-en">We must appeal to HyD and EPD before the 2027 construction window closes.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gradient-to-br from-white to-slate-50 p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                        <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold mb-4">1</div>
+                        <h4 class="font-bold text-slate-900 mb-2 lang-zh">強制興建「全封閉式半透明隔音罩」</h4>
+                        <h4 class="font-bold text-slate-900 mb-2 lang-en">Mandatory "Full Translucent Enclosure"</h4>
+                        <p class="text-sm text-slate-600 lang-zh">常規隔音屏障對中高層無效。要求在 15米極限住宅段強制加建全封閉隔音罩，將噪音與視覺干擾降至零。</p>
+                        <p class="text-sm text-slate-600 lang-en">Standard barriers fail for mid/high floors. Demand a full enclosure at the 15m extreme proximity section.</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-white to-slate-50 p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                        <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold mb-4">2</div>
+                        <h4 class="font-bold text-slate-900 mb-2 lang-zh">招標合約排除「智軌 (ART)」</h4>
+                        <h4 class="font-bold text-slate-900 mb-2 lang-en">Exclude "ART" in Tender Contract</h4>
+                        <p class="text-sm text-slate-600 lang-zh">智軌聲能是雲巴近兩倍。政府必須在合約白紙黑字落實選用最安靜的 SkyShuttle，杜絕承辦商因利退而求其次。</p>
+                        <p class="text-sm text-slate-600 lang-en">ART has double acoustic energy. Govt must contractually enforce SkyShuttle to stop contractors cutting costs.</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-white to-slate-50 p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                        <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold mb-4">3</div>
+                        <h4 class="font-bold text-slate-900 mb-2 lang-zh">重啟沐泰街 EVA 安全性驗證</h4>
+                        <h4 class="font-bold text-slate-900 mb-2 lang-en">Reassess Muk Tai St EVA Safety</h4>
+                        <p class="text-sm text-slate-600 lang-zh">要求政府公開臨時交通管理(TTMS)改道圖，確保消防緊急通道寬度絕不縮窄，否則業主保留法律訴訟權利。</p>
+                        <p class="text-sm text-slate-600 lang-en">Demand public TTMS plans to ensure Emergency Vehicular Access is NOT narrowed, reserving legal rights to sue.</p>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-white to-slate-50 p-6 rounded-2xl shadow-sm border border-slate-200 hover:shadow-md transition-shadow">
+                        <div class="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold mb-4">4</div>
+                        <h4 class="font-bold text-slate-900 mb-2 lang-zh">提高獨立環境核查人(IEC)資歷</h4>
+                        <h4 class="font-bold text-slate-900 mb-2 lang-en">Elevate IEC Qualifications</h4>
+                        <p class="text-sm text-slate-600 lang-zh">現時7年經驗要求太低。必須聘任至少15年以上、曾主導港鐵大型項目的資深聲學與環保專家擔任 IEC。</p>
+                        <p class="text-sm text-slate-600 lang-en">7 years experience is too low. Demand an IEC with 15+ years experience leading major MTR acoustic projects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 mt-auto w-full">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p class="mb-2 lang-zh">本網頁內容整合自《Kai Tak Green Transit Environmental Impact Assessment Report》By Victor。</p>
+            <p class="mb-2 lang-en">Content compiled from the "Kai Tak Green Transit Environmental Impact Assessment Report" by Victor.</p>
+            <p>&copy; 2026 EIA Analysis for Smart and Green Mass Transit System in Kai Tak. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Language State
+        let currentLang = 'zh'; 
+        
+        // --- Language Toggle Logic ---
+        function toggleLanguage() {
+            currentLang = currentLang === 'zh' ? 'en' : 'zh';
+            
+            document.querySelectorAll('.lang-zh').forEach(el => {
+                if(el.tagName.toLowerCase() === 'span' && !el.classList.contains('block')) {
+                    el.style.display = currentLang === 'zh' ? 'inline' : 'none';
+                } else {
+                    el.style.display = currentLang === 'zh' ? 'block' : 'none';
+                }
+            });
+            
+            document.querySelectorAll('.lang-en').forEach(el => {
+                if(el.tagName.toLowerCase() === 'span' && !el.classList.contains('block')) {
+                    el.style.display = currentLang === 'en' ? 'inline' : 'none';
+                } else {
+                    el.style.display = currentLang === 'en' ? 'block' : 'none';
+                }
+            });
+        }
+
+        // --- Tab Switching Logic ---
+        function switchTab(tabId) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Reset all buttons styling
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-emerald-600', 'text-white', 'shadow-md', 'active');
+                btn.classList.add('bg-white', 'text-slate-600', 'hover:bg-slate-50');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabId).classList.add('active');
+            
+            // Style selected button
+            const activeBtn = document.getElementById('btn-' + tabId.replace('tab-', ''));
+            activeBtn.classList.remove('bg-white', 'text-slate-600', 'hover:bg-slate-50');
+            activeBtn.classList.add('bg-emerald-600', 'text-white', 'shadow-md', 'active');
+
+            // Trigger animations if the noise tab is opened
+            if(tabId === 'tab-noise') {
+                animateBars();
+            }
+        }
+
+        // --- Chart Animation Logic ---
+        function animateBars() {
+            const bars = document.querySelectorAll('.bar-chart-fill');
+            // Reset widths
+            bars.forEach(bar => bar.style.width = '0%');
+            
+            // Animate to target width after a tiny delay to ensure DOM update
+            setTimeout(() => {
+                bars.forEach(bar => {
+                    bar.style.width = bar.getAttribute('data-width');
+                });
+            }, 50);
+        }
+
+        // Initialize state on load
+        window.onload = () => {
+            // Setup initial language display
+            document.querySelectorAll('.lang-en').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.lang-zh').forEach(el => {
+                if(el.tagName.toLowerCase() === 'span' && !el.classList.contains('block')) {
+                    el.style.display = 'inline';
+                } else {
+                    el.style.display = 'block';
+                }
+            });
+            
+            // Ensure first tab button has correct initial state (already set in HTML, but safe to enforce)
+            switchTab('tab-overview');
+        };
+    </script>
+</body>
+</html>
