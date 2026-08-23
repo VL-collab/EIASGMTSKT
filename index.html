@@ -45,16 +45,6 @@
         /* Custom Gradients */
         .grad-green { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
         .grad-blue { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); }
-        
-        /* Pulse animation for vote button */
-        @keyframes pulse-ring {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-        .btn-pulse {
-            animation: pulse-ring 2s infinite;
-        }
     </style>
 </head>
 <body class="antialiased overflow-x-hidden flex flex-col min-h-screen">
@@ -470,234 +460,45 @@
                     </div>
                 </div>
 
-                <!-- Voting Section -->
-                <div class="mt-12 bg-white p-8 rounded-2xl shadow-sm border border-slate-200 text-center relative overflow-hidden">
-                    <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-50 rounded-bl-full -z-10 opacity-70"></div>
-                    <div class="absolute bottom-0 left-0 w-24 h-24 bg-blue-50 rounded-tr-full -z-10 opacity-70"></div>
+                <div class="mt-12 bg-white rounded-3xl p-8 shadow-md border border-emerald-100 text-center relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-40 h-40 bg-emerald-50 rounded-bl-full -z-10 opacity-70"></div>
+                    <h4 class="text-2xl font-bold text-slate-900 mb-4 lang-zh">支持四大核心建議嗎？</h4>
+                    <h4 class="text-2xl font-bold text-slate-900 mb-4 lang-en">Do you support the 4 Core Suggestions?</h4>
+                    <p class="text-slate-600 mb-6 text-sm max-w-xl mx-auto lang-zh">如業主支持提出列出的四大核心建議，請點選「讚成」。(為保障隱私，本系統不記名、不記錄 IP，每個裝置僅限投票一次)</p>
+                    <p class="text-slate-600 mb-6 text-sm max-w-xl mx-auto lang-en">If you support the 4 core suggestions listed above, please click "Agree". (Strictly anonymous, no IP logging, one vote per device.)</p>
                     
-                    <h4 class="text-2xl font-bold text-slate-900 mb-4 lang-zh">支持業主四大核心建議</h4>
-                    <h4 class="text-2xl font-bold text-slate-900 mb-4 lang-en">Support Our 4 Core Demands</h4>
-                    
-                    <p class="text-slate-600 mb-6 max-w-2xl mx-auto lang-zh">如果您同意上述四大訴求，請點擊「讚成」。為了保護隱私，我們採用匿名投票機制，不記錄 IP 或個人資料，每人限投一票。</p>
-                    <p class="text-slate-600 mb-6 max-w-2xl mx-auto lang-en">If you agree with the four demands above, please click "Agree". For privacy, this is an anonymous poll. No IP or personal data is recorded. One vote per person.</p>
-                    
-                    <div class="flex flex-col items-center justify-center gap-4">
-                        <button id="vote-btn" onclick="castVote()" disabled class="btn-pulse flex items-center justify-center gap-2 px-8 py-4 bg-emerald-600 text-white rounded-full font-bold text-lg hover:bg-emerald-700 transition-all shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:animation-none">
-                            <span class="text-2xl">👍</span>
-                            <span class="lang-zh" id="vote-btn-text-zh">載入中...</span>
-                            <span class="lang-en" id="vote-btn-text-en">Loading...</span>
+                    <div class="flex flex-col items-center justify-center gap-6">
+                        <button id="vote-btn" onclick="handleVote()" class="group relative px-10 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden">
+                            <span class="relative z-10 flex items-center gap-2 text-lg">
+                                <span>👍</span>
+                                <span class="lang-zh">讚成</span>
+                                <span class="lang-en">Agree</span>
+                            </span>
                         </button>
                         
-                        <div class="flex items-center gap-2 text-slate-700 font-semibold bg-slate-50 px-6 py-3 rounded-xl border border-slate-100">
+                        <div class="flex items-center gap-3 text-slate-700 font-semibold bg-slate-50 px-6 py-3 rounded-full border border-slate-200 shadow-inner">
                             <span class="text-xl">📊</span>
-                            <span class="lang-zh">累積讚成：</span>
-                            <span class="lang-en">Total Votes: </span>
-                            <span id="vote-count" class="text-2xl font-extrabold text-emerald-600">--</span>
+                            <span class="lang-zh">目前累積讚成：</span>
+                            <span class="lang-en">Total Agreements: </span>
+                            <span id="vote-count" class="text-3xl font-extrabold text-emerald-600 tracking-tight">...</span>
+                            <span class="lang-zh">票</span>
+                            <span class="lang-en">Votes</span>
                         </div>
-                        <p id="vote-message" class="text-sm font-medium text-emerald-600 h-5 mt-2 transition-opacity opacity-0"></p>
+                        <div id="vote-msg" class="text-sm font-semibold h-5 text-emerald-600 opacity-0 transition-opacity"></div>
                     </div>
                 </div>
-
             </div>
         </div>
 
-            <p class="mb-2 lang-zh">本網頁內容整合自《Kai Tak Green Transit Environmental人物 Impact Assessment Report》By Victor。</p>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 mt-auto w-full">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+            <p class="mb-2 lang-zh">本網頁內容整合自《Kai Tak Green Transit Environmental Impact Assessment Report》By Victor。</p>
             <p class="mb-2 lang-en">Content compiled from the "Kai Tak Green Transit Environmental Impact Assessment Report" by Victor.</p>
             <p>&copy; 2026 EIA Analysis for Smart and Green Mass Transit System in Kai Tak. All rights reserved.</p>
         </div>
     </footer>
-
-    <!-- Firebase SDK Imports -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot, increment, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Environment variables provided by the system
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'kai-tak-eia-poll';
-        let firebaseConfig = {};
-        let initialAuthToken = null;
-        
-        try {
-            firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {
-                // Dummy config for local testing if not running in the platform
-                projectId: "dummy-project"
-            };
-            initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-        } catch(e) {
-            console.warn("Failed to parse firebase config", e);
-        }
-
-        let app, db, auth;
-        let currentUser = null;
-        let hasVoted = false;
-        
-        const POLL_DOC_ID = 'demands_poll';
-
-        // Initialize Firebase if config looks somewhat valid
-        if (firebaseConfig && firebaseConfig.projectId) {
-            try {
-                app = initializeApp(firebaseConfig);
-                db = getFirestore(app);
-                auth = getAuth(app);
-                initVotingSystem();
-            } catch (e) {
-                console.error("Firebase initialization failed:", e);
-                showVotingError("系統連線失敗 / Connection Failed");
-            }
-        } else {
-            showVotingError("系統設定錯誤 / Configuration Error");
-        }
-
-        async function initVotingSystem() {
-            try {
-                // Handle Authentication
-                if (initialAuthToken) {
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    await signInAnonymously(auth);
-                }
-
-                onAuthStateChanged(auth, async (user) => {
-                    if (user) {
-                        currentUser = user;
-                        // Path rule: /artifacts/{appId}/public/data/polls
-                        const pollRef = doc(db, 'artifacts', appId, 'public', 'data', 'polls', POLL_DOC_ID);
-                        // Path rule: /artifacts/{appId}/users/{userId}/votes
-                        const userVoteRef = doc(db, 'artifacts', appId, 'users', user.uid, 'votes', POLL_DOC_ID);
-
-                        // 1. Check if user has already voted
-                        const voteDoc = await getDoc(userVoteRef);
-                        hasVoted = voteDoc.exists();
-
-                        updateButtonState();
-
-                        // 2. Listen to real-time vote count
-                        onSnapshot(pollRef, (snapshot) => {
-                            const countDisplay = document.getElementById('vote-count');
-                            if (snapshot.exists()) {
-                                countDisplay.innerText = snapshot.data().count || 0;
-                            } else {
-                                // Initialize poll doc if it doesn't exist
-                                setDoc(pollRef, { count: 0 }, { merge: true }).catch(console.error);
-                                countDisplay.innerText = "0";
-                            }
-                        }, (error) => {
-                            console.error("Error listening to poll data:", error);
-                        });
-
-                    } else {
-                        // User is signed out
-                        currentUser = null;
-                        showVotingError("無法驗證身份 / Auth Failed");
-                    }
-                });
-
-            } catch (error) {
-                console.error("Auth error:", error);
-                showVotingError("登入失敗 / Login Failed");
-            }
-        }
-
-        function updateButtonState() {
-            const btn = document.getElementById('vote-btn');
-            const zhText = document.getElementById('vote-btn-text-zh');
-            const enText = document.getElementById('vote-btn-text-en');
-            
-            btn.classList.remove('btn-pulse');
-
-            if (hasVoted) {
-                btn.disabled = true;
-                zhText.innerText = '已讚成';
-                enText.innerText = 'Voted';
-                btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
-                btn.classList.add('bg-slate-400');
-            } else {
-                btn.disabled = false;
-                zhText.innerText = '讚成';
-                enText.innerText = 'Agree';
-                btn.classList.add('btn-pulse');
-            }
-        }
-
-        function showVotingError(msg) {
-            const btn = document.getElementById('vote-btn');
-            document.getElementById('vote-btn-text-zh').innerText = msg;
-            document.getElementById('vote-btn-text-en').innerText = msg;
-            btn.disabled = true;
-            btn.classList.remove('btn-pulse');
-        }
-
-        // Expose vote function to global scope for HTML onclick
-        window.castVote = async function() {
-            if (!currentUser || hasVoted) return;
-
-            const btn = document.getElementById('vote-btn');
-            btn.disabled = true;
-            document.getElementById('vote-btn-text-zh').innerText = '處理中...';
-            document.getElementById('vote-btn-text-en').innerText = 'Processing...';
-
-            try {
-                // Use the strict paths
-                const pollRef = doc(db, 'artifacts', appId, 'public', 'data', 'polls', POLL_DOC_ID);
-                const userVoteRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'votes', POLL_DOC_ID);
-
-                // Check again to be safe
-                const checkVote = await getDoc(userVoteRef);
-                if(checkVote.exists()){
-                    hasVoted = true;
-                    updateButtonState();
-                    return;
-                }
-
-                // 1. Record user vote (Private data)
-                await setDoc(userVoteRef, {
-                    votedAt: new Date().toISOString(),
-                    choice: 'agree'
-                });
-
-                // 2. Increment global counter (Public data)
-                // Note: In a real prod app needing high concurrency, you'd use a Cloud Function or distributed counters.
-                // For this scale, increment() is fine, though it might fail if the doc doesn't exist yet, so we ensure it exists first.
-                const pollSnap = await getDoc(pollRef);
-                if (!pollSnap.exists()) {
-                    await setDoc(pollRef, { count: 1 });
-                } else {
-                    await updateDoc(pollRef, {
-                        count: increment(1)
-                    });
-                }
-
-                hasVoted = true;
-                updateButtonState();
-                
-                // Show success message
-                const msgEl = document.getElementById('vote-message');
-                msgEl.innerText = currentLang === 'zh' ? "感謝您的支持！您的投票已記錄。" : "Thank you! Your vote has been recorded.";
-                msgEl.style.opacity = '1';
-                
-                setTimeout(() => {
-                    msgEl.style.opacity = '0';
-                }, 4000);
-
-            } catch (error) {
-                console.error("Voting failed:", error);
-                const msgEl = document.getElementById('vote-message');
-                msgEl.classList.remove('text-emerald-600');
-                msgEl.classList.add('text-red-600');
-                msgEl.innerText = currentLang === 'zh' ? "投票失敗，請重試。" : "Vote failed, please try again.";
-                msgEl.style.opacity = '1';
-                btn.disabled = false;
-                
-                setTimeout(() => {
-                    msgEl.style.opacity = '0';
-                    msgEl.classList.remove('text-red-600');
-                    msgEl.classList.add('text-emerald-600');
-                    updateButtonState();
-                }, 3000);
-            }
-        };
-    </script>
 
     <script>
         // Language State
@@ -780,6 +581,139 @@
             // Ensure first tab button has correct initial state (already set in HTML, but safe to enforce)
             switchTab('tab-overview');
         };
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, increment, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // =========================================================================
+        // 若要匯出網頁至自己的伺服器，請將 customFirebaseConfig 替換為您的 Firebase 設定
+        // 否則在外部環境會出現「系統連線失敗」
+        // =========================================================================
+        let customFirebaseConfig = null;
+        /* 請解除下方註解並填入您自己申請的 Firebase 設定 (如果在外部伺服器執行)
+        customFirebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        */
+        
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'kai-tak-eia-poll';
+        const rawConfig = typeof __firebase_config !== 'undefined' ? __firebase_config : null;
+        
+        // 優先使用自訂設定，若無則使用系統內建設定
+        let finalConfig = customFirebaseConfig;
+        if (!finalConfig && rawConfig) {
+            try { finalConfig = JSON.parse(rawConfig); } catch(e) {}
+        }
+
+        let app, db, auth, userId;
+        const voteCountEl = document.getElementById('vote-count');
+        const voteBtn = document.getElementById('vote-btn');
+        const voteMsg = document.getElementById('vote-msg');
+
+        // 獲取目前語系的小工具
+        function getActiveLang() {
+            const enElement = document.querySelector('.lang-en');
+            return (enElement && enElement.style.display !== 'none') ? 'en' : 'zh';
+        }
+
+        async function initVoting() {
+            if (!finalConfig) {
+                console.warn("缺少 Firebase 配置，投票功能僅限於本開發環境或已綁定配置的伺服器。");
+                voteCountEl.innerText = "0";
+                return;
+            }
+            
+            try {
+                // 初始化資料庫與驗證模組
+                app = initializeApp(finalConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                // 進行匿名登入 (保障不記錄 IP 與隱私)
+                if (typeof __initial_auth_token !== 'undefined') {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+                userId = auth.currentUser?.uid;
+
+                if (!userId) return;
+
+                // 遵循系統要求的資料庫路徑
+                const publicPollRef = doc(db, 'artifacts', appId, 'public', 'data', 'polls', 'core_demands');
+                const userVoteRef = doc(db, 'artifacts', appId, 'users', userId, 'votes', 'core_demands');
+
+                // 檢查是否已經在該裝置投過票
+                const userVoteSnap = await getDoc(userVoteRef);
+                if (userVoteSnap.exists() && userVoteSnap.data().voted) {
+                    const msg = getActiveLang() === 'zh' ? "您已投票！感謝支持。" : "You have already voted!";
+                    disableVoting(msg);
+                }
+
+                // 即時監聽公開的累積票數
+                onSnapshot(publicPollRef, (docSnap) => {
+                    if (docSnap.exists()) {
+                        const data = docSnap.data();
+                        voteCountEl.innerText = data.count || 0;
+                    } else {
+                        voteCountEl.innerText = "0";
+                    }
+                }, (error) => {
+                    console.error("無法取得票數:", error);
+                });
+
+                // 點擊投票邏輯 (暴露給 window 以便 html onclick 使用)
+                window.handleVote = async () => {
+                    if (!userId) return;
+                    const isZh = getActiveLang() === 'zh';
+                    
+                    voteBtn.disabled = true;
+                    voteBtn.style.opacity = "0.7";
+                    voteMsg.style.opacity = 1;
+                    voteMsg.innerText = isZh ? "投票處理中..." : "Processing vote...";
+
+                    try {
+                        // 1. 在私人路徑記錄此用戶已投票
+                        await setDoc(userVoteRef, { voted: true, timestamp: new Date() });
+                        
+                        // 2. 增加公開大廳的總票數
+                        await setDoc(publicPollRef, { count: increment(1) }, { merge: true });
+
+                        disableVoting(isZh ? "✅ 投票成功！感謝您的支持。" : "✅ Voted successfully! Thank you.");
+                    } catch (err) {
+                        console.error("投票失敗:", err);
+                        voteBtn.disabled = false;
+                        voteBtn.style.opacity = "1";
+                        voteMsg.innerText = isZh ? "❌ 投票失敗，請重試。" : "❌ Voting failed, please try again.";
+                    }
+                };
+
+            } catch(e) {
+                console.error("投票系統初始化失敗:", e);
+                voteCountEl.innerText = "0";
+            }
+        }
+
+        // 將按鈕鎖定為灰色
+        function disableVoting(msg) {
+            voteBtn.disabled = true;
+            voteBtn.classList.remove('bg-emerald-600', 'hover:bg-emerald-500', 'hover:shadow-xl');
+            voteBtn.classList.add('bg-slate-300', 'text-slate-500', 'cursor-not-allowed');
+            voteMsg.innerText = msg;
+            voteMsg.style.opacity = 1;
+            voteMsg.classList.remove('text-emerald-600');
+            voteMsg.classList.add('text-slate-600');
+        }
+
+        initVoting();
     </script>
 </body>
 </html>
