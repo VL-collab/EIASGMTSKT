@@ -161,9 +161,6 @@
                     <button onclick="switchTab('tab-demands')" class="nav-btn flex-1 min-w-max py-2.5 px-4 text-sm sm:text-base text-slate-600 rounded-xl font-medium">
                         <i class="fa-solid fa-bullhorn mr-2 opacity-70"></i><span class="lang-zh">業主訴求</span><span class="lang-en">Our Demands</span>
                     </button>
-                    <button onclick="switchTab('tab-ai')" class="nav-btn flex-1 min-w-max py-2.5 px-4 text-sm sm:text-base text-purple-600 rounded-xl font-bold bg-purple-50 hover:bg-purple-100/50 border border-purple-100">
-                        <i class="fa-solid fa-sparkles mr-2"></i><span class="lang-zh">AI 顧問</span><span class="lang-en">AI Consultant</span>
-                    </button>
                 </nav>
             </div>
         </div>
@@ -757,77 +754,9 @@
             </div>
         </div>
 
-        <!-- ================= TAB: AI ASSISTANT ================= -->
-        <div id="tab-ai" class="tab-content max-w-4xl mx-auto h-[calc(100vh-160px)] flex flex-col pb-6 hidden">
-            <div class="bg-slate-800 p-5 sm:p-6 rounded-t-lg text-white flex-shrink-0 shadow-md z-10 relative overflow-hidden border-b-4 border-indigo-500">
-                <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full blur-xl translate-x-1/2 -translate-y-1/2"></div>
-                <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-3 relative z-10">
-                    <i class="fa-solid fa-robot text-indigo-400"></i>
-                    <span class="lang-zh">環評專屬 AI 顧問</span>
-                    <span class="lang-en">EIA AI Consultant</span>
-                </h2>
-                <p class="text-slate-300 text-xs sm:text-sm mt-1.5 relative z-10 lang-zh">解答技術數據、分析法律漏洞、協助起草向政府反映的電郵信件。</p>
-                <p class="text-slate-300 text-xs sm:text-sm mt-1.5 relative z-10 lang-en">Answers EIA questions, analyzes loopholes, and drafts protest emails.</p>
-            </div>
-            
-            <div id="chat-box" class="flex-1 bg-white border-x border-slate-200 p-4 sm:p-6 overflow-y-auto space-y-5">
-                <!-- Chat messages will be injected here -->
-            </div>
-
-            <div class="bg-slate-50 border border-slate-200 rounded-b-lg p-4 sm:p-6 flex-shrink-0">
-                <!-- Quick Prompts -->
-                <div class="flex flex-wrap gap-2 mb-4">
-                    <button onclick="sendQuickPrompt('SkyShuttle 和 ART 在噪音上到底差多少？')" class="text-xs font-semibold bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded hover:bg-slate-100 transition-colors lang-zh">
-                        SkyShuttle vs ART 噪音差異？
-                    </button>
-                    <button onclick="sendQuickPrompt('請幫我寫一封信給路政署，強烈要求興建全封閉式隔音罩。')" class="text-xs font-semibold bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded hover:bg-slate-100 transition-colors lang-zh">
-                        幫我寫信爭取隔音罩 ✍️
-                    </button>
-                     <button onclick="sendQuickPrompt('What is the drumming effect mentioned in the report?')" class="text-xs font-semibold bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded hover:bg-slate-100 transition-colors lang-en">
-                        What is drumming effect?
-                    </button>
-                </div>
-                
-                <div class="flex gap-3 relative">
-                    <input type="text" id="ai-input" class="flex-1 bg-white border border-slate-300 rounded px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow" placeholder="Ask a question / 提出您的問題..." onkeypress="handleAIKeyPress(event)">
-                    <button onclick="sendAIMessage()" id="ai-send-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded font-bold transition-colors min-w-[90px] flex items-center justify-center">
-                        <span class="lang-zh">發送</span><span class="lang-en">Send</span>
-                    </button>
-                </div>
-
-                <!-- API Key Config Button for Public Use -->
-                <div class="mt-3 text-right">
-                    <button onclick="promptApiKey()" class="text-xs text-slate-500 hover:text-indigo-600 transition-colors inline-flex items-center gap-1 font-medium">
-                        <i class="fa-solid fa-gear"></i> <span class="lang-zh">設定 API 金鑰 (訪客專用)</span><span class="lang-en">Set API Key (Guest)</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-        
     </main>
 
-    <script type="importmap">
-      {
-        "imports": {
-          "@google/genai": "https://esm.run/@google/genai"
-        }
-      }
-    </script>
-    <script type="module">
-        import { GoogleGenAI } from "@google/genai";
-        
-        // initializeApp will automatically try to find firebaseConfig 
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-
-        // ============================================================================
-        // 🤖 AI 顧問金鑰設定
-        // 如果您在這裡留空 ("")，網頁將允許訪客自行輸入他們的 API Key。
-        // 若您決定申請並限制網域(HTTP referrers)，請將您的金鑰填入引號中。
-        // ============================================================================
-        const MY_GEMINI_API_KEY = "";
-
+    <script>
         // Global functions attachment
         window.switchTab = function(tabId) {
             document.querySelectorAll('.tab-content').forEach(el => {
@@ -853,145 +782,6 @@
 
         // Initialize language on load
         document.body.classList.add(currentLang);
-
-        // --- AI Assistant Logic ---
-        const aiPromptContext = `
-        You are a highly experienced virtual Environmental and Structural Acoustics Consultant representing the residents of Henley Park and The Henley (Muk Tai St) regarding the Kai Tak Green Transit System (KTGTS) EIA Report.
-        
-        Key Facts to use in your answers:
-        - The track is only 15m away from the residential estate.
-        - SkyShuttle (rail-guided) noise is 64.5 dB(A) at source. Predicted estate noise: Day 41-46 dB(A), Night 35-40 dB(A).
-        - ART (rubber-tire virtual track) noise is 71.6 dB(A) at source. Predicted estate noise: Day 48-55 dB(A), Night 42-49 dB(A).
-        - The 6 Core Demands: 1) Mandatory Full-Enclosure Noise Cover, 2) No deferred CNMP/VMP plans, 3) Defend 6m EVA, 4) IEC must have 15+ years exp, 5) Smart dust auto-misting & power cutoff, 6) Real-time raw data portal.
-        - Drumming effect: Low-frequency noise from pure steel viaducts.
-        
-        Tone: Professional, supportive of residents, highly knowledgeable, and ready to draft complaint letters to the government (EPD, Highways Dept) if asked. Answer in the language the user asks in (mostly Traditional Chinese or English). Keep answers concise but powerful. Use markdown for bolding key terms.
-        `;
-
-        let aiHistory = [];
-        
-        // Load user's personal API key from their browser storage if it exists
-        let userProvidedKey = localStorage.getItem('gemini_api_key_visitor') || '';
-
-        window.promptApiKey = function() {
-            const currentLangIsZh = document.body.classList.contains('zh') || !document.body.classList.contains('en');
-            const promptText = currentLangIsZh 
-                ? '請輸入您的 Google Gemini API Key (留空並確認則為清除)：\n您的金鑰僅會保存在此瀏覽器本地端，不會上傳至伺服器。' 
-                : 'Enter your Google Gemini API Key (leave blank to clear):\nYour key is stored locally in your browser and is never sent to our servers.';
-            
-            const key = prompt(promptText, userProvidedKey);
-            if (key !== null) {
-                userProvidedKey = key.trim();
-                if (userProvidedKey) {
-                    localStorage.setItem('gemini_api_key_visitor', userProvidedKey);
-                    addChatMessage('ai', currentLangIsZh ? '✅ API 金鑰已設定。您現在可以開始發問了！' : '✅ API Key saved. You can now ask questions!');
-                } else {
-                    localStorage.removeItem('gemini_api_key_visitor');
-                    addChatMessage('ai', currentLangIsZh ? '🗑️ API 金鑰已清除。' : '🗑️ API Key cleared.');
-                }
-            }
-        };
-
-        window.sendQuickPrompt = function(text) {
-            document.getElementById('ai-input').value = text;
-            sendAIMessage();
-        }
-
-        window.handleAIKeyPress = function(e) {
-            if (e.key === 'Enter') sendAIMessage();
-        }
-
-        window.sendAIMessage = async function() {
-            const inputEl = document.getElementById('ai-input');
-            const msg = inputEl.value.trim();
-            if(!msg) return;
-
-            addChatMessage('user', msg);
-            inputEl.value = '';
-            inputEl.disabled = true;
-            document.getElementById('ai-send-btn').innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
-
-            // 優先使用訪客自訂金鑰，若無則嘗試獲取系統預設金鑰
-            const apiKey = userProvidedKey || MY_GEMINI_API_KEY || document.body.getAttribute('data-env-API_KEY');
-            
-            const currentLangIsZh = document.body.classList.contains('zh') || !document.body.classList.contains('en');
-
-            if(!apiKey) {
-                const errorMsgZh = '⚠️ **系統提示**：網站未設定公用 AI 金鑰。<br>請點擊輸入框下方的「**設定 API 金鑰 (訪客專用)**」輸入您專屬的免費 Gemini API Key 來啟用顧問功能。（您的金鑰僅會安全地儲存在您的瀏覽器本地端）<br><br>👉 <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-indigo-600 underline">點此免費獲取 Google API Key</a>';
-                const errorMsgEn = '⚠️ **System Notice**: No public AI key provided.<br>Please click "**Set API Key (Guest)**" below the input to enter your own free Gemini API Key. (Your key is safely stored locally in your browser).<br><br>👉 <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-indigo-600 underline">Get a free Google API Key here</a>';
-                
-                addChatMessage('ai', currentLangIsZh ? errorMsgZh : errorMsgEn);
-                resetAIInput();
-                return;
-            }
-
-            const ai = new GoogleGenAI({ apiKey: apiKey });
-            
-            let attempts = 0;
-            const maxAttempts = 3;
-            
-            while (attempts < maxAttempts) {
-                try {
-                    const response = await ai.models.generateContent({
-                        model: 'gemini-2.5-flash',
-                        contents: [
-                            { role: 'user', parts: [{ text: aiPromptContext }] },
-                            { role: 'model', parts: [{ text: 'Understood. I am ready to act as the consultant.' }] },
-                            ...aiHistory,
-                            { role: 'user', parts: [{ text: msg }] }
-                        ]
-                    });
-                    
-                    const reply = response.text;
-                    aiHistory.push({ role: 'user', parts: [{ text: msg }] });
-                    aiHistory.push({ role: 'model', parts: [{ text: reply }] });
-                    
-                    addChatMessage('ai', reply);
-                    break;
-                } catch (error) {
-                    attempts++;
-                    if (error.status === 429 && attempts < maxAttempts) {
-                        await new Promise(r => setTimeout(r, Math.pow(2, attempts) * 1000));
-                    } else {
-                        addChatMessage('ai', '⚠️ AI Error: ' + error.message);
-                        break;
-                    }
-                }
-            }
-            resetAIInput();
-        }
-
-        function resetAIInput() {
-            const inputEl = document.getElementById('ai-input');
-            inputEl.disabled = false;
-            inputEl.focus();
-            const btn = document.getElementById('ai-send-btn');
-            btn.innerHTML = `<span class="lang-zh">發送</span><span class="lang-en">Send</span>`;
-        }
-
-        function addChatMessage(role, text) {
-            const box = document.getElementById('chat-box');
-            const div = document.createElement('div');
-            
-            // Basic markdown formatting (bold and line breaks)
-            const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
-            
-            if (role === 'user') {
-                div.className = 'flex justify-end';
-                div.innerHTML = `<div class="bg-indigo-600 text-white px-5 py-3 rounded-3xl rounded-tr-sm max-w-[85%] text-sm sm:text-base shadow-md">${formattedText}</div>`;
-            } else {
-                div.className = 'flex justify-start';
-                div.innerHTML = `<div class="bg-white border border-slate-200 text-slate-700 px-5 py-4 rounded-3xl rounded-tl-sm max-w-[90%] text-sm sm:text-base shadow-md leading-relaxed">${formattedText}</div>`;
-            }
-            box.appendChild(div);
-            box.scrollTop = box.scrollHeight;
-        }
-
-        // Initialize first AI message
-        setTimeout(() => {
-            addChatMessage('ai', '您好！我是 KTGTS 環評專屬顧問。對於這份環評報告，您有什麼技術疑問？或者需要我幫忙草擬反對信件嗎？<br><br>Hello! I am the KTGTS EIA consultant. Do you have any technical questions about the report, or need help drafting a protest letter?');
-        }, 500);
-
     </script>
 </body>
 </html>
