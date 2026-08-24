@@ -758,40 +758,47 @@
         </div>
 
         <!-- ================= TAB: AI ASSISTANT ================= -->
-        <div id="tab-ai" class="tab-content max-w-4xl mx-auto h-[calc(100vh-160px)] flex flex-col pb-6">
-            <div class="bg-gradient-to-r from-purple-700 to-indigo-700 p-5 sm:p-6 rounded-t-3xl text-white flex-shrink-0 shadow-md z-10 relative overflow-hidden">
+        <div id="tab-ai" class="tab-content max-w-4xl mx-auto h-[calc(100vh-160px)] flex flex-col pb-6 hidden">
+            <div class="bg-slate-800 p-5 sm:p-6 rounded-t-lg text-white flex-shrink-0 shadow-md z-10 relative overflow-hidden border-b-4 border-indigo-500">
                 <div class="absolute top-0 right-0 w-32 h-32 bg-white opacity-5 rounded-full blur-xl translate-x-1/2 -translate-y-1/2"></div>
-                <h2 class="text-xl sm:text-2xl font-extrabold flex items-center gap-3 relative z-10">
-                    <i class="fa-solid fa-sparkles text-purple-200"></i>
-                    <span class="lang-zh">KTGTS 環評專屬 AI 顧問</span>
-                    <span class="lang-en">KTGTS EIA AI Consultant</span>
+                <h2 class="text-xl sm:text-2xl font-bold flex items-center gap-3 relative z-10">
+                    <i class="fa-solid fa-robot text-indigo-400"></i>
+                    <span class="lang-zh">環評專屬 AI 顧問</span>
+                    <span class="lang-en">EIA AI Consultant</span>
                 </h2>
-                <p class="text-purple-200 text-xs sm:text-sm mt-1.5 font-medium relative z-10 lang-zh">解答技術數據、分析法律漏洞、協助起草向政府反映的電郵信件。</p>
-                <p class="text-purple-200 text-xs sm:text-sm mt-1.5 font-medium relative z-10 lang-en">Answers EIA questions, analyzes loopholes, and drafts protest emails.</p>
+                <p class="text-slate-300 text-xs sm:text-sm mt-1.5 relative z-10 lang-zh">解答技術數據、分析法律漏洞、協助起草向政府反映的電郵信件。</p>
+                <p class="text-slate-300 text-xs sm:text-sm mt-1.5 relative z-10 lang-en">Answers EIA questions, analyzes loopholes, and drafts protest emails.</p>
             </div>
             
-            <div id="chat-box" class="flex-1 bg-white/60 backdrop-blur-md border-x border-slate-200 p-4 sm:p-6 overflow-y-auto space-y-5 shadow-inner">
+            <div id="chat-box" class="flex-1 bg-white border-x border-slate-200 p-4 sm:p-6 overflow-y-auto space-y-5">
                 <!-- Chat messages will be injected here -->
             </div>
 
-            <div class="bg-white border-x border-b border-slate-200 rounded-b-3xl p-4 sm:p-6 flex-shrink-0 shadow-lg relative z-10">
+            <div class="bg-slate-50 border border-slate-200 rounded-b-lg p-4 sm:p-6 flex-shrink-0">
                 <!-- Quick Prompts -->
                 <div class="flex flex-wrap gap-2 mb-4">
-                    <button onclick="sendQuickPrompt('SkyShuttle 和 ART 在噪音上到底差多少？')" class="text-xs font-semibold bg-purple-50 text-purple-700 px-4 py-2 rounded-full hover:bg-purple-100 hover:text-purple-800 transition-colors lang-zh">
+                    <button onclick="sendQuickPrompt('SkyShuttle 和 ART 在噪音上到底差多少？')" class="text-xs font-semibold bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded hover:bg-slate-100 transition-colors lang-zh">
                         SkyShuttle vs ART 噪音差異？
                     </button>
-                    <button onclick="sendQuickPrompt('請幫我寫一封信給路政署，強烈要求興建全封閉式隔音罩。')" class="text-xs font-semibold bg-indigo-50 text-indigo-700 px-4 py-2 rounded-full hover:bg-indigo-100 hover:text-indigo-800 transition-colors lang-zh">
+                    <button onclick="sendQuickPrompt('請幫我寫一封信給路政署，強烈要求興建全封閉式隔音罩。')" class="text-xs font-semibold bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded hover:bg-slate-100 transition-colors lang-zh">
                         幫我寫信爭取隔音罩 ✍️
                     </button>
-                     <button onclick="sendQuickPrompt('What is the drumming effect mentioned in the report?')" class="text-xs font-semibold bg-purple-50 text-purple-700 px-4 py-2 rounded-full hover:bg-purple-100 transition-colors lang-en">
+                     <button onclick="sendQuickPrompt('What is the drumming effect mentioned in the report?')" class="text-xs font-semibold bg-white border border-slate-300 text-slate-700 px-4 py-2 rounded hover:bg-slate-100 transition-colors lang-en">
                         What is drumming effect?
                     </button>
                 </div>
                 
                 <div class="flex gap-3 relative">
-                    <input type="text" id="ai-input" class="flex-1 bg-slate-50 border border-slate-300 rounded-2xl px-5 py-3.5 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white transition-all shadow-sm" placeholder="Ask a question / 提出您的問題..." onkeypress="handleAIKeyPress(event)">
-                    <button onclick="sendAIMessage()" id="ai-send-btn" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3.5 rounded-2xl font-bold transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5 flex items-center justify-center min-w-[90px]">
+                    <input type="text" id="ai-input" class="flex-1 bg-white border border-slate-300 rounded px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow" placeholder="Ask a question / 提出您的問題..." onkeypress="handleAIKeyPress(event)">
+                    <button onclick="sendAIMessage()" id="ai-send-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded font-bold transition-colors min-w-[90px] flex items-center justify-center">
                         <span class="lang-zh">發送</span><span class="lang-en">Send</span>
+                    </button>
+                </div>
+
+                <!-- API Key Config Button for Public Use -->
+                <div class="mt-3 text-right">
+                    <button onclick="promptApiKey()" class="text-xs text-slate-500 hover:text-indigo-600 transition-colors inline-flex items-center gap-1 font-medium">
+                        <i class="fa-solid fa-gear"></i> <span class="lang-zh">設定 API 金鑰 (訪客專用)</span><span class="lang-en">Set API Key (Guest)</span>
                     </button>
                 </div>
             </div>
@@ -808,6 +815,18 @@
     </script>
     <script type="module">
         import { GoogleGenAI } from "@google/genai";
+        
+        // initializeApp will automatically try to find firebaseConfig 
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        // ============================================================================
+        // 🤖 AI 顧問金鑰設定
+        // 如果您在這裡留空 ("")，網頁將允許訪客自行輸入他們的 API Key。
+        // 若您決定申請並限制網域(HTTP referrers)，請將您的金鑰填入引號中。
+        // ============================================================================
+        const MY_GEMINI_API_KEY = "";
 
         // Global functions attachment
         window.switchTab = function(tabId) {
@@ -850,6 +869,28 @@
         `;
 
         let aiHistory = [];
+        
+        // Load user's personal API key from their browser storage if it exists
+        let userProvidedKey = localStorage.getItem('gemini_api_key_visitor') || '';
+
+        window.promptApiKey = function() {
+            const currentLangIsZh = document.body.classList.contains('zh') || !document.body.classList.contains('en');
+            const promptText = currentLangIsZh 
+                ? '請輸入您的 Google Gemini API Key (留空並確認則為清除)：\n您的金鑰僅會保存在此瀏覽器本地端，不會上傳至伺服器。' 
+                : 'Enter your Google Gemini API Key (leave blank to clear):\nYour key is stored locally in your browser and is never sent to our servers.';
+            
+            const key = prompt(promptText, userProvidedKey);
+            if (key !== null) {
+                userProvidedKey = key.trim();
+                if (userProvidedKey) {
+                    localStorage.setItem('gemini_api_key_visitor', userProvidedKey);
+                    addChatMessage('ai', currentLangIsZh ? '✅ API 金鑰已設定。您現在可以開始發問了！' : '✅ API Key saved. You can now ask questions!');
+                } else {
+                    localStorage.removeItem('gemini_api_key_visitor');
+                    addChatMessage('ai', currentLangIsZh ? '🗑️ API 金鑰已清除。' : '🗑️ API Key cleared.');
+                }
+            }
+        };
 
         window.sendQuickPrompt = function(text) {
             document.getElementById('ai-input').value = text;
@@ -870,9 +911,16 @@
             inputEl.disabled = true;
             document.getElementById('ai-send-btn').innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i>';
 
-            const apiKey = document.body.getAttribute('data-env-API_KEY');
+            // 優先使用訪客自訂金鑰，若無則嘗試獲取系統預設金鑰
+            const apiKey = userProvidedKey || MY_GEMINI_API_KEY || document.body.getAttribute('data-env-API_KEY');
+            
+            const currentLangIsZh = document.body.classList.contains('zh') || !document.body.classList.contains('en');
+
             if(!apiKey) {
-                addChatMessage('ai', 'API Key missing. Cannot connect to AI service.');
+                const errorMsgZh = '⚠️ **系統提示**：網站未設定公用 AI 金鑰。<br>請點擊輸入框下方的「**設定 API 金鑰 (訪客專用)**」輸入您專屬的免費 Gemini API Key 來啟用顧問功能。（您的金鑰僅會安全地儲存在您的瀏覽器本地端）<br><br>👉 <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-indigo-600 underline">點此免費獲取 Google API Key</a>';
+                const errorMsgEn = '⚠️ **System Notice**: No public AI key provided.<br>Please click "**Set API Key (Guest)**" below the input to enter your own free Gemini API Key. (Your key is safely stored locally in your browser).<br><br>👉 <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-indigo-600 underline">Get a free Google API Key here</a>';
+                
+                addChatMessage('ai', currentLangIsZh ? errorMsgZh : errorMsgEn);
                 resetAIInput();
                 return;
             }
