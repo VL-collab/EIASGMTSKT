@@ -1,787 +1,1674 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kai Tak Green Transit EIA Review & Poll</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<html lang="zh-HK"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>守護 Henley Park · 啟德綠色集體運輸 (KTGTS) 環評居民透視站</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Noto Sans TC -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* iOS 彈簧動畫曲線 */
+      --spring-easing: cubic-bezier(0.175, 0.885, 0.32, 1.15);
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
     
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap');
-        
-        :root {
-            --primary: #4f46e5;
-            --secondary: #059669;
-        }
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      /* 高級動態漸層背景 (深海/孔雀藍色調) */
+      background: radial-gradient(circle at 15% 50%, rgba(20, 184, 166, 0.15), transparent 25%),
+                  radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.15), transparent 25%),
+                  linear-gradient(135deg, #020617 0%, #082f49 50%, #0f172a 100%);
+      background-attachment: fixed;
+      background-size: cover;
+      color: #f8fafc;
+      overflow: hidden; /* 防止底層滾動，依靠內層滾動 */
+      -webkit-font-smoothing: antialiased;
+      touch-action: pan-y;
+    }
 
-        body {
-            font-family: 'Inter', 'Noto Sans TC', sans-serif;
-            background-color: #f8fafc;
-            color: #1e293b;
-            -webkit-font-smoothing: antialiased;
-        }
+    /* 毛玻璃通用類別 (Glassmorphism) */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    }
+    
+    .glass-button {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
 
-        /* Modern Background Blobs for Visual Depth */
-        .bg-blob-1 {
-            position: fixed; top: -10%; right: -5%; width: 50vw; height: 50vw;
-            background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, rgba(255,255,255,0) 70%);
-            border-radius: 50%; z-index: -1; pointer-events: none;
-        }
-        .bg-blob-2 {
-            position: fixed; bottom: -10%; left: -10%; width: 60vw; height: 60vw;
-            background: radial-gradient(circle, rgba(16,185,129,0.08) 0%, rgba(255,255,255,0) 70%);
-            border-radius: 50%; z-index: -1; pointer-events: none;
-        }
+    /* 隱藏滾動條但保持可滾動 */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Enhanced Glassmorphism */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.8);
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
-        }
+    /* App 頁面切換動畫 */
+    .app-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: inherit;
+      z-index: 100;
+      transition: transform 0.5s var(--ease-out-expo), opacity 0.4s ease;
+      transform: translateX(100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .app-page.active {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
 
-        /* Typography Enhancements */
-        .gradient-text {
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-        }
-        
-        .gradient-text-emerald {
-            background: linear-gradient(135deg, #059669, #0d9488);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    .home-screen {
+      transition: transform 0.5s var(--ease-out-expo), opacity 0.4s ease, filter 0.4s ease;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    
+    .home-screen.scaled-down {
+      transform: scale(0.92);
+      opacity: 0;
+      filter: blur(10px);
+      pointer-events: none;
+    }
 
-        /* Smooth Hide Scrollbar */
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    /* 自定義 Detail/Summary 嵌套盒子動畫 */
+    details > summary { list-style: none; outline: none; }
+    details > summary::-webkit-details-marker { display: none; }
+    details[open] > summary ~ div { 
+      animation: slideDown 0.3s var(--ease-out-expo) forwards; 
+    }
+    
+    @keyframes slideDown {
+      0%   { opacity: 0; transform: translateY(-10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
 
-        /* Tab Animations */
-        .tab-content {
-            display: none;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .tab-content.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-            animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+    /* 聲波動畫 */
+    @keyframes waveSlow {
+      0%, 100% { height: 6px; }
+      50% { height: 18px; }
+    }
+    @keyframes waveFast {
+      0%, 100% { height: 8px; }
+      25% { height: 36px; }
+      75% { height: 28px; }
+    }
+    .wave-gentle { animation: waveSlow 1.4s ease-in-out infinite; }
+    .wave-heavy { animation: waveFast 0.65s ease-in-out infinite; }
+    .sound-bar { transition: width 0.6s var(--ease-out-expo); }
 
-        @keyframes slideUpFade {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Pill Navigation Styling */
-        .nav-btn {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-        .nav-btn.active {
-            background-color: #ffffff;
-            color: var(--primary);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            font-weight: 700;
-        }
-
-        /* Language Toggle */
-        body:not(.en) .lang-en { display: none !important; }
-        body.en .lang-zh { display: none !important; }
-
-        /* Card Hover Effects */
-        .hover-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .hover-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.1);
-        }
-        
-        /* Modern Table */
-        .table-container {
-            box-shadow: 0 0 0 1px rgba(226, 232, 240, 1);
-            border-radius: 0.75rem;
-        }
-    </style>
+    /* 自訂 Range Slider (模擬器用) */
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      background: transparent;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      height: 16px;
+      width: 16px;
+      border-radius: 50%;
+      background: #14b8a6;
+      cursor: pointer;
+      margin-top: -6px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 4px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.2);
+      border-radius: 2px;
+    }
+    #sim-canvas * {
+      will-change: transform;
+    }
+    .text-outline {
+      paint-order: stroke;
+      stroke: #0f172a;
+      stroke-width: 3px;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+  </style>
 </head>
-<body class="antialiased h-screen flex flex-col overflow-hidden relative selection:bg-indigo-100 selection:text-indigo-900">
-    
-    <!-- Background Decorators -->
-    <div class="bg-blob-1"></div>
-    <div class="bg-blob-2"></div>
+<body class="selection:bg-teal-500/50 selection:text-white">
 
-    <!-- Header & Navigation -->
-    <header class="bg-white/80 backdrop-blur-lg border-b border-slate-200/60 z-20 flex-shrink-0 sticky top-0">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center py-4">
-                <div class="flex items-center gap-3 sm:gap-4 w-3/4 sm:w-auto">
-                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-indigo-500 via-purple-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl sm:text-2xl flex-shrink-0 shadow-lg shadow-indigo-200">
-                        <i class="fa-solid fa-leaf"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-lg sm:text-2xl font-extrabold text-slate-800 tracking-tight leading-tight">
-                            <span class="lang-zh">啟德智慧綠色運輸<span class="text-indigo-600">環評剖析</span></span>
-                            <span class="lang-en">Kai Tak Transit <span class="text-indigo-600">EIA Review</span></span>
-                        </h1>
-                        <p class="text-xs sm:text-sm text-slate-500 font-medium hidden sm:block">
-                            <span class="lang-zh">專業法規與結構聲學觀點</span>
-                            <span class="lang-en">Professional Legal & Acoustic Perspective</span>
-                        </p>
-                    </div>
-                </div>
-                <button onclick="toggleLanguage()" class="group flex items-center justify-center gap-2 text-sm bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-700 py-2 px-4 rounded-full font-bold transition-all flex-shrink-0 shadow-sm hover:shadow">
-                    <i class="fa-solid fa-language text-slate-400 group-hover:text-indigo-500 transition-colors"></i>
-                    <span class="lang-zh">EN</span>
-                    <span class="lang-en">中文</span>
-                </button>
-            </div>
-            
-            <div class="pb-3 pt-1">
-                <nav class="flex space-x-1 bg-slate-100/80 p-1 rounded-2xl overflow-x-auto hide-scrollbar border border-slate-200/50">
-                    <button onclick="switchTab('tab-overview')" class="nav-btn active flex-1 min-w-max py-2.5 px-4 text-sm sm:text-base text-slate-600 rounded-xl font-medium">
-                        <i class="fa-solid fa-file-contract mr-2 opacity-70"></i><span class="lang-zh">概述與法規</span><span class="lang-en">Overview</span>
-                    </button>
-                    <button onclick="switchTab('tab-noise')" class="nav-btn flex-1 min-w-max py-2.5 px-4 text-sm sm:text-base text-slate-600 rounded-xl font-medium">
-                        <i class="fa-solid fa-volume-high mr-2 opacity-70"></i><span class="lang-zh">噪音剖析</span><span class="lang-en">Noise Analysis</span>
-                    </button>
-                    <button onclick="switchTab('tab-risks')" class="nav-btn flex-1 min-w-max py-2.5 px-4 text-sm sm:text-base text-slate-600 rounded-xl font-medium">
-                        <i class="fa-solid fa-triangle-exclamation mr-2 opacity-70"></i><span class="lang-zh">隱藏危機</span><span class="lang-en">Hidden Risks</span>
-                    </button>
-                    <button onclick="switchTab('tab-mitigation')" class="nav-btn flex-1 min-w-max py-2.5 px-4 text-sm sm:text-base text-slate-600 rounded-xl font-medium">
-                        <i class="fa-solid fa-shield-halved mr-2 opacity-70"></i><span class="lang-zh">環評緩解</span><span class="lang-en">Mitigation</span>
-                    </button>
-                    <button onclick="switchTab('tab-demands')" class="nav-btn flex-1 min-w-max py-2.5 px-4 text-sm sm:text-base text-slate-600 rounded-xl font-medium">
-                        <i class="fa-solid fa-bullhorn mr-2 opacity-70"></i><span class="lang-zh">業主訴求</span><span class="lang-en">Our Demands</span>
-                    </button>
-                </nav>
-            </div>
+  <!-- 主畫面 (Home Screen) -->
+  <div id="home-screen" class="home-screen no-scrollbar pb-20">
+    
+    <!-- 頂部 Header -->
+    <header class="pt-12 pb-6 px-6 sm:px-8">
+      <div class="max-w-4xl mx-auto flex justify-between items-center">
+        <div>
+          <h1 class="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-teal-200 to-cyan-100 tracking-tight">
+            Henley Park
+          </h1>
+          <p class="text-slate-300 font-medium mt-1">啟德綠運環評 · 居民透視站</p>
         </div>
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-teal-600 to-cyan-500 flex items-center justify-center text-white font-black text-2xl shadow-[0_0_20px_rgba(13,148,136,0.4)] border border-teal-400/50">
+          HP
+        </div>
+      </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 scroll-smooth">
+    <!-- 主視覺焦點卡片 (Hero Widget) -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-8 space-y-6">
+      
+      <div class="glass-panel rounded-[2rem] p-6 sm:p-8 relative overflow-hidden group">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-teal-500/20 rounded-full blur-3xl -mr-20 -mt-20"></div>
+        <div class="relative z-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/30 text-xs text-rose-300 mb-4 font-bold">
+            <span class="w-2 h-2 rounded-full bg-rose-400 animate-pulse"></span>
+            招標前黃金期・急需關注
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-black leading-tight mb-3">
+            啟德綠運系統 (KTGTS)<br>現行環評真的能保護我們嗎？
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed mb-6">
+            面對「通風廊沙塵」、「智軌音量翻倍」及「沐泰街唯一通路被圍封」等疑慮，居民需要清楚的真相與更有力的保護！
+          </p>
+          <a href="https://www.epd.gov.hk/eia/en/alpha/aspd.php?id=915" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl glass-button text-sm font-bold hover:bg-white/20 transition active:scale-95">
+            📄 查閱官方環評報告 (EPD)
+          </a>
+        </div>
+      </div>
+
+      <!-- App 網格選單 (App Grid) -->
+      <h3 class="text-lg font-bold px-2 mt-8 mb-4 text-slate-300">透視專題模組</h3>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
         
-        <!-- ================= TAB: OVERVIEW ================= -->
-        <div id="tab-overview" class="tab-content active max-w-4xl mx-auto space-y-8 pb-10">
+        <!-- App Box 1 -->
+        <div onclick="openPage('page-overview')" class="glass-panel rounded-3xl p-5 cursor-pointer hover:bg-white/10 transition duration-300 active:scale-95 flex flex-col justify-between aspect-square group">
+          <div class="w-12 h-12 rounded-2xl bg-teal-500/20 border border-teal-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition">
+            🏡
+          </div>
+          <div>
+            <h4 class="font-bold text-base sm:text-lg mb-1">環評速覽</h4>
+            <p class="text-[11px] sm:text-xs text-slate-400">結構與降噪防塵</p>
+          </div>
+        </div>
+
+        <!-- App Box 2 -->
+        <div onclick="openPage('page-noise')" class="glass-panel rounded-3xl p-5 cursor-pointer hover:bg-white/10 transition duration-300 active:scale-95 flex flex-col justify-between aspect-square group">
+          <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition">
+            🔊
+          </div>
+          <div>
+            <h4 class="font-bold text-base sm:text-lg mb-1">聲能實驗室</h4>
+            <p class="text-[11px] sm:text-xs text-slate-400">分貝與響度圖解</p>
+          </div>
+        </div>
+
+        <!-- App Box 3 -->
+        <div onclick="openPage('page-critique')" class="glass-panel rounded-3xl p-5 cursor-pointer hover:bg-white/10 transition duration-300 active:scale-95 flex flex-col justify-between aspect-square group relative overflow-hidden">
+          <div class="absolute -right-4 -top-4 w-24 h-24 bg-rose-500/10 rounded-full blur-xl"></div>
+          <div class="w-12 h-12 rounded-2xl bg-rose-500/20 border border-rose-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition relative z-10">
+            ⚠️
+          </div>
+          <div class="relative z-10">
+            <h4 class="font-bold text-base sm:text-lg mb-1 text-rose-200">措施按排批評</h4>
+            <p class="text-[11px] sm:text-xs text-slate-400">環評報告不足之處</p>
+          </div>
+        </div>
+
+        <!-- App Box 4 -->
+        <div onclick="openPage('page-solutions')" class="glass-panel rounded-3xl p-5 cursor-pointer hover:bg-white/10 transition duration-300 active:scale-95 flex flex-col justify-between aspect-square group">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition">
+            🛡️
+          </div>
+          <div>
+            <h4 class="font-bold text-base sm:text-lg mb-1">防護方案</h4>
+            <p class="text-[11px] sm:text-xs text-slate-400">業主加強型藍圖</p>
+          </div>
+        </div>
+
+        <!-- App Box 5 -->
+        <div onclick="openPage('page-traffic')" class="glass-panel rounded-3xl p-5 cursor-pointer hover:bg-white/10 transition duration-300 active:scale-95 flex flex-col justify-between aspect-square group">
+          <div class="w-12 h-12 rounded-2xl bg-orange-500/20 border border-orange-500/30 flex items-center justify-center text-2xl group-hover:scale-110 transition">
+            🚧
+          </div>
+          <div>
+            <h4 class="font-bold text-base sm:text-lg mb-1">唯一通路危機</h4>
+            <p class="text-[11px] sm:text-xs text-slate-400">沐泰街施工影響</p>
+          </div>
+        </div>
+
+        <!-- App Box 6 -->
+        <div onclick="openPage('page-action')" class="glass-panel rounded-3xl p-5 cursor-pointer hover:bg-white/10 transition duration-300 active:scale-95 flex flex-col justify-between aspect-square group border border-teal-400/50 shadow-[0_0_15px_rgba(13,148,136,0.3)]">
+          <div class="w-12 h-12 rounded-2xl bg-teal-500 text-white flex items-center justify-center text-2xl group-hover:scale-110 transition shadow-lg">
+            📢
+          </div>
+          <div>
+            <h4 class="font-bold text-base sm:text-lg mb-1 text-teal-300">行動與訴求</h4>
+            <p class="text-[11px] sm:text-xs text-teal-100/70">一鍵寄發意見書</p>
+          </div>
+        </div>
+
+      </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="text-center text-xs text-slate-500 mt-12 pb-8 px-4">
+      <p>Henley Park 業主生活環境關注群 2026</p>
+      <p class="mt-1">此為資訊整合平台，所有數據源自環保署官方文件</p>
+    </footer>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- APP PAGES (Detail Views)                  -->
+  <!-- ========================================== -->
+
+  <!-- Page 1: 環評速覽 -->
+  <div id="page-overview" class="app-page no-scrollbar backdrop-blur-3xl">
+    <!-- Sticky Header -->
+    <header class="sticky top-0 z-50 glass-panel border-b-0 border-x-0 border-t-0 rounded-none px-4 py-4 flex items-center">
+      <button onclick="closePage('page-overview')" class="flex items-center gap-1 text-teal-400 active:opacity-50 transition font-medium">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+        返回
+      </button>
+      <h2 class="absolute left-1/2 -translate-x-1/2 font-bold text-lg whitespace-nowrap">環評速覽與措施</h2>
+    </header>
+
+    <main class="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 pb-24 mt-4">
+      
+      <!-- 立體空間圖解 (嵌套盒子) -->
+      <details class="glass-panel rounded-3xl group" open="">
+        <summary class="p-6 cursor-pointer flex justify-between items-center select-none">
+          <div class="flex items-center gap-3">
+            <span class="w-10 h-10 rounded-xl bg-teal-500/20 text-teal-300 flex items-center justify-center text-xl">📏</span>
+            <div>
+              <h3 class="font-bold text-lg">高架路軌「空間立面標高剖面」</h3>
+              <p class="text-xs text-slate-400">點擊收起/展開</p>
+            </div>
+          </div>
+          <svg class="w-5 h-5 text-slate-400 transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </summary>
+        
+        <div class="px-6 pb-6 pt-2 border-t border-white/10">
+          <p class="text-sm text-slate-300 mb-6 bg-white/5 p-3 rounded-xl border border-white/10">
+            💡 <strong>空間事實：</strong>沐泰街為 Henley Park 與 The Henley <strong>唯一且不可替代</strong>的緊急出入口（環評圖則 1.1 / 2.1）。
+          </p>
+
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="glass-button rounded-2xl p-5 relative overflow-hidden border-amber-500/30">
+              <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-amber-500/10 rounded-full blur-xl"></div>
+              <h4 class="font-bold text-amber-300 text-sm mb-2">🏢 The Henley (TH-01/02)</h4>
+              <div class="flex items-baseline gap-1">
+                <span class="text-4xl font-black">15</span>
+                <span class="text-sm text-slate-400">米 (極近距離)</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-2">路軌緊貼樓宇前方，直面高架雙軌橋面及轉彎位置，承受最直接視線遮擋與行車聲浪。</p>
+            </div>
+
+            <div class="glass-button rounded-2xl p-5 relative overflow-hidden border-teal-500/30">
+              <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-teal-500/10 rounded-full blur-xl"></div>
+              <h4 class="font-bold text-teal-300 text-sm mb-2">🏢 Henley Park (HP-01/02)</h4>
+              <div class="flex items-baseline gap-1">
+                <span class="text-4xl font-black">60</span>
+                <span class="text-sm text-slate-400">米 (開揚無遮)</span>
+              </div>
+              <p class="text-xs text-slate-400 mt-2">完全無任何建築屏障遮擋，高空聲浪向上擴散；出入更必須穿過 15 米施工圍封核心區！</p>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- 新增：降噪音及防塵措施 (嵌套盒子) -->
+      <details class="glass-panel rounded-3xl group">
+        <summary class="p-6 cursor-pointer flex justify-between items-center select-none">
+          <div class="flex items-center gap-3">
+            <span class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-xl">🛡️</span>
+            <div>
+              <h3 class="font-bold text-lg">官方「降噪及防塵」措施</h3>
+              <p class="text-xs text-slate-400">環評第 3 及第 4 章提議內容</p>
+            </div>
+          </div>
+          <svg class="w-5 h-5 text-slate-400 transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </summary>
+        
+        <div class="px-6 pb-6 pt-2 border-t border-white/10 space-y-4">
+          <p class="text-sm text-slate-300 bg-white/5 p-3 rounded-xl border border-white/10">
+            環評報告中針對施工期所提出的緩解措施摘要。
+          </p>
+
+          <div class="glass-button rounded-2xl p-4">
+            <h4 class="font-bold text-sm text-slate-100 flex items-center gap-2 mb-3">
+              <span class="text-purple-400">🔊</span> 噪音控制措施 (第4章)
+            </h4>
+            <ul class="list-disc pl-5 space-y-2 text-xs text-slate-300">
+              <li>採用<strong>優質機動設備 (QPME)</strong> 以減低聲源噪音。</li>
+              <li>在發聲機件及鑽樁設備周邊，使用<strong>臨時隔音屏障或隔音布</strong>。</li>
+              <li>限制在同一時間內運作的重型機械數量，以降低整體聲浪。</li>
+              <li>妥善安排工序，避免高噪音工序於同一時段疊加進行。</li>
+            </ul>
+          </div>
+
+          <div class="glass-button rounded-2xl p-4">
+            <h4 class="font-bold text-sm text-slate-100 flex items-center gap-2 mb-3">
+              <span class="text-purple-400">😷</span> 空氣質素 / 揚塵控制 (第3章)
+            </h4>
+            <ul class="list-disc pl-5 space-y-2 text-xs text-slate-300">
+              <li>實施每日定時灑水 (報告建議每日灑水約 8 次)。</li>
+              <li>將地盤內閒置的泥土堆使用防塵帆布完全覆蓋。</li>
+              <li>限制所有在地盤內行駛的工程車輛車速至<strong>每小時 8 公里</strong>。</li>
+              <li>設立洗車設施，所有車輛離開工地前必須清洗車輪。</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <!-- 外觀工程措施 (嵌套盒子) -->
+      <details class="glass-panel rounded-3xl group">
+        <summary class="p-6 cursor-pointer flex justify-between items-center select-none">
+          <div class="flex items-center gap-3">
+            <span class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-300 flex items-center justify-center text-xl">🏛️</span>
+            <div>
+              <h3 class="font-bold text-lg">四大「減低視覺壓迫」承諾</h3>
+              <p class="text-xs text-slate-400">環評第 7 章 OM1 措施</p>
+            </div>
+          </div>
+          <svg class="w-5 h-5 text-slate-400 transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </summary>
+        
+        <div class="px-6 pb-6 pt-2 border-t border-white/10 space-y-3">
+          <div class="glass-button rounded-2xl p-4 flex gap-4 items-start">
+            <span class="text-2xl">🗼</span>
+            <div>
+              <h4 class="font-bold text-sm text-slate-200">纖細立柱避免笨重</h4>
+              <p class="text-xs text-slate-400 mt-1">嚴格限制橋墩橫截面寬度，減少對沐泰街路面與行人視線的阻斷。</p>
+            </div>
+          </div>
+          <div class="glass-button rounded-2xl p-4 flex gap-4 items-start">
+            <span class="text-2xl">🕶️</span>
+            <div>
+              <h4 class="font-bold text-sm text-slate-200">防眩光與低反射建材</h4>
+              <p class="text-xs text-slate-400 mt-1">橋身外立面採用霧面無反光塗層，防止午後強烈陽光反射晃眼。</p>
+            </div>
+          </div>
+          <div class="glass-button rounded-2xl p-4 flex gap-4 items-start">
+            <span class="text-2xl">💡</span>
+            <div>
+              <h4 class="font-bold text-sm text-slate-200">遮光罩導向照明</h4>
+              <p class="text-xs text-slate-400 mt-1">軌道夜間照明加裝遮光罩，嚴禁平射或仰射兩旁住宅窗戶，防止光害。</p>
+            </div>
+          </div>
+        </div>
+      </details>
+    </main>
+  </div>
+
+
+  <!-- Page 2: 聲能圖解實驗室 -->
+  <div id="page-noise" class="app-page no-scrollbar backdrop-blur-3xl">
+    <header class="sticky top-0 z-50 glass-panel border-b-0 border-x-0 border-t-0 rounded-none px-4 py-4 flex items-center">
+      <button onclick="closePage('page-noise')" class="flex items-center gap-1 text-teal-400 active:opacity-50 transition font-medium">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>返回
+      </button>
+      <h2 class="absolute left-1/2 -translate-x-1/2 font-bold text-lg">聲能實驗室</h2>
+    </header>
+
+    <main class="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 pb-24 mt-4">
+      
+      <div class="glass-panel rounded-3xl p-6 sm:p-8 border-rose-500/30 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-32 h-32 bg-rose-500/20 rounded-full blur-2xl"></div>
+        <h3 class="text-xl font-black text-rose-300 leading-tight mb-2 relative z-10">
+          7 至 9 分貝的真實差距：<br>人耳響度近倍翻！
+        </h3>
+        <p class="text-sm text-slate-300 relative z-10">
+          分貝為非線性的對數尺度，數字的微小攀升，代表聲能的成倍擴大（環評附錄 4.3 及 4.5）。
+        </p>
+      </div>
+
+      <!-- WHO 睡眠干擾盒子 (嵌套) -->
+      <details class="glass-panel rounded-3xl group" open="">
+        <summary class="p-6 cursor-pointer flex justify-between items-center select-none">
+          <div class="flex items-center gap-3">
+            <span class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-xl">🧠</span>
+            <div>
+              <h3 class="font-bold text-lg">世衛 (WHO) 夜間干擾光譜</h3>
+              <p class="text-xs text-slate-400">生理睡眠干擾梯級</p>
+            </div>
+          </div>
+          <svg class="w-5 h-5 text-slate-400 transform group-open:rotate-180 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </summary>
+        
+        <div class="px-6 pb-6 pt-2 border-t border-white/10 space-y-3">
+          
+          <div class="glass-button rounded-2xl p-4 flex items-center gap-4 hover:scale-[1.02] hover:bg-white/15 transition cursor-default border-l-4 border-l-emerald-400">
+            <span class="w-12 h-12 flex-shrink-0 rounded-full bg-emerald-500/20 text-emerald-300 flex items-center justify-center font-black">35-38</span>
+            <div>
+              <p class="text-sm font-bold text-emerald-300">🟢 雲巴夜間預測值</p>
+              <p class="text-xs text-slate-400 mt-0.5">關窗後室內約 30dB，安睡無擾。</p>
+            </div>
+          </div>
+
+          <div class="glass-button rounded-2xl p-4 flex items-center gap-4 hover:scale-[1.02] hover:bg-white/15 transition cursor-default border-l-4 border-l-amber-400">
+            <span class="w-12 h-12 flex-shrink-0 rounded-full bg-amber-500/20 text-amber-300 flex items-center justify-center font-black">42</span>
+            <div>
+              <p class="text-sm font-bold text-amber-300">🟡 WHO 睡眠干擾臨界</p>
+              <p class="text-xs text-slate-400 mt-0.5">超過 42dB 會出現腦電波微覺醒。</p>
+            </div>
+          </div>
+
+          <div class="glass-button rounded-2xl p-4 flex items-center gap-4 hover:scale-[1.02] hover:bg-white/15 transition cursor-default border-l-4 border-l-rose-500 bg-rose-500/10">
+            <span class="w-12 h-12 flex-shrink-0 rounded-full bg-rose-500/30 text-rose-300 flex items-center justify-center font-black">42-49</span>
+            <div>
+              <p class="text-sm font-bold text-rose-300">🚨 智軌夜間預測值</p>
+              <p class="text-xs text-slate-300 mt-0.5">全數突破 WHO 睡眠線！伴隨低頻震動易驚醒。</p>
+            </div>
+          </div>
+
+        </div>
+      </details>
+
+      <!-- 插入：3D 動態模擬器 -->
+      <div class="glass-panel rounded-3xl p-6 sm:p-8">
+        <div class="flex flex-col xl:flex-row xl:items-start justify-between mb-4 gap-4">
+            <h3 class="text-lg font-bold text-slate-100 flex items-center gap-2">
+                <svg class="w-6 h-6 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"></path></svg>
+                軌道 3D 空間與預測聲能 (Leq) 模擬
+            </h3>
             
-            <div class="text-center space-y-4 mb-8 pt-4">
-                <span class="inline-block py-1 px-3 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-600 text-xs font-bold tracking-wider uppercase mb-2">Executive Summary</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight lang-zh">項目簡介與<span class="gradient-text">法規現狀</span></h2>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight lang-en">Project Brief & <span class="gradient-text">Legal Status</span></h2>
-                <p class="text-slate-500 text-sm sm:text-base max-w-2xl mx-auto lang-zh">深度研閱 AEIAR-268/2025 報告及 EP-673/2025 環境許可證，揭露技術盲點與法律陷阱。</p>
-                <p class="text-slate-500 text-sm sm:text-base max-w-2xl mx-auto lang-en">Deep review of AEIAR-268/2025 & EP-673/2025, revealing technical blind spots and legal traps.</p>
-            </div>
-
-            <div class="glass-card rounded-3xl p-8 sm:p-10 relative overflow-hidden">
-                <div class="absolute -top-20 -right-20 w-64 h-64 bg-indigo-100 rounded-full blur-3xl opacity-50 z-0"></div>
+            <!-- 多維度控制列 -->
+            <div class="flex flex-col gap-2 bg-black/30 rounded-xl p-3 border border-white/10 w-full xl:w-fit">
                 
-                <div class="relative z-10 space-y-6">
-                    <p class="text-lg leading-relaxed text-slate-700 lang-zh">作為啟德發展區環境法規與結構聲學資深顧問，本人深度研閱了「啟德智慧綠色集體運輸系統」(KTGTS) 之環境影響評估報告（AEIAR-268/2025）及其獲發之環境許可證（EP-673/2025）。雖然項目表面合規，但對於沐泰街兩側屋苑——<strong>Henley Park (HP) 與 The Henley (TH)</strong> 的業主而言，現有文件隱含多項足以摧毀居住品質的「技術盲點」與「法律陷阱」。</p>
-                    <p class="text-lg leading-relaxed text-slate-700 lang-en">As a senior environmental and structural acoustics consultant for the Kai Tak Development, I have deeply analyzed the KTGTS EIA Report (AEIAR-268/2025) and its Environmental Permit (EP-673/2025). While superficially compliant, the documents conceal "technical blind spots" and "legal traps" that could devastate the living quality for residents of <strong>Henley Park and The Henley</strong> on Muk Tai Street.</p>
-
-                    <p class="text-slate-600 leading-relaxed lang-zh">本指南旨在拆解環評中的局限，並基於 DfMA（製造及裝配設計）與現代聲學標準，為業主提供向政府爭取補償與優化的專業技術訴求。</p>
-                    <p class="text-slate-600 leading-relaxed lang-en">This guide aims to dismantle the limitations in the EIA and provide residents with professional technical demands to negotiate with the government, based on DfMA and modern acoustic standards.</p>
-
-                    <div class="pt-4 pb-2">
-                        <a href="https://www.epd.gov.hk/eia/en/alpha/aspd.php?id=915" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-3 px-6 py-3 bg-white hover:bg-slate-50 text-indigo-700 rounded-xl text-sm font-bold transition-all shadow-sm border border-slate-200 hover:border-indigo-300 hover:shadow-md">
-                            <i class="fa-solid fa-file-pdf text-red-500 text-lg"></i>
-                            <span class="lang-zh">查閱官方 EIA 環評報告 (EPD 網站)</span>
-                            <span class="lang-en">View Official EIA Report (EPD Website)</span>
-                            <i class="fa-solid fa-arrow-right text-indigo-400 group-hover:translate-x-1 transition-transform"></i>
-                        </a>
-                    </div>
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-[11px] text-slate-400 w-10">系統:</span>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="simTrain" value="skyshuttle" class="peer sr-only" checked="" onchange="setSimCondition('trainType', 'skyshuttle')">
+                        <div class="px-3 py-1 rounded-md peer-checked:bg-teal-500/20 peer-checked:text-teal-400 text-slate-400 text-xs font-medium transition-colors border border-transparent peer-checked:border-teal-500/30">🚋 雲巴</div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="simTrain" value="art" class="peer sr-only" onchange="setSimCondition('trainType', 'art')">
+                        <div class="px-3 py-1 rounded-md peer-checked:bg-rose-500/20 peer-checked:text-rose-400 text-slate-400 text-xs font-medium transition-colors border border-transparent peer-checked:border-rose-500/30">🚌 智軌</div>
+                    </label>
                 </div>
-            </div>
-
-            <div class="grid gap-6 mt-8">
-                <div class="bg-amber-50/80 backdrop-blur-sm border border-amber-200 p-6 sm:p-8 rounded-3xl relative overflow-hidden hover-card">
-                    <div class="absolute top-0 right-0 p-6 opacity-10">
-                        <i class="fa-solid fa-scale-unbalanced text-8xl text-amber-900"></i>
-                    </div>
-                    <div class="relative z-10">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span class="flex items-center justify-center w-10 h-10 rounded-full bg-amber-100 text-amber-600 font-bold text-xl"><i class="fa-solid fa-triangle-exclamation"></i></span>
-                            <h3 class="text-xl font-bold text-amber-900 lang-zh">法律防線：環境許可證 (EP) 的陷阱</h3>
-                            <h3 class="text-xl font-bold text-amber-900 lang-en">Legal Defense: The EP Trap</h3>
-                        </div>
-                        <p class="text-amber-800 leading-relaxed mb-4 lang-zh">《環境影響評估條例》雖具約束力，但 EP-673/2025 條款存在顯著的<strong>「延後處理」</strong>策略。許可證中多項關於噪音與視覺的實質保障措施，被歸類為「工程展開前才提交」的計劃。這在法律執行上形同<strong>「空白支票」</strong>：</p>
-                        <p class="text-amber-800 leading-relaxed mb-4 lang-en">While the EIA Ordinance is binding, EP-673/2025 heavily relies on <strong>"deferred processing"</strong>. Many crucial noise and visual safeguards are relegated to "submit before commencement" plans. This acts as a <strong>"blank cheque"</strong>:</p>
-                        
-                        <ul class="space-y-3 text-sm text-amber-900/90 list-none">
-                            <li class="flex items-start gap-2">
-                                <i class="fa-solid fa-xmark text-red-500 mt-1"></i>
-                                <span class="lang-zh"><strong>施工噪音管理計劃 (CNMP)：</strong> 僅需在動工前2個月提交。居民現階段無法預覽具體機械組合與減噪罩佈置。</span>
-                                <span class="lang-en"><strong>CNMP:</strong> Submitted only 2 months prior. Residents cannot preview machinery or noise enclosure layouts now.</span>
-                            </li>
-                            <li class="flex items-start gap-2">
-                                <i class="fa-solid fa-xmark text-red-500 mt-1"></i>
-                                <span class="lang-zh"><strong>視覺緩解計劃 (VMP)：</strong> 高架橋與車站美化亦延後提交。缺乏公眾參與，極易造成視覺衝擊「米已成炊」。</span>
-                                <span class="lang-en"><strong>VMP:</strong> Visual mitigation is delayed. Lack of public participation risks irreversible visual impacts.</span>
-                            </li>
-                        </ul>
-                    </div>
+                
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-[11px] text-slate-400 w-10">車速:</span>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="simSpeed" value="low" class="peer sr-only" checked="" onchange="setSimCondition('speed', 'low')">
+                        <div class="px-3 py-1 rounded-md peer-checked:bg-white/20 peer-checked:text-white text-slate-400 text-xs font-medium transition-colors border border-transparent peer-checked:border-white/20">35 km/h (彎道)</div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="simSpeed" value="high" class="peer sr-only" onchange="setSimCondition('speed', 'high')">
+                        <div class="px-3 py-1 rounded-md peer-checked:bg-white/20 peer-checked:text-white text-slate-400 text-xs font-medium transition-colors border border-transparent peer-checked:border-white/20">60 km/h (直路)</div>
+                    </label>
                 </div>
+
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="text-[11px] text-slate-400 w-10">場景:</span>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="simTime" value="day" class="peer sr-only" checked="" onchange="setSimCondition('time', 'day')">
+                        <div class="px-3 py-1 rounded-md peer-checked:bg-amber-500/30 peer-checked:text-amber-300 text-slate-400 text-xs font-medium transition-colors border border-transparent peer-checked:border-amber-500/30">☀️ 日間 (門檻50dB)</div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="simTime" value="night" class="peer sr-only" onchange="setSimCondition('time', 'night')">
+                        <div class="px-3 py-1 rounded-md peer-checked:bg-indigo-500/30 peer-checked:text-indigo-300 text-slate-400 text-xs font-medium transition-colors border border-transparent peer-checked:border-indigo-500/30">🌙 夜間 (WHO 42dB)</div>
+                    </label>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2 mt-1 pt-2 border-t border-white/10">
+                    <span class="text-[11px] text-slate-400 w-10">環境:</span>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="simBgNoise" value="off" class="peer sr-only" checked="" onchange="setSimCondition('includeBgNoise', false)">
+                        <div class="px-3 py-1 rounded-md peer-checked:bg-slate-500/40 peer-checked:text-white text-slate-400 text-xs font-medium transition-colors border border-transparent peer-checked:border-slate-500/50">🔇 關閉底噪</div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="simBgNoise" value="on" class="peer sr-only" onchange="setSimCondition('includeBgNoise', true)">
+                        <div class="px-3 py-1 rounded-md peer-checked:bg-emerald-500/30 peer-checked:text-emerald-300 text-slate-400 text-xs font-medium transition-colors border border-transparent peer-checked:border-emerald-500/30">🌳 疊加環境音 (日55/夜45dB)</div>
+                    </label>
+                </div>
+
             </div>
         </div>
 
-        <!-- ================= TAB: NOISE ANALYSIS ================= -->
-        <div id="tab-noise" class="tab-content max-w-5xl mx-auto space-y-8 pb-10">
-            <div class="text-center space-y-4 mb-8 pt-4">
-                <span class="inline-block py-1 px-3 border border-slate-300 text-slate-600 text-xs font-bold tracking-wider uppercase mb-2">Acoustics Analysis</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight lang-zh">營運噪音深度對比：SkyShuttle vs ART</h2>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight lang-en">Operational Noise: SkyShuttle vs ART</h2>
-                <p class="text-slate-600 max-w-2xl mx-auto lang-zh">基於環評技術附錄 (App 4.3 & 11.2) 之真實預測數據拆解</p>
-                <p class="text-slate-600 max-w-2xl mx-auto lang-en">Based on raw data from EIA Technical Appendices (App 4.3 & 11.2)</p>
-            </div>
+        <!-- 獨立數據面板 (四大居民點) -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
             
-            <!-- SECTION 1: SOURCE NOISE -->
-            <div class="bg-white p-6 sm:p-8 border border-slate-200 shadow-sm mb-6 relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-1 h-full bg-slate-800"></div>
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 bg-slate-100 text-slate-700 flex items-center justify-center text-lg"><i class="fa-solid fa-tower-broadcast"></i></div>
-                    <div>
-                        <h3 class="font-bold text-xl text-slate-900 lang-zh">一、源頭噪音強度對比 (7.5米標準距離)</h3>
-                        <h3 class="font-bold text-xl text-slate-900 lang-en">1. Source Noise Intensity (at 7.5m Reference Distance)</h3>
+            <!-- TH-01 -->
+            <div class="glass-button p-3 rounded-xl border-indigo-500/30 flex flex-col relative overflow-hidden">
+                <div class="absolute inset-0 bg-indigo-500/5 z-0"></div>
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="text-indigo-300 font-bold text-sm">TH-01</div>
+                        <div class="text-right text-[11px]"><span class="text-slate-400">距離: </span><span class="font-mono font-bold text-slate-100"><span id="panel-dist-th01">36.0</span>m</span></div>
                     </div>
-                </div>
-
-                <div class="space-y-8">
-                    <!-- 35 km/h Comparison -->
-                    <div>
-                        <div class="flex justify-between text-sm font-bold text-slate-500 mb-3 border-b border-slate-100 pb-2">
-                            <span class="lang-zh"><i class="fa-solid fa-gauge-low mr-2"></i>低速行駛段 (35 km/h) - 彎道與靠站前</span>
-                            <span class="lang-en"><i class="fa-solid fa-gauge-low mr-2"></i>Low Speed (35 km/h) - Curves & Approaching</span>
-                            <span class="text-red-600 lang-zh">⚠️ 差距: 7.1 dB(A)</span>
-                            <span class="text-red-600 lang-en">⚠️ Diff: 7.1 dB(A)</span>
-                        </div>
-                        <div class="space-y-4 mt-4">
-                            <div class="flex items-center gap-4">
-                                <div class="w-32 text-sm font-bold text-slate-700 flex items-center gap-2">SkyShuttle <i class="fa-solid fa-train-tram text-blue-600"></i></div>
-                                <div class="flex-1 bg-slate-100 h-6 relative overflow-hidden">
-                                    <div class="bg-blue-600 h-full flex items-center justify-end px-3 text-white text-xs font-bold" style="width: 64.5%;">64.5 dB(A)</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <div class="w-32 text-sm font-bold text-slate-700 flex items-center gap-2">ART <i class="fa-solid fa-bus text-red-600"></i></div>
-                                <div class="flex-1 bg-slate-100 h-6 relative overflow-hidden">
-                                    <div class="bg-red-500 h-full flex items-center justify-end px-3 text-white text-xs font-bold" style="width: 71.6%;">71.6 dB(A)</div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="flex items-center justify-between bg-black/30 p-2 rounded-lg border border-white/5 mb-2 shadow-inner">
+                        <span class="text-[10px] text-slate-400">Leq 預估</span>
+                        <div class="font-mono font-bold text-lg"><span id="panel-db-th01" class="transition-colors duration-100 text-emerald-500">33.9</span><span class="text-[10px] text-slate-500 font-sans"> dB</span></div>
                     </div>
-
-                    <!-- 60 km/h Comparison -->
-                    <div>
-                        <div class="flex justify-between text-sm font-bold text-slate-500 mb-3 border-b border-slate-100 pb-2">
-                            <span class="lang-zh"><i class="fa-solid fa-gauge-high mr-2"></i>最高時速段 (60 km/h) - 正常行車</span>
-                            <span class="lang-en"><i class="fa-solid fa-gauge-high mr-2"></i>Max Speed (60 km/h) - Normal Cruising</span>
-                            <span class="text-red-600 font-bold lang-zh">⚠️ 差距: 8.8 dB(A)</span>
-                            <span class="text-red-600 font-bold lang-en">⚠️ Diff: 8.8 dB(A)</span>
+                    <div class="w-full">
+                        <div class="flex justify-between text-[10px] text-slate-400 mb-1">
+                            <span>樓層 Z 高度</span><span class="font-bold text-slate-200"><span id="panel-z-th01">15</span> m</span>
                         </div>
-                        <div class="space-y-4 mt-4">
-                            <div class="flex items-center gap-4">
-                                <div class="w-32 text-sm font-bold text-slate-700 flex items-center gap-2">SkyShuttle <i class="fa-solid fa-train-tram text-blue-600"></i></div>
-                                <div class="flex-1 bg-slate-100 h-6 relative overflow-hidden">
-                                    <div class="bg-blue-600 h-full flex items-center justify-end px-3 text-white text-xs font-bold" style="width: 69.2%;">69.2 dB(A)</div>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <div class="w-32 text-sm font-bold text-slate-700 flex items-center gap-2">ART <i class="fa-solid fa-bus text-red-600"></i></div>
-                                <div class="flex-1 bg-slate-100 h-6 relative overflow-hidden">
-                                    <div class="bg-red-600 h-full flex items-center justify-end px-3 text-white text-xs font-bold" style="width: 78.0%;">78.0 dB(A)</div>
-                                </div>
-                            </div>
-                        </div>
+                        <input type="range" id="slider-z-th01" min="0" max="150" value="15" oninput="updateHeight('th01', this.value)">
                     </div>
                 </div>
             </div>
 
-            <!-- SECTION 2: NSR IMPACT -->
-            <div class="bg-white p-6 sm:p-8 border border-slate-200 shadow-sm mb-6 relative overflow-hidden">
-                <div class="absolute top-0 left-0 w-1 h-full bg-slate-800"></div>
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-slate-100 text-slate-700 flex items-center justify-center text-lg"><i class="fa-solid fa-building"></i></div>
-                        <div>
-                            <h3 class="font-bold text-xl text-slate-900 lang-zh">二、住宅接收點 (NSR) 實測預估</h3>
-                            <h3 class="font-bold text-xl text-slate-900 lang-en">2. NSR Predicted Impact</h3>
+            <!-- TH-02 -->
+            <div class="glass-button p-3 rounded-xl border-blue-500/30 flex flex-col relative overflow-hidden">
+                <div class="absolute inset-0 bg-blue-500/5 z-0"></div>
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="text-blue-300 font-bold text-sm">TH-02</div>
+                        <div class="text-right text-[11px]"><span class="text-slate-400">距離: </span><span class="font-mono font-bold text-slate-100"><span id="panel-dist-th02">53.9</span>m</span></div>
+                    </div>
+                    <div class="flex items-center justify-between bg-black/30 p-2 rounded-lg border border-white/5 mb-2 shadow-inner">
+                        <span class="text-[10px] text-slate-400">Leq 預估</span>
+                        <div class="font-mono font-bold text-lg"><span id="panel-db-th02" class="transition-colors duration-100 text-emerald-500">30.4</span><span class="text-[10px] text-slate-500 font-sans"> dB</span></div>
+                    </div>
+                    <div class="w-full">
+                        <div class="flex justify-between text-[10px] text-slate-400 mb-1">
+                            <span>樓層 Z 高度</span><span class="font-bold text-slate-200"><span id="panel-z-th02">15</span> m</span>
                         </div>
-                    </div>
-                    <span class="inline-block py-1 px-3 bg-red-50 text-red-700 border border-red-200 text-xs font-bold lang-zh">15 米貼臉距離下的真實體感</span>
-                    <span class="inline-block py-1 px-3 bg-red-50 text-red-700 border border-red-200 text-xs font-bold lang-en">True sensation at 15m proximity</span>
-                </div>
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- The Henley -->
-                    <div class="border border-slate-200 p-5 bg-slate-50">
-                        <h4 class="font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200 flex justify-between">
-                            <span>📍 The Henley (TH-02)</span>
-                            <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1">Gap: 7-9 dB(A)</span>
-                        </h4>
-                        <table class="w-full text-sm text-left">
-                            <thead>
-                                <tr class="text-slate-500 border-b border-slate-200">
-                                    <th class="pb-2 font-medium">System</th>
-                                    <th class="pb-2 font-medium"><i class="fa-solid fa-sun text-yellow-500 mr-1"></i> Day</th>
-                                    <th class="pb-2 font-medium"><i class="fa-solid fa-moon text-indigo-400 mr-1"></i> Night</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100">
-                                <tr>
-                                    <td class="py-3 font-bold text-blue-700">SkyShuttle</td>
-                                    <td class="py-3 text-slate-700">41 - 46</td>
-                                    <td class="py-3 text-slate-700">35 - 40</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 font-bold text-red-600">ART</td>
-                                    <td class="py-3 font-bold text-red-600">48 - 55</td>
-                                    <td class="py-3 font-bold text-red-600">42 - 49</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Henley Park -->
-                    <div class="border border-slate-200 p-5 bg-slate-50">
-                        <h4 class="font-bold text-slate-800 mb-4 pb-2 border-b border-slate-200 flex justify-between">
-                            <span>📍 Henley Park (HP-01/02)</span>
-                            <span class="text-xs bg-slate-200 text-slate-600 px-2 py-1">Gap: 7-9 dB(A)</span>
-                        </h4>
-                        <table class="w-full text-sm text-left">
-                            <thead>
-                                <tr class="text-slate-500 border-b border-slate-200">
-                                    <th class="pb-2 font-medium">System</th>
-                                    <th class="pb-2 font-medium"><i class="fa-solid fa-sun text-yellow-500 mr-1"></i> Day</th>
-                                    <th class="pb-2 font-medium"><i class="fa-solid fa-moon text-indigo-400 mr-1"></i> Night</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100">
-                                <tr>
-                                    <td class="py-3 font-bold text-blue-700">SkyShuttle</td>
-                                    <td class="py-3 text-slate-700">41 - 44</td>
-                                    <td class="py-3 text-slate-700">35 - 38</td>
-                                </tr>
-                                <tr>
-                                    <td class="py-3 font-bold text-red-600">ART</td>
-                                    <td class="py-3 font-bold text-red-600">48 - 52</td>
-                                    <td class="py-3 font-bold text-red-600">42 - 47</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <input type="range" id="slider-z-th02" min="0" max="150" value="15" oninput="updateHeight('th02', this.value)">
                     </div>
                 </div>
             </div>
 
-            <!-- SECTION 3: THE ACOUSTIC TRUTH -->
-            <div class="bg-slate-900 p-6 sm:p-8 shadow-sm mb-6 relative overflow-hidden text-white">
-                <div class="absolute -right-10 -top-10 opacity-10 transform rotate-12">
-                    <i class="fa-solid fa-wave-square text-9xl"></i>
+            <!-- HP-01 -->
+            <div class="glass-button p-3 rounded-xl border-rose-500/30 flex flex-col relative overflow-hidden">
+                <div class="absolute inset-0 bg-rose-500/5 z-0"></div>
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="text-rose-300 font-bold text-sm">HP-01</div>
+                        <div class="text-right text-[11px]"><span class="text-slate-400">距離: </span><span class="font-mono font-bold text-slate-100"><span id="panel-dist-hp01">122.8</span>m</span></div>
+                    </div>
+                    <div class="flex items-center justify-between bg-black/30 p-2 rounded-lg border border-white/5 mb-2 shadow-inner">
+                        <span class="text-[10px] text-slate-400">Leq 預估</span>
+                        <div class="font-mono font-bold text-lg"><span id="panel-db-hp01" class="transition-colors duration-100 text-emerald-500">23.2</span><span class="text-[10px] text-slate-500 font-sans"> dB</span></div>
+                    </div>
+                    <div class="w-full">
+                        <div class="flex justify-between text-[10px] text-slate-400 mb-1">
+                            <span>樓層 Z 高度</span><span class="font-bold text-slate-200"><span id="panel-z-hp01">15</span> m</span>
+                        </div>
+                        <input type="range" id="slider-z-hp01" min="0" max="150" value="15" oninput="updateHeight('hp01', this.value)">
+                    </div>
                 </div>
+            </div>
+
+            <!-- HP-02 -->
+            <div class="glass-button p-3 rounded-xl border-pink-500/30 flex flex-col relative overflow-hidden">
+                <div class="absolute inset-0 bg-pink-500/5 z-0"></div>
+                <div class="relative z-10">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="text-pink-300 font-bold text-sm">HP-02</div>
+                        <div class="text-right text-[11px]"><span class="text-slate-400">距離: </span><span class="font-mono font-bold text-slate-100"><span id="panel-dist-hp02">177.4</span>m</span></div>
+                    </div>
+                    <div class="flex items-center justify-between bg-black/30 p-2 rounded-lg border border-white/5 mb-2 shadow-inner">
+                        <span class="text-[10px] text-slate-400">Leq 預估</span>
+                        <div class="font-mono font-bold text-lg"><span id="panel-db-hp02" class="transition-colors duration-100 text-emerald-500">20.0</span><span class="text-[10px] text-slate-500 font-sans"> dB</span></div>
+                    </div>
+                    <div class="w-full">
+                        <div class="flex justify-between text-[10px] text-slate-400 mb-1">
+                            <span>樓層 Z 高度</span><span class="font-bold text-slate-200"><span id="panel-z-hp02">15</span> m</span>
+                        </div>
+                        <input type="range" id="slider-z-hp02" min="0" max="150" value="15" oninput="updateHeight('hp02', this.value)">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 提示訊息 -->
+        <div class="mb-3 bg-black/20 text-slate-300 text-[11px] sm:text-xs px-4 py-2 rounded-lg border border-white/10 flex items-start sm:items-center gap-2">
+            <span class="text-lg">💡</span>
+            <p><strong>精確的 35 米空間比例尺：</strong> 重新校準了像素與現實距離的比例。當 TH-01 和 TH-02 放置於大廈前緣時，與路軌的垂直距離已精準顯示為 35m。拖曳可觀察以點源模型計算出的物理衰減變化。<strong>(新) 可開啟環境底噪，測試列車聲音是否完全融入背景環境中。</strong></p>
+        </div>
+
+        <!-- 模擬器畫布 -->
+        <div id="sim-container" class="w-full relative touch-none select-none flex flex-col justify-center rounded-xl border border-white/10 overflow-hidden transition-all duration-500">
+            <!-- 動態背景層 (日夜切換) -->
+            <div id="sim-bg-layer" class="absolute inset-0 bg-[#0f172a] transition-colors duration-500 z-0"></div>
+
+            <!-- 全螢幕按鈕 -->
+            <button onclick="toggleFullScreen()" class="absolute top-4 right-4 z-50 glass-button text-white px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg hover:bg-white/20 shadow-lg flex items-center gap-2 text-xs sm:text-sm transition-all font-medium">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                <span id="fullscreen-text">全螢幕</span>
+            </button>
+
+            <svg id="sim-canvas" viewBox="0 0 850 800" class="w-full h-auto max-h-[60vh] sm:max-h-[70vh] relative z-10">
+                <defs>
+                    <radialGradient id="soundGradient" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="var(--sound-color, #14b8a6)" stop-opacity="0.6"></stop>
+                        <stop offset="40%" stop-color="var(--sound-color, #14b8a6)" stop-opacity="0.2"></stop>
+                        <stop offset="100%" stop-color="var(--sound-color, #14b8a6)" stop-opacity="0"></stop>
+                    </radialGradient>
+                    <filter id="glow">
+                        <feGaussianBlur stdDeviation="2" result="coloredBlur"></feGaussianBlur>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"></feMergeNode>
+                            <feMergeNode in="SourceGraphic"></feMergeNode>
+                        </feMerge>
+                    </filter>
+                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                        <path id="grid-path" d="M 40 0 L 0 0 0 40" fill="none" stroke="#1e293b" stroke-width="1" class="transition-colors duration-500"></path>
+                    </pattern>
+                </defs>
+
+                <!-- 網格背景 -->
+                <rect width="100%" height="100%" fill="url(#grid)"></rect>
+
+                <!-- 地圖建築區塊 (與軌道平行旋轉 63.43 度) -->
+                <!-- TH 建築 (Blue) -->
+                <g transform="translate(305.5, 96) rotate(63.43)">
+                    <rect x="-50" y="0" width="100" height="60" fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6,4"></rect>
+                    <!-- 表示邊緣的線 (已根據預設點移至面對路軌側) -->
+                    <line x1="-50" y1="60" x2="50" y2="60" stroke="#60a5fa" stroke-width="3"></line>
+                </g>
+                <g transform="translate(373.2, 214.4) rotate(63.43)">
+                    <rect x="-50" y="0" width="100" height="60" fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" stroke-width="2" stroke-dasharray="6,4"></rect>
+                    <line x1="-50" y1="60" x2="50" y2="60" stroke="#60a5fa" stroke-width="3"></line>
+                </g>
+                <!-- HP 建築 (Red) -->
+                <g transform="translate(553, 325.8) rotate(63.43)">
+                    <rect x="-60" y="0" width="120" height="70" fill="rgba(244, 63, 94, 0.15)" stroke="#f43f5e" stroke-width="2" stroke-dasharray="6,4"></rect>
+                    <line x1="-60" y1="70" x2="60" y2="70" stroke="#fb7185" stroke-width="3"></line>
+                </g>
+                <g transform="translate(640.7, 484) rotate(63.43)">
+                    <rect x="-60" y="0" width="120" height="70" fill="rgba(244, 63, 94, 0.15)" stroke="#f43f5e" stroke-width="2" stroke-dasharray="6,4"></rect>
+                    <line x1="-60" y1="70" x2="60" y2="70" stroke="#fb7185" stroke-width="3"></line>
+                </g>
+
+                <!-- 巨大文字標示 -->
+                <text x="350" y="80" fill="rgba(99, 102, 241, 0.4)" font-size="44" font-weight="bold">TH-01</text>
+                <text x="420" y="200" fill="rgba(99, 102, 241, 0.4)" font-size="44" font-weight="bold">TH-02</text>
+                <text x="600" y="310" fill="rgba(244, 63, 94, 0.4)" font-size="44" font-weight="bold">HP-01</text>
+                <text x="690" y="470" fill="rgba(244, 63, 94, 0.4)" font-size="44" font-weight="bold">HP-02</text>
+
+                <!-- 軌道雙紅線 -->
+                <line x1="96" y1="52" x2="446" y2="752" stroke="#ef4444" stroke-width="2.5"></line>
+                <line x1="104" y1="48" x2="454" y2="748" stroke="#ef4444" stroke-width="2.5"></line>
+                <g fill="#475569" stroke="#334155">
+                    <circle cx="100" cy="50" r="4"></circle>
+                    <circle cx="170" cy="190" r="4"></circle>
+                    <circle cx="240" cy="330" r="4"></circle>
+                    <circle cx="310" cy="470" r="4"></circle>
+                    <circle cx="380" cy="610" r="4"></circle>
+                    <circle cx="450" cy="750" r="4"></circle>
+                </g>
+
+                <!-- 動態距離連線群組 -->
+                <g stroke="#94a3b8" stroke-width="2" stroke-dasharray="5,5">
+                    <line id="dyn-line-th01" x1="170" y1="190" x2="252" y2="123"></line>
+                    <line id="dyn-line-th02" x1="170" y1="190" x2="320" y2="241"></line>
+                    <line id="dyn-line-hp01" x1="170" y1="190" x2="490" y2="357"></line>
+                    <line id="dyn-line-hp02" x1="170" y1="190" x2="578" y2="515"></line>
+                </g>
                 
-                <h3 class="font-bold text-2xl mb-2 relative z-10 lang-zh">三、數據背後的聲學真相</h3>
-                <h3 class="font-bold text-2xl mb-2 relative z-10 lang-en">3. The Acoustic Truth Behind the Data</h3>
-                <p class="text-slate-400 mb-8 max-w-3xl relative z-10 lang-zh">為什麼 7.1 到 9 分貝的差距是「致命」的？許多市民可能覺得「7分貝而已差不多吧？」但在物理學與聲學工程上，這是極度可怕的差距：</p>
-                <p class="text-slate-400 mb-8 max-w-3xl relative z-10 lang-en">Why is a 7.1 to 9 dB gap considered "lethal"? It may seem small to laymen, but in acoustic engineering, it represents a massive disparity:</p>
-
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
-                    <!-- Truth 1 -->
-                    <div class="bg-slate-800/80 border border-slate-700 p-6 flex flex-col items-start hover:bg-slate-800 transition-colors">
-                        <div class="w-12 h-12 bg-red-900/50 text-red-400 flex items-center justify-center text-xl mb-4 border border-red-800/50">
-                            <i class="fa-solid fa-bolt"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-3 lang-zh">聲能釋放翻倍</h4>
-                        <h4 class="font-bold text-lg mb-3 lang-en">Acoustic Energy Multiplication</h4>
-                        <p class="text-slate-300 text-sm leading-relaxed mb-3 lang-zh">聲音分貝使用的是對數標度。物理學上，每增加 3 dB(A)，聲波能量就會「翻一倍」。</p>
-                        <p class="text-red-400 text-sm font-bold leading-relaxed lang-zh">7.1 dB(A) 代表 ART 釋放的物理聲能是 SkyShuttle 的「5 倍多」！而 9 dB(A) 差距代表了近 8 倍的聲能釋放！</p>
-                        
-                        <p class="text-slate-300 text-sm leading-relaxed mb-3 lang-en">Decibels use a logarithmic scale. Physically, every +3 dB(A) means the acoustic energy doubles.</p>
-                        <p class="text-red-400 text-sm font-bold leading-relaxed lang-en">A 7.1 dB(A) gap means ART releases 5x more energy than SkyShuttle! A 9 dB(A) gap is nearly 8x the energy!</p>
-                    </div>
-
-                    <!-- Truth 2 -->
-                    <div class="bg-slate-800/80 border border-slate-700 p-6 flex flex-col items-start hover:bg-slate-800 transition-colors">
-                        <div class="w-12 h-12 bg-orange-900/50 text-orange-400 flex items-center justify-center text-xl mb-4 border border-orange-800/50">
-                            <i class="fa-solid fa-ear-listen"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-3 lang-zh">人耳體感噪音「翻倍」</h4>
-                        <h4 class="font-bold text-lg mb-3 lang-en">Double Subjective Loudness</h4>
-                        <p class="text-slate-300 text-sm leading-relaxed mb-3 lang-zh">根據生理聲學研究，當分貝值增加 10 dB(A) 時，人類大腦主觀感受到的噪聲音量會「增加一倍」。</p>
-                        <p class="text-orange-400 text-sm font-bold leading-relaxed lang-zh">兩者相差高達 7~9 分貝，在我們單位的臥室裡聽起來，智軌 (ART) 開過去的吵雜度幾乎是雲巴的兩倍！</p>
-
-                        <p class="text-slate-300 text-sm leading-relaxed mb-3 lang-en">Psychoacoustics show that a +10 dB(A) increase is perceived by the human brain as a doubling of loudness.</p>
-                        <p class="text-orange-400 text-sm font-bold leading-relaxed lang-en">With a 7-9 dB difference, ART will sound almost twice as loud as SkyShuttle from our bedrooms!</p>
-                    </div>
-
-                    <!-- Truth 3 -->
-                    <div class="bg-slate-800/80 border border-slate-700 p-6 flex flex-col items-start hover:bg-slate-800 transition-colors">
-                        <div class="w-12 h-12 bg-blue-900/50 text-blue-400 flex items-center justify-center text-xl mb-4 border border-blue-800/50">
-                            <i class="fa-solid fa-moon"></i>
-                        </div>
-                        <h4 class="font-bold text-lg mb-3 lang-zh">夜間安寧 55 dB 法定防線</h4>
-                        <h4 class="font-bold text-lg mb-3 lang-en">55 dB Nighttime Defense Line</h4>
-                        <p class="text-slate-300 text-sm leading-relaxed mb-3 lang-zh">智軌 (ART) 夜間最高達 49 dB(A)，逼近 55 dB 的法定上限。未來設備稍有老化，極易衝破標準摧毀睡眠。</p>
-                        <p class="text-blue-400 text-sm font-bold leading-relaxed lang-zh">相反，雲巴 (SkyShuttle) 夜間預測最高僅 40 dB(A)，為居住品質保留了極為安全且寬裕的緩衝空間 (Safety Margin)。</p>
-
-                        <p class="text-slate-300 text-sm leading-relaxed mb-3 lang-en">ART reaches 49 dB(A) at night, dangerously close to the 55 dB limit. Slight equipment aging will breach this limit.</p>
-                        <p class="text-blue-400 text-sm font-bold leading-relaxed lang-en">Conversely, SkyShuttle peaks at only 40 dB(A) at night, leaving a massive and secure safety margin for residents.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Existing Piling/Drumming cards... -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-gradient-to-br from-white to-blue-50 p-6 sm:p-8 rounded-3xl border border-blue-100 shadow-sm hover-card">
-                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-xl mb-4 shadow-inner"><i class="fa-solid fa-hammer"></i></div>
-                    <h3 class="font-bold text-xl text-slate-800 mb-3 lang-zh">方案差異與打樁噪音</h3>
-                    <h3 class="font-bold text-xl text-slate-800 mb-3 lang-en">Piling Noise Impacts</h3>
-                    <p class="text-slate-600 leading-relaxed lang-zh">若強行在沐泰街採用類似 Scheme A 的近距離打樁，15 米的物理距離將完全無法阻擋強烈的結構傳導噪音侵入低層單位。方案 B (利用空中花園基礎) 更能減少噪音。</p>
-                    <p class="text-slate-600 leading-relaxed lang-en">If close-proximity piling is forced on Muk Tai St, the 15m distance will fail to block severe structure-borne noise. Scheme B (using Sky Garden foundation) is vastly superior.</p>
-                </div>
-                <div class="bg-gradient-to-br from-white to-red-50 p-6 sm:p-8 rounded-3xl border border-red-100 shadow-sm hover-card">
-                    <div class="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center text-xl mb-4 shadow-inner"><i class="fa-solid fa-house-crack"></i></div>
-                    <h3 class="font-bold text-xl text-slate-800 mb-3 lang-zh">打鼓效應 (Drumming Effect)</h3>
-                    <h3 class="font-bold text-xl text-slate-800 mb-3 lang-en">Drumming Effect</h3>
-                    <p class="text-slate-600 leading-relaxed lang-zh">若採用純鋼結構橋面，車輪滾動將引發「二次輻射噪音」。長期營運後支座 (Bearing) 老化，更會放大低頻振動，對 15 米外的低層住宅造成持續性低頻干擾。</p>
-                    <p class="text-slate-600 leading-relaxed lang-en">Pure steel viaducts trigger "Secondary Radiation Noise". Aging bearings amplify low-frequency vibrations, causing persistent disturbance to nearby lower floors.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- ================= TAB: HIDDEN RISKS ================= -->
-        <div id="tab-risks" class="tab-content max-w-5xl mx-auto space-y-8 pb-10">
-            <div class="text-center space-y-4 mb-8 pt-4">
-                <span class="inline-block py-1 px-3 rounded-full bg-rose-50 border border-rose-100 text-rose-600 text-xs font-bold tracking-wider uppercase mb-2">Critical Flaws</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight lang-zh">環評技術盲點：<span class="gradient-text">累積環境衝擊</span></h2>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight lang-en">EIA Blind Spots: <span class="gradient-text">Cumulative Impacts</span></h2>
-            </div>
-
-            <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden hover-card">
-                <div class="p-6 sm:p-8 border-b border-slate-100 bg-slate-50/50">
-                    <div class="flex items-start gap-4">
-                        <i class="fa-solid fa-eye-slash text-2xl text-slate-400 mt-1"></i>
-                        <div>
-                            <h3 class="font-bold text-lg text-slate-800 mb-2 lang-zh">選擇性失明：刻意排除鄰近重大項目</h3>
-                            <h3 class="font-bold text-lg text-slate-800 mb-2 lang-en">Selective Blindness: Excluded Major Projects</h3>
-                            <p class="text-slate-600 leading-relaxed lang-zh">環評刻意排除了多個鄰近項目的累積效應，理由竟是「暫無施工時間表」。然而，根據項目工期（2027-2031），沐泰街居民將面臨空前的環境壓力疊加飽和。</p>
-                            <p class="text-slate-600 leading-relaxed lang-en">The EIA deliberately excluded cumulative effects from nearby projects due to "no schedule". Yet, during 2027-2031, residents will face unprecedented compounded stress.</p>
-                        </div>
-                    </div>
-                </div>
+                <!-- 動態距離數值文字群組 -->
+                <g fill="#cbd5e1" font-size="14" font-weight="bold" font-family="mono" text-anchor="middle">
+                    <text id="dyn-text-th01" x="211" y="150.5" class="text-outline">36.0m</text>
+                    <text id="dyn-text-th02" x="245" y="209.5" class="text-outline">53.9m</text>
+                    <text id="dyn-text-hp01" x="330" y="267.5" class="text-outline">122.8m</text>
+                    <text id="dyn-text-hp02" x="374" y="346.5" class="text-outline">177.4m</text>
+                </g>
                 
-                <div class="overflow-x-auto p-4 sm:p-6">
-                    <div class="table-container">
-                        <table class="w-full text-left border-collapse min-w-[700px]">
-                            <thead>
-                                <tr class="bg-slate-50 text-slate-700 font-bold text-sm uppercase tracking-wide border-b border-slate-200">
-                                    <th class="py-4 px-6 lang-zh">被排除的鄰近項目</th>
-                                    <th class="py-4 px-6 lang-en">Excluded Projects</th>
-                                    <th class="py-4 px-6 lang-zh">潛在重疊工期</th>
-                                    <th class="py-4 px-6 lang-en">Overlap Period</th>
-                                    <th class="py-4 px-6 lang-zh">對居民的累積衝擊</th>
-                                    <th class="py-4 px-6 lang-en">Cumulative Impacts</th>
-                                    <th class="py-4 px-6 lang-zh">估計環境負荷增量</th>
-                                    <th class="py-4 px-6 lang-en">Est. Load Increase</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-sm text-slate-600 divide-y divide-slate-100">
-                                <tr class="hover:bg-slate-50 transition-colors">
-                                    <td class="py-4 px-6 font-bold text-slate-800">啟德都會公園 (Metro Park)</td>
-                                    <td class="py-4 px-6 font-medium">2027-2031</td>
-                                    <td class="py-4 px-6 lang-zh">揚塵、重型車輛噪音</td>
-                                    <td class="py-4 px-6 lang-en">Dust, Heavy Vehicle Noise</td>
-                                    <td class="py-4 px-6">
-                                        <span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full bg-rose-100 text-rose-700 font-bold text-xs">
-                                            <i class="fa-solid fa-arrow-trend-up"></i>
-                                            <span class="lang-zh">極高 (>75 dB)</span><span class="lang-en">Very High (>75 dB)</span>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-slate-50 transition-colors">
-                                    <td class="py-4 px-6 font-bold text-slate-800 lang-zh">啟德旅遊節點 (Tourism Node)</td>
-                                    <td class="py-4 px-6 font-bold text-slate-800 lang-en">Kai Tak Tourism Node</td>
-                                    <td class="py-4 px-6 font-medium">2027-2031</td>
-                                    <td class="py-4 px-6 lang-zh">視覺污染、背景雜訊</td>
-                                    <td class="py-4 px-6 lang-en">Visual Pollution, Noise</td>
-                                    <td class="py-4 px-6">
-                                        <span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full bg-orange-100 text-orange-700 font-bold text-xs">
-                                            <i class="fa-solid fa-layer-group"></i>
-                                            <span class="lang-zh">高 (能量疊加)</span><span class="lang-en">High (Energy overlay)</span>
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-slate-50 transition-colors">
-                                    <td class="py-4 px-6 font-bold text-slate-800 lang-zh">觀塘避風塘行人天橋</td>
-                                    <td class="py-4 px-6 font-bold text-slate-800 lang-en">Kwun Tong Typhoon Bridge</td>
-                                    <td class="py-4 px-6 font-medium lang-zh">2028 左右</td>
-                                    <td class="py-4 px-6 font-medium lang-en">~2028</td>
-                                    <td class="py-4 px-6 lang-zh">交通擠塞、局部粉塵</td>
-                                    <td class="py-4 px-6 lang-en">Traffic, Localized Dust</td>
-                                    <td class="py-4 px-6">
-                                        <span class="inline-flex items-center gap-1.5 py-1 px-3 rounded-full bg-amber-100 text-amber-700 font-bold text-xs">
-                                            <i class="fa-solid fa-truck"></i>
-                                            <span class="lang-zh">中 (物流重疊)</span><span class="lang-en">Medium (Logistics)</span>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+                <!-- 動態噪音波紋 -->
+                <circle id="sim-sound-wave" cx="170" cy="190" r="111.19999999999999" fill="url(#soundGradient)" pointer-events="none" style="--sound-color: #0ea5e9; transition: r 0.1s linear;"></circle>
+
+                <!-- 可拖曳的列車群組 -->
+                <g id="sim-train" transform="translate(170, 190) rotate(63.43494882292201)" class="cursor-grab hover:brightness-110 transition-transform">
+                    <circle id="indicator-train" cx="0" cy="0" r="35" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="6 4" opacity="0">
+                        <animate attributeName="opacity" values="0;1;0" dur="0.5s" repeatCount="indefinite"></animate>
+                        <animate attributeName="r" values="35;45;35" dur="0.5s" repeatCount="indefinite"></animate>
+                    </circle>
+                    <!-- 雲巴模型 -->
+                    <g id="model-skyshuttle">
+                        <rect x="-35" y="-14" width="70" height="28" rx="6" fill="#38bdf8" stroke="#0284c7" stroke-width="2"></rect>
+                        <rect x="-25" y="-9" width="50" height="12" rx="2" fill="#bae6fd" opacity="0.8"></rect>
+                        <circle cx="0" cy="0" r="4" fill="#ef4444" filter="url(#glow)">
+                            <animate attributeName="r" values="3;5;3" dur="1s" repeatCount="indefinite"></animate>
+                        </circle>
+                        <text x="0" y="-20" fill="#38bdf8" font-size="14" font-weight="bold" text-anchor="middle">雲巴</text>
+                    </g>
+
+                    <!-- 智軌模型 -->
+                    <g id="model-art" style="display:none;">
+                        <rect x="-55" y="-14" width="110" height="28" rx="4" fill="#fb7185" stroke="#e11d48" stroke-width="2"></rect>
+                        <line x1="-18" y1="-14" x2="-18" y2="14" stroke="#4c0519" stroke-width="2"></line>
+                        <line x1="18" y1="-14" x2="18" y2="14" stroke="#4c0519" stroke-width="2"></line>
+                        <rect x="-50" y="-9" width="28" height="12" rx="2" fill="#fecdd3" opacity="0.8"></rect>
+                        <rect x="-14" y="-9" width="28" height="12" rx="2" fill="#fecdd3" opacity="0.8"></rect>
+                        <rect x="22" y="-9" width="28" height="12" rx="2" fill="#fecdd3" opacity="0.8"></rect>
+                        <circle cx="0" cy="0" r="4" fill="#ef4444" filter="url(#glow)">
+                            <animate attributeName="r" values="3;6;3" dur="1s" repeatCount="indefinite"></animate>
+                        </circle>
+                        <text x="0" y="-20" fill="#fb7185" font-size="14" font-weight="bold" text-anchor="middle">智軌</text>
+                    </g>
+                </g>
+
+                <!-- 4個可拖曳的感受點 (已精確定位至大廈面向路軌之邊緣) -->
+                <g id="sim-receiver-th01" class="cursor-grab hover:scale-110 group/pt" transform="translate(252, 123)">
+                    <circle id="indicator-th01" cx="0" cy="0" r="22" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="4 4" opacity="0">
+                        <animate attributeName="opacity" values="0;1;0" dur="0.5s" repeatCount="indefinite"></animate>
+                    </circle>
+                    <circle cx="0" cy="0" r="22" fill="rgba(99, 102, 241, 0.15)" stroke="#6366f1" stroke-width="1.5" stroke-dasharray="3 2" class="group-hover/pt:stroke-[#fbbf24]"></circle>
+                    <circle cx="0" cy="0" r="9" fill="#4f46e5"></circle>
+                    <text x="0" y="3" font-size="10" text-anchor="middle">🏠</text>
+                    <g transform="translate(0, 30)">
+                        <rect x="-26" y="-12" width="52" height="34" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"></rect>
+                        <text x="0" y="2" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">TH-01</text>
+                        <text x="0" y="16" id="svg-db-th01" fill="#4ade80" font-size="11" font-weight="bold" font-family="mono" text-anchor="middle">34 dB</text>
+                    </g>
+                </g>
+
+                <g id="sim-receiver-th02" class="cursor-grab hover:scale-110 group/pt" transform="translate(320, 241)">
+                    <circle id="indicator-th02" cx="0" cy="0" r="22" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="4 4" opacity="0">
+                        <animate attributeName="opacity" values="0;1;0" dur="0.5s" repeatCount="indefinite"></animate>
+                    </circle>
+                    <circle cx="0" cy="0" r="22" fill="rgba(59, 130, 246, 0.15)" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="3 2" class="group-hover/pt:stroke-[#fbbf24]"></circle>
+                    <circle cx="0" cy="0" r="9" fill="#2563eb"></circle>
+                    <text x="0" y="3" font-size="10" text-anchor="middle">🏠</text>
+                    <g transform="translate(0, 30)">
+                        <rect x="-26" y="-12" width="52" height="34" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"></rect>
+                        <text x="0" y="2" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">TH-02</text>
+                        <text x="0" y="16" id="svg-db-th02" fill="#4ade80" font-size="11" font-weight="bold" font-family="mono" text-anchor="middle">30 dB</text>
+                    </g>
+                </g>
+
+                <g id="sim-receiver-hp01" class="cursor-grab hover:scale-110 group/pt" transform="translate(490, 357)">
+                    <circle id="indicator-hp01" cx="0" cy="0" r="22" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="4 4" opacity="0">
+                        <animate attributeName="opacity" values="0;1;0" dur="0.5s" repeatCount="indefinite"></animate>
+                    </circle>
+                    <circle cx="0" cy="0" r="22" fill="rgba(244, 63, 94, 0.15)" stroke="#f43f5e" stroke-width="1.5" stroke-dasharray="3 2" class="group-hover/pt:stroke-[#fbbf24]"></circle>
+                    <circle cx="0" cy="0" r="9" fill="#e11d48"></circle>
+                    <text x="0" y="3" font-size="10" text-anchor="middle">🏠</text>
+                    <g transform="translate(0, 30)">
+                        <rect x="-26" y="-12" width="52" height="34" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"></rect>
+                        <text x="0" y="2" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">HP-01</text>
+                        <text x="0" y="16" id="svg-db-hp01" fill="#4ade80" font-size="11" font-weight="bold" font-family="mono" text-anchor="middle">23 dB</text>
+                    </g>
+                </g>
+
+                <g id="sim-receiver-hp02" class="cursor-grab hover:scale-110 group/pt" transform="translate(578, 515)">
+                    <circle id="indicator-hp02" cx="0" cy="0" r="22" fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="4 4" opacity="0">
+                        <animate attributeName="opacity" values="0;1;0" dur="0.5s" repeatCount="indefinite"></animate>
+                    </circle>
+                    <circle cx="0" cy="0" r="22" fill="rgba(236, 72, 153, 0.15)" stroke="#ec4899" stroke-width="1.5" stroke-dasharray="3 2" class="group-hover/pt:stroke-[#fbbf24]"></circle>
+                    <circle cx="0" cy="0" r="9" fill="#db2777"></circle>
+                    <text x="0" y="3" font-size="10" text-anchor="middle">🏠</text>
+                    <g transform="translate(0, 30)">
+                        <rect x="-26" y="-12" width="52" height="34" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"></rect>
+                        <text x="0" y="2" fill="#e2e8f0" font-size="11" font-weight="bold" text-anchor="middle">HP-02</text>
+                        <text x="0" y="16" id="svg-db-hp02" fill="#4ade80" font-size="11" font-weight="bold" font-family="mono" text-anchor="middle">20 dB</text>
+                    </g>
+                </g>
+
+            </svg>
+        </div>
+      </div>
+
+      <!-- 動態實測數值切換模擬儀 -->
+      <div class="glass-panel rounded-3xl p-6 sm:p-8">
+        <h3 class="text-lg font-bold mb-4">預測實況切換 (依照物理衰減公式更新)</h3>
+        
+        <div class="flex flex-wrap gap-2 mb-6">
+          <button onclick="selectNSR('HP01')" id="btn-nsr-hp01" class="px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white transition active:scale-95">HP-01 高座 (距約 72m)</button>
+          <button onclick="selectNSR('HP02')" id="btn-nsr-hp02" class="px-4 py-2 rounded-xl text-xs font-bold glass-button text-slate-300 hover:bg-white/20 transition active:scale-95">HP-02 低座 (距約 75m)</button>
+          <!-- 已精準更新至 35 米 -->
+          <button onclick="selectNSR('TH02')" id="btn-nsr-th02" class="px-4 py-2 rounded-xl text-xs font-bold glass-button text-slate-300 hover:bg-white/20 transition active:scale-95">TH-02 (距約 35m)</button>
         </div>
 
-        <!-- ================= TAB: MITIGATION ================= -->
-        <div id="tab-mitigation" class="tab-content max-w-5xl mx-auto space-y-8 pb-10">
-            <div class="text-center space-y-4 mb-8 pt-4">
-                <span class="inline-block py-1 px-3 rounded-full bg-teal-50 border border-teal-100 text-teal-600 text-xs font-bold tracking-wider uppercase mb-2">Safeguards</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight lang-zh">官方環評<span class="gradient-text-emerald">緩解措施</span></h2>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight lang-en">Official <span class="gradient-text-emerald">Mitigation Measures</span></h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <!-- 雲巴卡片 -->
+          <div class="glass-button rounded-2xl p-5 border border-emerald-500/30 bg-emerald-900/20">
+            <div class="flex justify-between items-center mb-3">
+              <h4 class="font-black text-emerald-400">雲巴 SkyShuttle</h4>
+              <div class="flex items-end gap-1 h-6">
+                <span class="w-1 bg-emerald-500 rounded-full wave-gentle"></span>
+                <span class="w-1 bg-emerald-400 rounded-full wave-gentle" style="animation-delay: 0.2s"></span>
+                <span class="w-1 bg-emerald-500 rounded-full wave-gentle" style="animation-delay: 0.4s"></span>
+              </div>
             </div>
-
-            <!-- Warning Alert Box -->
-            <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 p-6 sm:p-8 rounded-3xl shadow-sm mb-8 relative overflow-hidden hover-card">
-                <div class="absolute -right-10 -top-10 text-amber-500/10 transform rotate-12">
-                    <i class="fa-solid fa-triangle-exclamation text-[200px]"></i>
-                </div>
-                <div class="relative z-10 flex flex-col sm:flex-row gap-6 items-start">
-                    <div class="w-16 h-16 rounded-2xl bg-white shadow-sm flex items-center justify-center flex-shrink-0 text-amber-500 text-3xl">
-                        <i class="fa-solid fa-lightbulb"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-extrabold text-amber-900 mb-3 lang-zh">溫馨提示：警惕「罐頭合規措施」</h3>
-                        <h3 class="text-xl font-extrabold text-amber-900 mb-3 lang-en">Warm Reminder: Beware of "Canned Measures"</h3>
-                        <p class="text-amber-800 leading-relaxed text-sm sm:text-base lang-zh mb-3">
-                            雖然這些措施在環評報告中寫得井井有條，但正如我們之前討論的，這些其實都只是全港通用的<strong>「罐頭合規措施」</strong>，並沒有專門為我們距離地盤僅 15 米的極限「貼臉」環境進行客製化。
-                        </p>
-                        <p class="text-amber-800 leading-relaxed text-sm sm:text-base lang-zh font-bold">
-                            
-                        </p>
-                        <p class="text-amber-800 leading-relaxed text-sm sm:text-base lang-en mb-3">
-                            While these measures look highly organized, they are actually just standard <strong>"canned compliance measures"</strong> used across Hong Kong. They have NOT been customized for our extreme 15m "close-contact" residential environment.
-                        </p>
-                        <p class="text-amber-800 leading-relaxed text-sm sm:text-base lang-en font-bold">
-                            In our joint petition, we must demand upgrades to these standard measures, such as "Smart Aerial Auto-Misting" and "Mandatory 3-Min Power Cutoffs upon Exceedance" to truly protect our daily lives!
-                        </p>
-                    </div>
-                </div>
+            <div class="mb-3">
+              <div class="flex justify-between text-xs mb-1"><span class="text-slate-400">日間預估 (Leq)</span><span id="display-sky-day" class="text-emerald-300 font-bold">28 - 33 dB</span></div>
+              <div class="w-full bg-black/30 rounded-full h-1.5"><div id="bar-sky-day" class="bg-emerald-500 h-1.5 rounded-full sound-bar" style="width: 24%;"></div></div>
             </div>
-
-            <!-- Detailed Mitigation Cards -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-                <!-- Noise -->
-                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm hover-card transition-all">
-                    <div class="flex items-center gap-4 mb-6 pb-4 border-b border-slate-100">
-                        <div class="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl shadow-inner"><i class="fa-solid fa-volume-xmark"></i></div>
-                        <h3 class="font-extrabold text-xl text-slate-800 lang-zh">噪音控制措施</h3>
-                        <h3 class="font-extrabold text-xl text-slate-800 lang-en">Noise Control</h3>
-                    </div>
-                    <ul class="text-slate-600 space-y-4">
-                        <li class="flex items-start gap-3 lang-zh"><i class="fa-solid fa-check text-indigo-500 mt-1"></i><span><strong class="text-slate-800">嚴禁敲擊式打樁：</strong>必須採用「鑽孔灌注樁」或「套管 H 樁」。</span></li>
-                        <li class="flex items-start gap-3 lang-zh"><i class="fa-solid fa-check text-indigo-500 mt-1"></i><span><strong class="text-slate-800">靜音型機械 (QPME)：</strong>全面選用環保署認證的極低噪音工程機械。</span></li>
-                        <li class="flex items-start gap-3 lang-zh"><i class="fa-solid fa-check text-indigo-500 mt-1"></i><span><strong class="text-slate-800">防護防音衣物：</strong>發電機需加裝「隔音罩」；打樁機包裹「隔音布」（各降 10 dB）。</span></li>
-                        <li class="flex items-start gap-3 lang-zh"><i class="fa-solid fa-check text-indigo-500 mt-1"></i><span><strong class="text-slate-800">移動屏障：</strong>放置 2.4米高移動屏障；高空施工需懸臂式蓋頂把聲音彈回馬路中心。</span></li>
-                        
-                        <li class="flex items-start gap-3 lang-en"><i class="fa-solid fa-check text-indigo-500 mt-1"></i><span><strong class="text-slate-800">No Percussive Piling:</strong> Bored piles or socketed H-piles only.</span></li>
-                        <li class="flex items-start gap-3 lang-en"><i class="fa-solid fa-check text-indigo-500 mt-1"></i><span><strong class="text-slate-800">QPME:</strong> Mandatory use of certified quiet machinery.</span></li>
-                        <li class="flex items-start gap-3 lang-en"><i class="fa-solid fa-check text-indigo-500 mt-1"></i><span><strong class="text-slate-800">Insulation:</strong> Enclosures for generators & acoustic fabric for rigs (10 dB reduction).</span></li>
-                        <li class="flex items-start gap-3 lang-en"><i class="fa-solid fa-check text-indigo-500 mt-1"></i><span><strong class="text-slate-800">Barriers:</strong> 2.4m barriers with cantilevered covers to reflect noise.</span></li>
-                    </ul>
-                </div>
-
-                <!-- Air / Dust -->
-                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm hover-card transition-all">
-                    <div class="flex items-center gap-4 mb-6 pb-4 border-b border-slate-100">
-                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-2xl shadow-inner"><i class="fa-solid fa-wind"></i></div>
-                        <h3 class="font-extrabold text-xl text-slate-800 lang-zh">空氣與粉塵控制</h3>
-                        <h3 class="font-extrabold text-xl text-slate-800 lang-en">Air & Dust Control</h3>
-                    </div>
-                    <ul class="text-slate-600 space-y-4">
-                        <li class="flex items-start gap-3 lang-zh"><i class="fa-solid fa-check text-emerald-500 mt-1"></i><span><strong class="text-slate-800">嚴密覆蓋：</strong>泥頭車必須加裝擋板並蓋好防塵布；臨時沙石需三面圍牆並定時灑水。</span></li>
-                        <li class="flex items-start gap-3 lang-zh"><i class="fa-solid fa-check text-emerald-500 mt-1"></i><span><strong class="text-slate-800">洗車與減速：</strong>地盤出口必設洗車輪設施，嚴防泥巴帶出沐泰街。</span></li>
-                        <li class="flex items-start gap-3 lang-zh"><i class="fa-solid fa-check text-emerald-500 mt-1"></i><span><strong class="text-slate-800">限制柴油：</strong>柴油機械限 10 台以下，必須用超低硫柴油，盡量改用電能。</span></li>
-                        
-                        <li class="flex items-start gap-3 lang-en"><i class="fa-solid fa-check text-emerald-500 mt-1"></i><span><strong class="text-slate-800">Strict Covering:</strong> Dump trucks covered. Stockpiles require 3-sided walls & watering.</span></li>
-                        <li class="flex items-start gap-3 lang-en"><i class="fa-solid fa-check text-emerald-500 mt-1"></i><span><strong class="text-slate-800">Wheel Washing:</strong> Mandatory washing at exits to protect Muk Tai St.</span></li>
-                        <li class="flex items-start gap-3 lang-en"><i class="fa-solid fa-check text-emerald-500 mt-1"></i><span><strong class="text-slate-800">Diesel Limits:</strong> Max 10 machines (ultra-low sulphur); prioritize electric.</span></li>
-                    </ul>
-                </div>
-
-                <!-- Water -->
-                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm hover-card transition-all">
-                    <div class="flex items-center gap-4 mb-6 pb-4 border-b border-slate-100">
-                        <div class="w-12 h-12 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center text-2xl shadow-inner"><i class="fa-solid fa-droplet"></i></div>
-                        <h3 class="font-extrabold text-xl text-slate-800 lang-zh">水質防禦措施</h3>
-                        <h3 class="font-extrabold text-xl text-slate-800 lang-en">Water Quality Defense</h3>
-                    </div>
-                    <ul class="text-slate-600 space-y-4">
-                        <li class="flex items-start gap-3 lang-zh"><i class="fa-solid fa-check text-cyan-500 mt-1"></i><span><strong class="text-slate-800">防護渠道：</strong>施工前需建好截水渠和沉澱池，防泥水流入啟德河。</span></li>
-                        <li class="flex items-start gap-3 lang-zh"><i class="fa-solid fa-check text-cyan-500 mt-1"></i><span><strong class="text-slate-800">泥頭鋪雨衣：</strong>雨天露天建材必須用防雨帆布完全蓋好。</span></li>
-                        <li class="flex items-start gap-3 lang-zh"><i class="fa-solid fa-check text-cyan-500 mt-1"></i><span><strong class="text-slate-800">專人回收：</strong>化學廢水與廢油由持牌收集商妥善密封運走。</span></li>
-                        
-                        <li class="flex items-start gap-3 lang-en"><i class="fa-solid fa-check text-cyan-500 mt-1"></i><span><strong class="text-slate-800">Catch-pits:</strong> Required to prevent muddy runoff into Kai Tak River.</span></li>
-                        <li class="flex items-start gap-3 lang-en"><i class="fa-solid fa-check text-cyan-500 mt-1"></i><span><strong class="text-slate-800">Tarpaulins:</strong> Exposed materials must be fully covered during rain.</span></li>
-                        <li class="flex items-start gap-3 lang-en"><i class="fa-solid fa-check text-cyan-500 mt-1"></i><span><strong class="text-slate-800">Chemicals:</strong> Waste oil collected by licensed contractors.</span></li>
-                    </ul>
-                </div>
-
-                <!-- Waste -->
-                <div class="bg-white p-6 sm:p-8 rounded-3xl border border-slate-200 shadow-sm hover-card transition-all">
-                    <div class="flex items-center gap-4 mb-6 pb-4 border-b border-slate-100">
-                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl shadow-inner"><i class="fa-solid fa-trash-can-arrow-up"></i></div>
-                        <h3 class="font-extrabold text-xl text-slate-800 lang-zh">垃圾與廢物管理</h3>
-                        <h3 class="font-extrabold text-xl text-slate-800 lang-en">Waste Management</h3>
-                    </div>
-                    <ul class="text-slate-600 space-y-4">
-                        <li class="flex items-start gap-3 lang-zh"><i class="fa-solid fa-check text-amber-500 mt-1"></i><span><strong class="text-slate-800">即日清：</strong>生活垃圾即日清理，防臭味及蚊蟲滋生。</span></li>
-                        <li class="flex items-start gap-3 lang-zh"><i class="fa-solid fa-check text-amber-500 mt-1"></i><span><strong class="text-slate-800">運載記錄：</strong>實施「運載記錄制度」(Trip Ticket) 追蹤每車廢料，泥土盡量現場回填。</span></li>
-                        <li class="flex items-start gap-3 lang-zh"><i class="fa-solid fa-check text-amber-500 mt-1"></i><span><strong class="text-slate-800">室內攪拌：</strong>水泥攪拌必須在封閉室內進行，鎖死粉塵與噪音。</span></li>
-                        
-                        <li class="flex items-start gap-3 lang-en"><i class="fa-solid fa-check text-amber-500 mt-1"></i><span><strong class="text-slate-800">Daily Clearance:</strong> Refuse cleared daily to prevent odor/pests.</span></li>
-                        <li class="flex items-start gap-3 lang-en"><i class="fa-solid fa-check text-amber-500 mt-1"></i><span><strong class="text-slate-800">Trip Ticket:</strong> Every truck load tracked; soil reused on-site.</span></li>
-                        <li class="flex items-start gap-3 lang-en"><i class="fa-solid fa-check text-amber-500 mt-1"></i><span><strong class="text-slate-800">Indoor Mixing:</strong> Cement mixing inside enclosed structures.</span></li>
-                    </ul>
-                </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1"><span class="text-slate-400">夜間預估 (Leq)</span><span id="display-sky-night" class="text-emerald-300 font-bold">22 - 27 dB</span></div>
+              <div class="w-full bg-black/30 rounded-full h-1.5"><div id="bar-sky-night" class="bg-emerald-500 h-1.5 rounded-full sound-bar" style="width: 13%;"></div></div>
             </div>
+            <p id="sky-desc" class="text-[11px] text-slate-400 mt-4 leading-relaxed">✅ 極致寧靜，完全融入背景環境音中，毫無察覺。</p>
+          </div>
+
+          <!-- 智軌卡片 -->
+          <div class="glass-button rounded-2xl p-5 border border-rose-500/30 bg-rose-900/20">
+            <div class="flex justify-between items-center mb-3">
+              <h4 class="font-black text-rose-400">智軌 ART</h4>
+              <div class="flex items-end gap-1 h-6">
+                <span class="w-1 bg-rose-500 rounded-full wave-heavy"></span>
+                <span class="w-1 bg-rose-400 rounded-full wave-heavy" style="animation-delay: 0.15s"></span>
+                <span class="w-1 bg-rose-500 rounded-full wave-heavy" style="animation-delay: 0.3s"></span>
+                <span class="w-1 bg-rose-400 rounded-full wave-heavy" style="animation-delay: 0.1s"></span>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="flex justify-between text-xs mb-1"><span class="text-slate-400">日間預估 (Leq)</span><span id="display-art-day" class="text-rose-300 font-bold">35 - 41 dB</span></div>
+              <div class="w-full bg-black/30 rounded-full h-1.5"><div id="bar-art-day" class="bg-rose-500 h-1.5 rounded-full sound-bar" style="width: 38%;"></div></div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1"><span class="text-slate-400">夜間預估 (Leq)</span><span id="display-art-night" class="text-rose-300 font-bold">29 - 35 dB</span></div>
+              <div class="w-full bg-black/30 rounded-full h-1.5"><div id="bar-art-night" class="bg-rose-500 h-1.5 rounded-full sound-bar" style="width: 27%;"></div></div>
+            </div>
+            <p id="art-desc" class="text-[11px] text-slate-400 mt-4 leading-relaxed">✅ 距離優勢抵銷了部分噪音，夜間皆能低於 WHO 睡眠干擾臨界線。</p>
+          </div>
         </div>
+      </div>
+    </main>
+  </div>
 
-        <!-- ================= TAB: OUR DEMANDS ================= -->
-        <div id="tab-demands" class="tab-content max-w-6xl mx-auto space-y-10 pb-10">
-            <div class="text-center space-y-4 mb-10 pt-4">
-                <span class="inline-block py-1 px-3 rounded-full bg-purple-50 border border-purple-100 text-purple-600 text-xs font-bold tracking-wider uppercase mb-2">Action Plan</span>
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight lang-zh">捍衛家園：<span class="gradient-text">六大核心訴求</span></h2>
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight lang-en">Protect Our Home: <span class="gradient-text">6 Core Demands</span></h2>
-                <p class="text-slate-500 text-sm sm:text-base max-w-2xl mx-auto lang-zh">基於現代聲學標準與法律盲點，向路政署及環保署提出以下專業抗訴，保障沐泰街居民的起居安全。</p>
-                <p class="text-slate-500 text-sm sm:text-base max-w-2xl mx-auto lang-en">Based on acoustic standards and legal blind spots, we present these technical demands to the EPD to protect Muk Tai St.</p>
+
+  <!-- Page 3: 深度批判 (八大防線剖析) -->
+  <div id="page-critique" class="app-page no-scrollbar backdrop-blur-3xl">
+    <header class="sticky top-0 z-50 glass-panel border-b-0 border-x-0 border-t-0 rounded-none px-4 py-4 flex items-center">
+      <button onclick="closePage('page-critique')" class="flex items-center gap-1 text-teal-400 active:opacity-50 transition font-medium">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>返回
+      </button>
+      <h2 class="absolute left-1/2 -translate-x-1/2 font-bold text-lg">深度批判</h2>
+    </header>
+
+    <main class="p-4 sm:p-8 max-w-4xl mx-auto space-y-4 pb-24 mt-4">
+      
+      <p class="px-2 text-sm text-slate-300 mb-6">
+        仔細拆解環評報告後，我們發現當中充滿漏洞。所謂的「緩解措施」不僅嚴重脫離現實，更將責任層層推卸。點擊下方盒子查看詳細批判。
+      </p>
+
+      <!-- 批判 1: 風洞 -->
+      <details class="glass-panel rounded-3xl group border-amber-500/30">
+        <summary class="p-5 cursor-pointer flex justify-between items-center select-none">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center text-xl shrink-0">💨</div>
+            <div>
+              <h3 class="font-bold text-base text-slate-100">1. 通風廊變沙塵吹風機</h3>
+              <p class="text-xs text-slate-400">海風道將開挖揚塵捲向四周</p>
             </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                <!-- Demand 1 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 hover-card relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 opacity-5 rounded-bl-full z-0 transition-transform group-hover:scale-110"></div>
-                    <div class="relative z-10">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 text-white flex items-center justify-center font-black text-xl mb-6 shadow-md shadow-indigo-200">1</div>
-                        <h4 class="font-extrabold text-xl text-slate-900 mb-3 leading-tight lang-zh">強制興建「全封閉式隔音罩」</h4>
-                        <h4 class="font-extrabold text-xl text-slate-900 mb-3 leading-tight lang-en">Mandatory Full Noise Cover</h4>
-                        <p class="text-slate-600 leading-relaxed lang-zh">針對 15 米極限距離，要求承辦商在沐泰街放棄半開放設計，升級為全封閉式半透明隔音罩，從根源隔絕二次輻射噪音與打鼓效應。</p>
-                        <p class="text-slate-600 leading-relaxed mt-2 lang-en">Demand an upgrade to a full-enclosure translucent noise cover along Muk Tai St to eliminate secondary radiation noise at the 15m limit.</p>
-                    </div>
-                </div>
-
-                <!-- Demand 2 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 hover-card relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 opacity-5 rounded-bl-full z-0 transition-transform group-hover:scale-110"></div>
-                    <div class="relative z-10">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 text-white flex items-center justify-center font-black text-xl mb-6 shadow-md shadow-indigo-200">2</div>
-                        <h4 class="font-extrabold text-xl text-slate-900 mb-3 leading-tight lang-zh">否決延後處理，事前諮詢</h4>
-                        <h4 class="font-extrabold text-xl text-slate-900 mb-3 leading-tight lang-en">Prior Consultation, No Blank Cheque</h4>
-                        <p class="text-slate-600 leading-relaxed lang-zh">反對 EP 中 CNMP/VMP 的「空白支票」。要求在正式動工前至少 6 個月，向啟德各屋苑提交具體機械擺放圖與視覺模擬圖，方可開工。</p>
-                        <p class="text-slate-600 leading-relaxed mt-2 lang-en">Oppose the deferred CNMP/VMP plans. Demand detailed machinery layouts and visual mockups 6 months prior to construction for owners' approval.</p>
-                    </div>
-                </div>
-
-                <!-- Demand 3 -->
-                <div class="bg-white p-6 md:p-8 rounded-lg border-l-4 border-l-blue-600 border border-slate-200 shadow-sm md:col-span-2 lg:col-span-1">
-                    <div class="flex items-start gap-4">
-                        <div class="w-10 h-10 rounded bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-lg flex-shrink-0">3</div>
-                        <div>
-                            <h4 class="font-bold text-lg text-slate-900 mb-2 lang-zh">死守沐泰街 6 米 EVA 生命線</h4>
-                            <h4 class="font-bold text-lg text-slate-900 mb-2 lang-en">Defend 6m Muk Tai St EVA</h4>
-                            <p class="text-slate-600 text-sm leading-relaxed lang-zh">要求政府公開臨時交通改道圖(TTMS)，確保消防緊急通道維持 6 米淨闊度，否則業主保留法律訴訟權利。施工嚴重威脅出入口動線。</p>
-                            <p class="text-slate-600 text-sm leading-relaxed mt-1 lang-en">Demand public TTMS plans to ensure Emergency Vehicular Access maintains 6m clear width. Works areas severely threaten estate entrances.</p>
-                            
-                            <div class="mt-4 pt-4 border-t border-slate-100">
-                                <a href="https://github.com/VL-collab/EIASGMTSKT/blob/main/Gemini_Generated_Image_.jpeg?raw=true" target="_blank" rel="noopener noreferrer" class="group inline-flex items-center gap-2 text-sm font-bold text-blue-700 hover:text-blue-800 transition-colors">
-                                    <i class="fa-solid fa-map-location-dot text-blue-500 group-hover:text-blue-700 transition-colors"></i>
-                                    <span class="lang-zh underline decoration-blue-200 underline-offset-4 group-hover:decoration-blue-700">查看：沐泰街工程位置示意圖</span>
-                                    <span class="lang-en underline decoration-blue-200 underline-offset-4 group-hover:decoration-blue-700">View: Muk Tai St Construction Map</span>
-                                    <i class="fa-solid fa-arrow-up-right-from-square text-xs opacity-50 ml-1"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Demand 4 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 hover-card relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 opacity-5 rounded-bl-full z-0 transition-transform group-hover:scale-110"></div>
-                    <div class="relative z-10">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 text-white flex items-center justify-center font-black text-xl mb-6 shadow-md shadow-indigo-200">4</div>
-                        <h4 class="font-extrabold text-xl text-slate-900 mb-3 leading-tight lang-zh">升級監管：IEC 資歷門檻提升</h4>
-                        <h4 class="font-extrabold text-xl text-slate-900 mb-3 leading-tight lang-en">Upgrade IEC Credentials</h4>
-                        <p class="text-slate-600 leading-relaxed lang-zh">獨立環境核查人 (IEC) 僅 7 年經驗難以抗衡跨國承建商。要求將資歷提升至 15 年以上經驗，確保審核報告不偏袒資方。</p>
-                        <p class="text-slate-600 leading-relaxed mt-2 lang-en">A 7-year IEC is too weak against multinational contractors. Demand upgrading to 15+ years EM&A experience for unbiased audits.</p>
-                    </div>
-                </div>
-
-                <!-- Demand 5 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 hover-card relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 opacity-5 rounded-bl-full z-0 transition-transform group-hover:scale-110"></div>
-                    <div class="relative z-10">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 text-white flex items-center justify-center font-black text-xl mb-6 shadow-md shadow-indigo-200">5</div>
-                        <h4 class="font-extrabold text-xl text-slate-900 mb-3 leading-tight lang-zh">智能連動監控與強制斷電</h4>
-                        <h4 class="font-extrabold text-xl text-slate-900 mb-3 leading-tight lang-en">Smart Misting & Auto-Power Cut</h4>
-                        <p class="text-slate-600 leading-relaxed lang-zh">要求在邊界安裝 PM10/2.5 傳感器並與供電連動。一旦超標，系統自動立即啟動高空噴霧，防止粉塵入屋。</p>
-                        <p class="text-slate-600 leading-relaxed mt-2 lang-en">Install PM sensors linked to site power. Any breach triggers automatic aerial misting to prevent dust ingress.</p>
-                    </div>
-                </div>
-
-                <!-- Demand 6 -->
-                <div class="bg-white p-8 rounded-3xl shadow-sm border border-slate-200 hover-card relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-indigo-500 to-purple-600 opacity-5 rounded-bl-full z-0 transition-transform group-hover:scale-110"></div>
-                    <div class="relative z-10">
-                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-500 to-indigo-700 text-white flex items-center justify-center font-black text-xl mb-6 shadow-md shadow-indigo-200">6</div>
-                        <h4 class="font-extrabold text-xl text-slate-900 mb-3 leading-tight lang-zh">建立即時原始數據搜尋網</h4>
-                        <h4 class="font-extrabold text-xl text-slate-900 mb-3 leading-tight lang-en">Real-Time Raw Data Portal</h4>
-                        <p class="text-slate-600 leading-relaxed lang-zh">強化 Condition 4.2，建立「即時、原始、可搜索」的公眾網站。居民應能直接搜索原始數據，而非僅有月度摘要。</p>
-                        <p class="text-slate-600 leading-relaxed mt-2 lang-en">Enhance Condition 4.2: Build a real-time, searchable portal for raw monitoring data, rather than heavily processed monthly summaries.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Call to Action Banner -->
-            <div class="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-3xl p-10 shadow-xl text-center relative overflow-hidden mt-12">
-                <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-                <h3 class="text-2xl sm:text-3xl font-extrabold text-white mb-4 relative z-10 lang-zh">支持屋苑向政府相關部門提出上述「六大核心建議」，您的聲音至關重要！</h3>
-                <h3 class="text-2xl sm:text-3xl font-extrabold text-white mb-4 relative z-10 lang-en">Support proposing the "6 Core Demands" to the government. Your voice matters!</h3>
-            </div>
+          </div>
+          <svg class="w-5 h-5 text-slate-400 transform group-open:rotate-180 transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </summary>
+        <div class="px-5 pb-5 pt-2 border-t border-white/10 space-y-2">
+          <details class="glass-button rounded-2xl group/sub">
+            <summary class="p-3 cursor-pointer text-sm font-bold text-amber-300 flex justify-between items-center">
+              ① 強海風長驅直入
+              <span class="text-xs text-slate-500 group-open/sub:hidden">+</span><span class="text-xs text-slate-500 hidden group-open/sub:inline">-</span>
+            </summary>
+            <div class="px-3 pb-3 text-xs text-slate-300">通風廊為無遮擋風道，維港海風以高速氣流直灌啟德車站廣場及沐泰街開挖區。</div>
+          </details>
+          <details class="glass-button rounded-2xl group/sub">
+            <summary class="p-3 cursor-pointer text-sm font-bold text-amber-300 flex justify-between items-center">
+              ② 水分 5 分鐘蒸發
+              <span class="text-xs text-slate-500 group-open/sub:hidden">+</span><span class="text-xs text-slate-500 hidden group-open/sub:inline">-</span>
+            </summary>
+            <div class="px-3 pb-3 text-xs text-slate-300">環評建議的「灑水車」噴水，在高速海風下迅速風乾，地表砂石瞬間重新乾燥起塵。</div>
+          </details>
+          <details class="glass-button rounded-2xl group/sub">
+            <summary class="p-3 cursor-pointer text-sm font-bold text-rose-400 flex justify-between items-center">
+              ③ 化身「沙塵高鐵」直接撲向民居
+              <span class="text-xs text-slate-500 group-open/sub:hidden">+</span><span class="text-xs text-slate-500 hidden group-open/sub:inline">-</span>
+            </summary>
+            <div class="px-3 pb-3 text-xs text-slate-300">未封閉的打樁區激起 PM10 微粒，隨風洞長距離吹送，直接撲向 Henley Park 高低座！</div>
+          </details>
         </div>
+      </details>
+
+      <!-- 批判 2: 打樁措施 (由地層共振修改) -->
+      <details class="glass-panel rounded-3xl group border-rose-500/30">
+        <summary class="p-5 cursor-pointer flex justify-between items-center select-none">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-300 flex items-center justify-center text-xl shrink-0">🔨</div>
+            <div>
+              <h3 class="font-bold text-base text-slate-100">2. 打樁緩解措施粗疏草率</h3>
+              <p class="text-xs text-slate-400">僅用隔音布難阻重擊噪音及震動</p>
+            </div>
+          </div>
+          <svg class="w-5 h-5 text-slate-400 transform group-open:rotate-180 transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </summary>
+        <div class="px-5 pb-5 pt-2 border-t border-white/10 text-sm text-slate-300 space-y-3">
+          <p>
+            根據環評報告，對於高架橋躉基礎的打樁及鑽孔工程，官方提出的緩解措施極度簡陋：
+          </p>
+          <ul class="list-disc pl-5 space-y-1 text-xs">
+            <li>僅依賴在發聲機件（如鑽孔機頭）周圍包覆<strong>臨時隔音布或隔音屏障</strong>。</li>
+            <li>使用所謂的「優質機動設備 (QPME)」。</li>
+          </ul>
+          <div class="glass-button p-3 rounded-xl border-l-2 border-rose-500 bg-rose-500/10 mt-3">
+            <span class="text-rose-300 font-bold block mb-1">致命缺陷：</span>
+            <ul class="list-disc pl-4 text-xs space-y-1">
+              <li><strong>防空網漏洞：</strong> 隔音布只能吸收部分中高頻空氣噪音，對打樁機具操作時產生的巨大低頻聲浪毫無作用。更嚴重的是，在 Henley Park 高座 (高達 29 層) 面前，地面區區幾米高的隔音布猶如無物，噪音直撲樓上各層。</li>
+              <li><strong>無視固體傳導震動：</strong> 打樁及鑽探堅硬花崗岩層時(如旋挖機頭磨石)，會產生強烈的低頻剪切波。這些震波透過岩層無衰減地傳導至周邊大廈地基，再沿鋼筋水泥向上傳導，導致室內地板顫抖、門窗低頻轟鳴。環評對此「固體傳導」的震動噪音幾乎隻字未提，更遑論有任何實質防護措施！</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+
+      <!-- 批判 3: 矮擋板 -->
+      <details class="glass-panel rounded-3xl group border-slate-400/30">
+        <summary class="p-5 cursor-pointer flex justify-between items-center select-none">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-slate-500/20 text-slate-300 flex items-center justify-center text-xl shrink-0">🚧</div>
+            <div>
+              <h3 class="font-bold text-base text-slate-100">3. 2.4米矮擋板防護真空</h3>
+              <p class="text-xs text-slate-400">對 29 層高座形同透明虛設</p>
+            </div>
+          </div>
+          <svg class="w-5 h-5 text-slate-400 transform group-open:rotate-180 transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </summary>
+        <div class="px-5 pb-5 pt-2 border-t border-white/10 text-sm text-slate-300">
+          <ul class="list-disc pl-4 space-y-2">
+            <li>地面移動屏障只有約 2.4 米高。</li>
+            <li>吊裝作業標高達 <strong>8-12 米</strong>，吊臂高達 <strong>25 米</strong>。</li>
+            <li><strong>結論：</strong>直射聲波連線完全繞過地面矮擋板，高空噪聲直灌各戶臥室。</li>
+          </ul>
+        </div>
+      </details>
+
+      <!-- 批判 4: 監察人資歷 -->
+      <details class="glass-panel rounded-3xl group border-indigo-500/30">
+        <summary class="p-5 cursor-pointer flex justify-between items-center select-none">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-300 flex items-center justify-center text-xl shrink-0">👨‍⚖️</div>
+            <div>
+              <h3 class="font-bold text-base text-slate-100">4. 監察人資歷單薄</h3>
+              <p class="text-xs text-slate-400">僅要求7年經驗，難擋承建商壓力</p>
+            </div>
+          </div>
+          <svg class="w-5 h-5 text-slate-400 transform group-open:rotate-180 transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </summary>
+        <div class="px-5 pb-5 pt-2 border-t border-white/10 text-sm text-slate-300">
+          <p class="leading-relaxed">
+            環評報告提議的「環境小組組長 (ET Leader)」及「獨立環境查核人 (IEC)」，其入職門檻竟僅需<strong>最少 7 年相關經驗</strong>。<br><br>
+            對於一個在極高密度住宅區旁進行的高架軌道大型基建工程而言，7 年年資極度單薄。面對突發的嚴重超標、地層震盪等複雜問題，或當大型承建商為趕工而忽視規矩時，資歷尚淺的監察人恐缺乏足夠的危機處理能力與魄力，難以果斷勒令停工以保障居民。
+          </p>
+        </div>
+      </details>
+
+      <!-- 批判 5: 忽視疊加效應 (已更新網上資料) -->
+      <details class="glass-panel rounded-3xl group border-purple-500/30">
+        <summary class="p-5 cursor-pointer flex justify-between items-center select-none">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-300 flex items-center justify-center text-xl shrink-0">🏗️</div>
+            <div>
+              <h3 class="font-bold text-base text-slate-100">5. 刻意忽視「疊加效應」</h3>
+              <p class="text-xs text-slate-400">孤立評估，脫離啟德大興土木的現實</p>
+            </div>
+          </div>
+          <svg class="w-5 h-5 text-slate-400 transform group-open:rotate-180 transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </summary>
+        <div class="px-5 pb-5 pt-2 border-t border-white/10 text-sm text-slate-300 space-y-3">
+          <p class="leading-relaxed">
+            環評將本工程從大環境中「孤立」出來計算，刻意營造出「整體環境未超標」的數字假象。事實上，在 KTGTS 預計的施工高峰期 (2027-20231年間)，啟德區內正有多項大型工程同步進行，將產生嚴重的<strong>「疊加噪音」與「疊加揚塵」</strong>。
+          </p>
+          <div class="bg-black/30 rounded-xl p-4 border border-white/10">
+             <h4 class="font-bold text-purple-300 mb-2 text-xs">⚠️ 在集體運輸系統的施工這 4 年期間，政府承認以下鄰近地盤會同時開工，對我們的空氣和噪音帶來疊加影響：</h4>
+             <ul class="list-disc pl-4 space-y-2 text-xs">
+                <li><strong>承豐道（跑道區）及啟德車站廣場沿線的住宅發展地盤：</strong> 包括 Area 2A Site 2 &amp; 3（預計施工至 2029/2030年）。Area 2B Site 1, 3 &amp; 4（預計施工至 2026-2028年）。</li>
+                <li><strong>九龍灣國際展貿中心（KITEC）重建工程：</strong> 這個位於我們對岸的巨型商廈重建項目，預計會一直施工至 2029 年</li>
+                <li><strong>中九龍幹線 ── 餘下工程</strong> </li>
+                <li><strong>啟德都會公園（Metro Park）：</strong> 目前仍處於規劃與分階段興建的階段。</li>
+                <li><strong>啟德旅遊節點（又稱啟德旅遊中樞）：</strong> 位於前啟德機場跑道末端、毗鄰啟德郵輪碼頭及觀塘避風塘的一幅大型地皮，佔地約5.93公頃。</li>
+                <li><strong>跑道區與車站廣場多個未動工商住地盤：</strong> 包括 Area 2A5(B) 綜合發展區、Area 2A4 住宅區、以及多個商業地盤（Area 1D2, 3A6, 3B1-4 等）</li>
+             </ul>
+          </div>
+          <p class="text-xs text-rose-300 font-bold mt-2">
+            環評若不將這些疊加的背景噪音與空氣污染計算在內，其「達標」結論根本站不住腳！
+          </p>
+        </div>
+      </details>
+
+      <!-- 批判 6: 噪音措施流於表面 -->
+      <details class="glass-panel rounded-3xl group border-pink-500/30">
+        <summary class="p-5 cursor-pointer flex justify-between items-center select-none">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-pink-500/20 text-pink-300 flex items-center justify-center text-xl shrink-0">🎧</div>
+            <div>
+              <h3 class="font-bold text-base text-slate-100">6. 降噪承諾流於表面</h3>
+              <p class="text-xs text-slate-400">僅屬工地基本法規要求</p>
+            </div>
+          </div>
+          <svg class="w-5 h-5 text-slate-400 transform group-open:rotate-180 transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </summary>
+        <div class="px-5 pb-5 pt-2 border-t border-white/10 text-sm text-slate-300">
+          <p class="leading-relaxed">
+            報告中大肆宣揚的「優質機動設備 (QPME)」、「臨時隔音屏」及「限制機械數量」等，實際上只是現時全港所有地盤都必須遵守的<strong>最基本法規底線 (罐頭式條文)</strong>。<br><br>
+            面對 Henley Park 僅距 15-60 米這種「極端近距離」，報告卻毫無制定針對性的特殊防護。這些常規操作根本無法阻隔重型機械運作時發出的低頻噪音，對居民的實質保障猶如杯水車薪。
+          </p>
+        </div>
+      </details>
+
+      <!-- 批判 7: 防塵措施形同虛設 -->
+      <details class="glass-panel rounded-3xl group border-yellow-500/30">
+        <summary class="p-5 cursor-pointer flex justify-between items-center select-none">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-yellow-500/20 text-yellow-300 flex items-center justify-center text-xl shrink-0">😷</div>
+            <div>
+              <h3 class="font-bold text-base text-slate-100">7. 防塵方案形同虛設</h3>
+              <p class="text-xs text-slate-400">低估海傍強風與極端天氣</p>
+            </div>
+          </div>
+          <svg class="w-5 h-5 text-slate-400 transform group-open:rotate-180 transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </summary>
+        <div class="px-5 pb-5 pt-2 border-t border-white/10 text-sm text-slate-300">
+          <p class="leading-relaxed">
+            面對啟德空曠海傍的強風，報告竟只提出「每日灑水 8 次」、「蓋帆布」這類最原始的防塵手段。<br><br>
+            在乾旱或大風日子，帆布極易被吹掀，而灑在泥面的水分也會在極短時間內蒸發。報告毫無決心引入如「全封閉智能水霧幕牆」等現代先進防塵工法，變相任由附近居民吸入含有害物質的微細懸浮粒子 (PM10 及 PM2.5)。
+          </p>
+        </div>
+      </details>
+
+      <!-- 批判 8: 推卸責任 -->
+      <details class="glass-panel rounded-3xl group border-red-500/30">
+        <summary class="p-5 cursor-pointer flex justify-between items-center select-none">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl bg-red-500/20 text-red-300 flex items-center justify-center text-xl shrink-0">🏓</div>
+            <div>
+              <h3 class="font-bold text-base text-slate-100">8. 徹底的「卸責式」環評</h3>
+              <p class="text-xs text-slate-400">把核心問題全推給未來承建商</p>
+            </div>
+          </div>
+          <svg class="w-5 h-5 text-slate-400 transform group-open:rotate-180 transition-transform duration-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+        </summary>
+        <div class="px-5 pb-5 pt-2 border-t border-white/10 text-sm text-slate-300">
+          <p class="leading-relaxed">
+            整份環評報告態度極度被動。在提及如何具體落實各項緩解措施時，充斥著<strong class="text-red-300">「將由未來承建商制訂」</strong>、<strong class="text-red-300">「交由承建商進一步評估」</strong>等卸責字眼。<br><br>
+            這意味著現階段的環評根本是一張空頭支票，政府未有在招標前將高標準「寫死」在合約內。一旦工程批出，承建商勢必以「成本效益」為由採用最低廉的標準，屆時木已成舟，居民將求助無門！
+          </p>
+        </div>
+      </details>
 
     </main>
+  </div>
 
-    <script>
-        // Global functions attachment
-        window.switchTab = function(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => {
-                el.classList.remove('active');
-            });
-            document.querySelectorAll('.nav-btn').forEach(el => {
-                el.classList.remove('active');
-            });
+
+  <!-- Page 4: 加強型防護方案 -->
+  <div id="page-solutions" class="app-page no-scrollbar backdrop-blur-3xl">
+    <header class="sticky top-0 z-50 glass-panel border-b-0 border-x-0 border-t-0 rounded-none px-4 py-4 flex items-center">
+      <button onclick="closePage('page-solutions')" class="flex items-center gap-1 text-teal-400 active:opacity-50 transition font-medium">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>返回
+      </button>
+      <h2 class="absolute left-1/2 -translate-x-1/2 font-bold text-lg">建議防護藍圖</h2>
+    </header>
+    <main class="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 pb-24 mt-4">
+      
+      <div class="glass-panel rounded-3xl p-6 border-teal-500/30">
+        <h3 class="font-bold text-teal-300 mb-4 text-lg">業主爭取之現代先進工法</h3>
+        
+        <div class="space-y-4">
+          <div class="glass-button rounded-2xl p-4 relative overflow-hidden group">
+            <div class="absolute inset-0 bg-teal-500/10 opacity-0 group-hover:opacity-100 transition"></div>
+            <h4 class="font-bold text-slate-100 flex items-center gap-2 mb-1">
+              <span class="text-teal-400">❶</span> 全封閉單向透光防窺隔音罩
+            </h4>
+            <p class="text-xs text-slate-400 leading-relaxed">住宅敏感段強制興建全封閉隔音罩，下半部加設單向防窺磨砂條紋，夜間零感知並守護隱私。</p>
+          </div>
+          
+          <div class="glass-button rounded-2xl p-4 relative overflow-hidden group border border-teal-500/30">
+            <div class="absolute inset-0 bg-teal-500/5 opacity-0 group-hover:opacity-100 transition"></div>
+            <h4 class="font-bold text-slate-100 flex items-center gap-2 mb-3">
+              <span class="text-teal-400">❷</span> 智能感應微米水霧幕牆
+            </h4>
             
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active');
+            <div class="space-y-3">
+              <div class="bg-amber-500/10 border-l-2 border-amber-500 p-2 rounded-r-lg mb-2">
+                <p class="text-xs font-bold text-amber-300">⚠️ 拆解漏洞：為何必須依賴「智能自動感應」？</p>
+              </div>
+              <ul class="list-disc pl-5 text-[11px] sm:text-xs text-slate-300 space-y-2">
+                <li><strong>人手灑水無法應對突發海風：</strong> 環評提議的「每日定時灑水 8 次」極度被動。啟德海傍經常出現突發陣風，兩次人手灑水之間的空窗期，足以讓風乾的泥沙化作「沙塵暴」直撲民居。</li>
+                <li><strong>實時對抗「風洞效應」：</strong> 沐泰街的通風廊會將陣風放大，傳統水喉灑水的水滴太大且不均勻。微米級水霧能真正在空氣中懸浮，主動捕捉並吸附 PM2.5 及 PM10 微粒。</li>
+              </ul>
+              
+              <div class="bg-teal-900/40 border border-teal-500/30 p-3 rounded-xl mt-4">
+                <p class="text-xs text-teal-300 font-bold mb-1">✅ 居民強硬訴求：</p>
+                <p class="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
+                  要求地盤圍板頂部全面加設<strong>連接風速及空氣質素監測儀的「智能微米水霧幕牆」</strong>。一旦感應到強風或懸浮粒子超標，系統必須<strong class="text-white">自動即時啟動噴霧</strong>，達至全天候 24 小時無縫防塵；並配合全封閉自動洗車池，杜絕泥沙出街。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-button rounded-2xl p-4 relative overflow-hidden group">
+            <div class="absolute inset-0 bg-teal-500/10 opacity-0 group-hover:opacity-100 transition"></div>
+            <h4 class="font-bold text-slate-100 flex items-center gap-2 mb-1">
+              <span class="text-teal-400">❸</span> 液壓靜音壓樁工法 (Silent Piler)
+            </h4>
+            <p class="text-xs text-slate-400 leading-relaxed">取代傳統敲擊或鑽孔，地層震動感降低 90%，消除地板微震。</p>
+          </div>
+
+          <div class="glass-button rounded-2xl p-4 relative overflow-hidden group border border-teal-500/30">
+            <div class="absolute inset-0 bg-teal-500/5 opacity-0 group-hover:opacity-100 transition"></div>
+            <h4 class="font-bold text-slate-100 flex items-center gap-2 mb-3">
+              <span class="text-teal-400">❹</span> 資深 IEC 專家與 24 小時全民監察網
+            </h4>
             
-            // Scroll to top of main content for better UX on mobile
-            document.querySelector('main').scrollTo({ top: 0, behavior: 'smooth' });
-        };
+            <div class="space-y-3">
+              <div class="bg-rose-500/10 border-l-2 border-rose-500 p-2 rounded-r-lg mb-2">
+                <p class="text-xs font-bold text-rose-300">⚠️ 拆解漏洞：為何環評提議的「7 年門檻」絕對不夠？</p>
+              </div>
+              <ul class="list-disc pl-5 text-[11px] sm:text-xs text-slate-300 space-y-2">
+                <li><strong>工程複雜度極高：</strong> 本項目是在極高密度的住宅區旁（最窄僅距 15 米）進行高架橋打樁及軌道鋪設，涉及極複雜的低頻噪音與地層震波，絕非一般郊區道路工程可比。</li>
+                <li><strong>難抵禦承建商壓力：</strong> 7 年經驗在工程界僅屬中級資歷。若面對大型承建商為趕工而罔顧指引，資歷尚淺的查核人恐缺乏足夠的業界權威與魄力，難以果斷勒令違規地盤停工。</li>
+                <li><strong>無法應付疊加效應推諉：</strong> 啟德區內多個大型地盤同時施工，需要極資深的聲學專家才能準確釐清超標源頭，防止各項目的承建商互相推卸責任。</li>
+              </ul>
+              
+              <div class="bg-teal-900/40 border border-teal-500/30 p-3 rounded-xl mt-4">
+                <p class="text-xs text-teal-300 font-bold mb-1">✅ 居民強硬訴求：</p>
+                <p class="text-[11px] sm:text-xs text-slate-300 leading-relaxed">
+                  政府招標時必須明文規定，聘請具備<strong class="text-white">至少 15 年以上大型軌道及聲學經驗</strong>的資深專家擔任 IEC 監督人。且每日工地環境監察數據（噪音、懸浮微粒等）必須於 24 小時內上網公開，接受全體業主「集體鷹眼」監督！
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
 
-        let currentLang = 'zh';
-        window.toggleLanguage = function() {
-            currentLang = currentLang === 'zh' ? 'en' : 'zh';
-            document.body.className = document.body.className.replace(/\b(zh|en)\b/g, '');
-            document.body.classList.add(currentLang);
-        };
+  <!-- Page 5: 沐泰街唯一通路危機 -->
+  <div id="page-traffic" class="app-page no-scrollbar backdrop-blur-3xl">
+    <header class="sticky top-0 z-50 glass-panel border-b-0 border-x-0 border-t-0 rounded-none px-4 py-4 flex items-center">
+      <button onclick="closePage('page-traffic')" class="flex items-center gap-1 text-teal-400 active:opacity-50 transition font-medium">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>返回
+      </button>
+      <h2 class="absolute left-1/2 -translate-x-1/2 font-bold text-lg">唯一通路危機</h2>
+    </header>
+    <main class="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 pb-24 mt-4">
+      
+      <div class="glass-panel rounded-3xl p-1 overflow-hidden border-orange-500/30">
+        <img src="https://raw.githubusercontent.com/VL-collab/EIASGMTSKT/refs/heads/main/Gemini_Generated_Image_.jpeg" alt="沐泰街施工平面圖" class="w-full h-auto rounded-[1.3rem] opacity-90" onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/VL-collab/EIASGMTSKT/refs/heads/main/Gemini_Generated_Image_.jpeg';">
+      </div>
 
-        // Initialize language on load
-        document.body.classList.add(currentLang);
-    </script>
-</body>
-</html>
+      <div class="glass-panel rounded-3xl p-6 border-red-500/30">
+        <h3 class="font-bold text-red-300 mb-4 text-lg">緊急救援 (EVA)與工地施工範圍重叠</h3>
+        <p class="text-sm text-slate-300 leading-relaxed mb-4">
+          大型鋼梯消防車需 6米淨闊度及 12米迴旋半徑。施工圍封後剩餘路面並沒有在報告中交待，消防或救車進入沐泰街會否受阻，黃金救援時間成疑！
+        </p>
+        <div class="flex flex-col gap-2">
+          <div class="bg-red-500/10 border border-red-500/30 p-3 rounded-xl text-xs text-red-200">
+            ⚠️ 痛點一：長達 4 年交通半癱瘓
+          </div>
+          <div class="bg-red-500/10 border border-red-500/30 p-3 rounded-xl text-xs text-red-200">
+            ⚠️ 痛點二：救護車進出與停泊空間受壓
+          </div>
+           <div class="bg-red-500/10 border border-red-500/30 p-3 rounded-xl text-xs text-red-200">
+            ⚠️ 痛點三：建議工地範圍無必要伸展到The Henley 和 Henley Park 的車路出入口道路(沐泰街)
+          </div>
+           <div class="bg-red-500/10 border border-red-500/30 p-3 rounded-xl text-xs text-red-200">
+            ⚠️ 痛點四：Henley Park 正及側門完全被建議迤工範圍包圍，嚴重影響居民出入，亦封閉了前往承啟道巴士站通道
+          </div>
+          <div class="bg-red-500/10 border border-red-500/30 p-3 rounded-xl text-xs text-red-200">
+            ⚠️ 痛點五：建議迤工範圍過大，完全將Henley Park 附近行人路納入建議工地範圍，而且沒有任何TTM 咨詢過附近居民
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+
+  <!-- Page 6: 居民訴求與行動 -->
+  <div id="page-action" class="app-page no-scrollbar backdrop-blur-3xl">
+    <header class="sticky top-0 z-50 glass-panel border-b-0 border-x-0 border-t-0 rounded-none px-4 py-4 flex items-center">
+      <button onclick="closePage('page-action')" class="flex items-center gap-1 text-teal-400 active:opacity-50 transition font-medium">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>返回
+      </button>
+      <h2 class="absolute left-1/2 -translate-x-1/2 font-bold text-lg">訴求與行動</h2>
+    </header>
+
+    <main class="p-4 sm:p-8 max-w-4xl mx-auto space-y-6 pb-24 mt-4">
+      
+      <div class="glass-panel rounded-3xl p-6 sm:p-8 text-center border-teal-500/50 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-teal-600/20 to-cyan-600/20 z-0"></div>
+        <div class="relative z-10">
+          <h3 class="text-2xl font-black text-white mb-2">一鍵寄發意見書</h3>
+          <p class="text-sm text-teal-100/80 mb-6">為自己與家人的寧靜發聲，要求政府將高規格防護寫入標書。</p>
+          
+          <div class="bg-black/40 p-4 rounded-2xl text-left font-mono text-[11px] sm:text-xs text-slate-300 max-h-48 overflow-y-auto mb-6 border border-white/10 select-all" id="letter-text">致：環境保護署署長 及 土木工程拓展署項目團隊 (KTGTS)
+主題：就啟德智慧綠色集體運輸系統（EP-673/2025) - Henley Park 居民之實質訴求
+
+
+(待定)
+
+
+</div>
+
+          <div class="flex flex-col sm:flex-row gap-3 justify-center">
+            <button onclick="copyLetter()" id="copy-btn" class="glass-button bg-white/20 hover:bg-white/30 text-white font-bold py-3 px-6 rounded-2xl flex items-center justify-center gap-2 transition active:scale-95">
+              <span>📋 複製文本</span>
+            </button>
+            <a href="mailto:eiaocomment@epd.gov.hk?subject=Henley%20Park%20居民就啟德綠色集運%20KTGTS%20環評之實質訴求" class="bg-teal-500 hover:bg-teal-400 text-white font-bold py-3 px-6 rounded-2xl flex items-center justify-center gap-2 transition active:scale-95 shadow-[0_0_15px_rgba(20,184,166,0.5)]">
+              <span>✉️ 開啟電郵寄發</span>
+            </a>
+          </div>
+          <p id="copy-msg" class="text-teal-300 text-xs mt-3 hidden font-bold">✅ 已成功複製！請貼上至電郵寄出。</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+
+  <!-- 互動控制 JS -->
+  <script>
+    // App 頁面導航邏輯 (仿 iOS Modal Sheet)
+    function openPage(pageId) {
+      const page = document.getElementById(pageId);
+      const home = document.getElementById('home-screen');
+      
+      if (page && home) {
+        home.classList.add('scaled-down');
+        page.classList.add('active');
+        page.scrollTop = 0;
+      }
+    }
+
+    function closePage(pageId) {
+      const page = document.getElementById(pageId);
+      const home = document.getElementById('home-screen');
+      
+      if (page && home) {
+        page.classList.remove('active');
+        home.classList.remove('scaled-down');
+      }
+    }
+
+    // 依據 35m 與 70m 的實際衰減值精算而得的資料庫 (基於 7.5m 的測量與環評偏移公式)
+    const nsrDatabase = {
+      HP01: {
+        skyDay: "28 - 33 dB", skyNight: "22 - 27 dB", skyDayWidth: "24%", skyNightWidth: "13%",
+        artDay: "35 - 41 dB", artNight: "29 - 35 dB", artDayWidth: "38%", artNightWidth: "27%",
+        skyDesc: "✅ 極致寧靜，完全融入背景環境音中，毫無察覺。",
+        artDesc: "✅ 距離優勢抵銷了部分噪音，夜間皆能低於 WHO 睡眠干擾臨界線。"
+      },
+      HP02: {
+        skyDay: "28 - 32 dB", skyNight: "22 - 26 dB", skyDayWidth: "22%", skyNightWidth: "11%",
+        artDay: "35 - 41 dB", artNight: "29 - 35 dB", artDayWidth: "38%", artNightWidth: "27%",
+        skyDesc: "✅ 平整鋼軌道，配合距離優勢，夜間極為寧靜。",
+        artDesc: "✅ 雖路面顛簸，但 75 米距離帶來極大緩解作用。"
+      },
+      TH02: {
+        skyDay: "34 - 39 dB", skyNight: "28 - 33 dB", skyDayWidth: "35%", skyNightWidth: "24%",
+        artDay: "41 - 48 dB", artNight: "35 - 42 dB", artDayWidth: "51%", artNightWidth: "40%",
+        skyDesc: "✅ 在 35 米距離下，雲巴夜間最高僅 33 dB，安睡無擾。",
+        artDesc: "⚠️ 夜間高達 42 dB！高速行駛時剛好觸及 WHO 睡眠干擾臨界線！"
+      }
+    };
+
+    function selectNSR(key) {
+      const data = nsrDatabase[key];
+
+      ['HP01', 'HP02', 'TH02'].forEach(k => {
+        const btn = document.getElementById('btn-nsr-' + k.toLowerCase());
+        if (btn) {
+          if (k === key) {
+            btn.className = "px-4 py-2 rounded-xl text-xs font-bold bg-teal-500 text-white transition active:scale-95 shadow-[0_0_10px_rgba(20,184,166,0.5)]";
+          } else {
+            btn.className = "px-4 py-2 rounded-xl text-xs font-bold glass-button text-slate-300 hover:bg-white/20 transition active:scale-95";
+          }
+        }
+      });
+
+      document.getElementById('display-sky-day').textContent = data.skyDay;
+      document.getElementById('display-sky-night').textContent = data.skyNight;
+      document.getElementById('bar-sky-day').style.width = data.skyDayWidth;
+      document.getElementById('bar-sky-night').style.width = data.skyNightWidth;
+      document.getElementById('sky-desc').innerHTML = data.skyDesc;
+
+      document.getElementById('display-art-day').textContent = data.artDay;
+      document.getElementById('display-art-night').textContent = data.artNight;
+      document.getElementById('bar-art-day').style.width = data.artDayWidth;
+      document.getElementById('bar-art-night').style.width = data.artNightWidth;
+      document.getElementById('art-desc').innerHTML = data.artDesc;
+    }
+
+    // 複製信件邏輯
+    function copyLetter() {
+      const text = document.getElementById('letter-text').innerText;
+      const el = document.createElement("textarea");
+      el.value = text;
+      document.body.appendChild(el);
+      el.select();
+      try {
+        document.execCommand('copy');
+        const alertBox = document.getElementById('copy-msg');
+        alertBox.classList.remove('hidden');
+        setTimeout(() => {
+          alertBox.classList.add('hidden');
+        }, 3000);
+      } catch (e) {
+        console.error('Copy failed', e);
+      }
+      document.body.removeChild(el);
+    }
+
+    // ==========================================
+    // 3D 軌道空間與噪音模擬器邏輯 (物理深度校準版)
+    // ==========================================
+    const TRAIN_Z_HEIGHT = 15; 
+
+    // 根據附圖提供的精確數據 (以距聲源 7.5m 測量為基準的源頭初始分貝)
+    const sourceDbMap = {
+        skyshuttle: { low: 64.5, high: 69.2 },
+        art: { low: 71.6, high: 78.0 }
+    };
+
+    const simState = {
+        trainType: 'skyshuttle',
+        speed: 'low',
+        time: 'day',
+        includeBgNoise: false,
+        trackStart: { x: 100, y: 50 },
+        trackEnd: { x: 450, y: 750 },
+        trainProgress: 0.2,
+        
+        // 【核心優化】精確調整比例尺：設定 2.94 px = 1 米
+        // 這使得預設位於大廈前緣的 TH-01 與 TH-02，與路軌(中心線)的垂直距離精準為 35.1 米。
+        pxPerMeter: 2.94, 
+        
+        // 預設點已定位至面向路軌的大廈邊緣
+        receivers: {
+            th01: { x: 252, y: 123, z: 15 },
+            th02: { x: 320, y: 241, z: 15 },
+            hp01: { x: 490, y: 357, z: 15 },
+            hp02: { x: 578, y: 515, z: 15 }
+        }
+    };
+
+    const domCache = { canvas: null, train: null, soundWave: null, receivers: {} };
+    let isUpdating = false, pendingUpdate = false;
+    let draggingElement = null, pressTimer = null, isPressing = false;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        if(!document.getElementById('sim-canvas')) return;
+        domCache.canvas = document.getElementById('sim-canvas');
+        domCache.train = document.getElementById('sim-train');
+        domCache.soundWave = document.getElementById('sim-sound-wave');
+        
+        const receiverIds = ['th01', 'th02', 'hp01', 'hp02'];
+        receiverIds.forEach(id => {
+            domCache.receivers[id] = {
+                group: document.getElementById(`sim-receiver-${id}`),
+                panelDist: document.getElementById(`panel-dist-${id}`),
+                panelDb: document.getElementById(`panel-db-${id}`),
+                svgDb: document.getElementById(`svg-db-${id}`),
+                dynLine: document.getElementById(`dyn-line-${id}`),
+                dynText: document.getElementById(`dyn-text-${id}`),
+                indicator: document.getElementById(`indicator-${id}`)
+            };
+            
+            // 綁定測試點事件
+            const el = domCache.receivers[id].group;
+            el.addEventListener('mousedown', (e) => handleDragStart(e, id));
+            el.addEventListener('touchstart', (e) => handleDragStart(e, id), {passive: false});
+        });
+        
+        // 火車不需延遲，直接拖曳
+        domCache.train.addEventListener('mousedown', (e) => handleDragStart(e, 'train'));
+        domCache.train.addEventListener('touchstart', (e) => handleDragStart(e, 'train'), {passive: false});
+
+        window.addEventListener('mousemove', handleDragMove);
+        window.addEventListener('touchmove', handleDragMove, {passive: false});
+        window.addEventListener('mouseup', handleDragEnd);
+        window.addEventListener('window', handleDragEnd);
+        window.addEventListener('touchend', handleDragEnd);
+        
+        requestSimUpdate();
+    });
+
+    // 動態判斷噪音顏色 (因應日夜場景變更門檻)
+    const getColorClass = (db, time) => {
+        if (time === 'night') {
+            return db > 42 ? 'text-rose-500' : 'text-emerald-500'; // WHO 夜間嚴格門檻
+        }
+        return db > 50 ? 'text-rose-500' : (db >= 40 ? 'text-amber-500' : 'text-emerald-500');
+    };
+    
+    // UI 觸發切換狀態
+    function setSimCondition(key, val) {
+        simState[key] = val;
+        
+        if (key === 'trainType') {
+            document.getElementById('model-skyshuttle').style.display = (val === 'skyshuttle') ? 'block' : 'none';
+            document.getElementById('model-art').style.display = (val === 'art') ? 'block' : 'none';
+        }
+        
+        if (key === 'time') {
+            const bgLayer = document.getElementById('sim-bg-layer');
+            const gridPath = document.getElementById('grid-path');
+            if (val === 'night') {
+                bgLayer.classList.replace('bg-[#0f172a]', 'bg-[#020617]');
+                gridPath.setAttribute('stroke', '#0f172a');
+            } else {
+                bgLayer.classList.replace('bg-[#020617]', 'bg-[#0f172a]');
+                gridPath.setAttribute('stroke', '#1e293b');
+            }
+        }
+        requestSimUpdate();
+    }
+
+    function requestSimUpdate() {
+        if (!isUpdating) {
+            isUpdating = true;
+            requestAnimationFrame(() => {
+                updateSimulation();
+                isUpdating = false;
+                if (pendingUpdate) {
+                    pendingUpdate = false;
+                    requestSimUpdate();
+                }
+            });
+        } else { pendingUpdate = true; }
+    }
+
+    function updateHeight(id, val) {
+        simState.receivers[id].z = parseInt(val);
+        document.getElementById(`panel-z-${id}`).textContent = val;
+        requestSimUpdate();
+    }
+
+    function getMousePosition(evt) {
+        const CTM = domCache.canvas.getScreenCTM();
+        let clientX = evt.clientX, clientY = evt.clientY;
+        if (evt.touches && evt.touches.length > 0) {
+            clientX = evt.touches[0].clientX; clientY = evt.touches[0].clientY;
+        }
+        return { x: (clientX - CTM.e) / CTM.a, y: (clientY - CTM.f) / CTM.d };
+    }
+
+    function updateSimulation() {
+        if(!domCache.train) return;
+        const dx = simState.trackEnd.x - simState.trackStart.x; 
+        const dy = simState.trackEnd.y - simState.trackStart.y; 
+        const trainX = simState.trackStart.x + dx * simState.trainProgress;
+        const trainY = simState.trackStart.y + dy * simState.trainProgress;
+        
+        const angleDeg = Math.atan2(dy, dx) * (180 / Math.PI);
+        domCache.train.setAttribute('transform', `translate(${trainX}, ${trainY}) rotate(${angleDeg})`);
+        
+        const baseDb = sourceDbMap[simState.trainType][simState.speed];
+        const trainColor = simState.trainType === 'skyshuttle' ? '#0ea5e9' : '#f43f5e';
+        
+        domCache.soundWave.setAttribute('cx', trainX);
+        domCache.soundWave.setAttribute('cy', trainY);
+        domCache.soundWave.style.setProperty('--sound-color', trainColor);
+
+        let highestDb = 0;
+        const receiverIds = ['th01', 'th02', 'hp01', 'hp02'];
+        
+        receiverIds.forEach(id => {
+            const recv = simState.receivers[id];
+            const cache = domCache.receivers[id];
+            
+            cache.group.setAttribute('transform', `translate(${recv.x}, ${recv.y})`);
+
+            // 計算精確 3D 距離 (2.94 pixels = 1 meter)
+            const centerDist2DPx = Math.hypot(recv.x - trainX, recv.y - trainY);
+            const centerDist2DMeters = centerDist2DPx / simState.pxPerMeter;
+            const zDiffMeters = Math.abs(recv.z - TRAIN_Z_HEIGHT); 
+            let dist3DMeters = Math.hypot(centerDist2DMeters, zDiffMeters);
+            dist3DMeters = Math.max(dist3DMeters, 2); 
+
+            // 【終極校準演算法】: 點源聲能衰減物理公式 + 環評經驗基準修正
+            // 公式: 源頭 Lmax(7.5m) - 20 * log10(D / 7.5) [距離衰減] - 17dB [轉換Leq與牆面修正] - 夜間班次衰減修正
+            const timeCorrection = simState.time === 'night' ? 6 : 0;
+            let calculatedDb = baseDb - 20 * Math.log10(dist3DMeters / 7.5) - 17 - timeCorrection;
+            
+            // 【新增】加入香港市區公園住宅的環境底噪 (對數疊加)
+            if (simState.includeBgNoise) {
+                // 日間約 55 dB，夜間約 45 dB
+                const bgDb = simState.time === 'night' ? 45 : 55;
+                // 聲能對數疊加公式： 10 * log10( 10^(L1/10) + 10^(L2/10) )
+                calculatedDb = 10 * Math.log10(Math.pow(10, calculatedDb / 10) + Math.pow(10, bgDb / 10));
+            }
+            
+            calculatedDb = Math.max(Math.round(calculatedDb * 10) / 10, 20); // 保留小數第一位增強動態感
+            
+            if(calculatedDb > highestDb) highestDb = calculatedDb;
+
+            // 更新連線與標籤
+            cache.dynLine.setAttribute('x1', trainX);
+            cache.dynLine.setAttribute('y1', trainY);
+            cache.dynLine.setAttribute('x2', recv.x);
+            cache.dynLine.setAttribute('y2', recv.y);
+
+            const midX = (trainX + recv.x) / 2, midY = (trainY + recv.y) / 2;
+            cache.dynText.setAttribute('x', midX);
+            cache.dynText.setAttribute('y', midY - 6);
+            cache.dynText.textContent = dist3DMeters.toFixed(1) + 'm';
+
+            // 更新 UI 數據面板 (顯示精算後的 Leq)
+            cache.panelDist.textContent = dist3DMeters.toFixed(1);
+            cache.panelDb.textContent = calculatedDb.toFixed(1);
+            cache.panelDb.className = `transition-colors duration-100 ${getColorClass(calculatedDb, simState.time)}`;
+
+            // 更新地圖上的小字
+            cache.svgDb.textContent = `${Math.round(calculatedDb)} dB`;
+            let warningLevel = simState.time === 'night' ? 42 : 50;
+            if (calculatedDb >= warningLevel) {
+                cache.svgDb.setAttribute('fill', '#fb7185'); 
+            } else if (calculatedDb >= warningLevel - 10 && simState.time !== 'night') {
+                cache.svgDb.setAttribute('fill', '#fcd34d'); 
+            } else {
+                cache.svgDb.setAttribute('fill', '#4ade80'); 
+            }
+        });
+        
+        const waveRadius = Math.max(0, (highestDb - 20) * 8);
+        domCache.soundWave.setAttribute('r', waveRadius);
+    }
+
+    // 0.2秒延遲防誤觸拖曳邏輯
+    function handleDragStart(evt, type) {
+        evt.preventDefault();
+        
+        if (type === 'train') {
+            draggingElement = type;
+            domCache.train.classList.add('cursor-grabbing');
+            const ind = document.getElementById('indicator-train');
+            if(ind) ind.setAttribute('opacity', '1');
+            return;
+        }
+
+        isPressing = true;
+        const cache = domCache.receivers[type];
+        if (cache && cache.indicator) cache.indicator.setAttribute('opacity', '1'); // 顯示閃點
+
+        pressTimer = setTimeout(() => {
+            if (isPressing) {
+                draggingElement = type;
+                cache.group.classList.add('cursor-grabbing');
+                if (navigator.vibrate) navigator.vibrate(30); // 提供微震動反饋
+            }
+        }, 200); // 0.2s 延遲解鎖
+    }
+
+    function clearPressStatus(type) {
+        isPressing = false;
+        clearTimeout(pressTimer);
+        if (type && domCache.receivers[type] && domCache.receivers[type].indicator) {
+            domCache.receivers[type].indicator.setAttribute('opacity', '0');
+        }
+    }
+
+    function handleDragMove(evt) {
+        if (!draggingElement) return;
+        evt.preventDefault();
+        
+        const mousePos = getMousePosition(evt);
+
+        if (draggingElement !== 'train') {
+            simState.receivers[draggingElement].x = mousePos.x;
+            simState.receivers[draggingElement].y = mousePos.y;
+        } else {
+            const A = simState.trackStart, B = simState.trackEnd;
+            const AB = { x: B.x - A.x, y: B.y - A.y };
+            const AP = { x: mousePos.x - A.x, y: mousePos.y - A.y };
+            
+            const dotProduct = AP.x * AB.x + AP.y * AB.y;
+            const lenSq = AB.x * AB.x + AB.y * AB.y;
+            let t = dotProduct / lenSq;
+            t = Math.max(0.02, Math.min(0.98, t)); 
+            simState.trainProgress = t;
+        }
+        requestSimUpdate();
+    }
+
+    function handleDragEnd(evt) {
+        if (!draggingElement && !isPressing) return;
+        
+        if (draggingElement === 'train') {
+            domCache.train.classList.remove('cursor-grabbing');
+            const ind = document.getElementById('indicator-train');
+            if(ind) ind.setAttribute('opacity', '0');
+        } else if (draggingElement) {
+            domCache.receivers[draggingElement].group.classList.remove('cursor-grabbing');
+            clearPressStatus(draggingElement);
+        } else if (isPressing) {
+            // 如果還沒滿 0.2 秒就放開 (誤觸/點擊)，清除所有提示
+            ['th01', 'th02', 'hp01', 'hp02'].forEach(id => clearPressStatus(id));
+        }
+        
+        isPressing = false;
+        draggingElement = null;
+    }
+
+    function toggleFullScreen() {
+        const container = document.getElementById('sim-container');
+        const svg = document.getElementById('sim-canvas');
+        const btnText = document.getElementById('fullscreen-text');
+        
+        if (container.classList.contains('fixed')) {
+            container.classList.remove('fixed', 'inset-0', 'z-[9999]', 'rounded-none', 'border-none');
+            container.classList.add('relative', 'rounded-xl', 'border');
+            svg.classList.add('max-h-[60vh]', 'sm:max-h-[70vh]');
+            svg.classList.remove('h-screen', 'max-h-screen');
+            document.body.style.overflow = '';
+            btnText.textContent = '全螢幕';
+        } else {
+            container.classList.remove('relative', 'rounded-xl', 'border');
+            container.classList.add('fixed', 'inset-0', 'z-[9999]', 'rounded-none', 'border-none');
+            svg.classList.remove('max-h-[60vh]', 'sm:max-h-[70vh]');
+            svg.classList.add('h-screen', 'max-h-screen');
+            document.body.style.overflow = 'hidden';
+            btnText.textContent = '退出全螢幕';
+        }
+        setTimeout(requestSimUpdate, 50); 
+    }
+  </script>
+
+</body></html>
